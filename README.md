@@ -24,11 +24,11 @@ sed "s/localhost/$myip/g" docker-compose.override.localhost.yml > docker-compose
 3.- Add `port` to `db` in `docker-compose.yml`
 
 ```
-#with mac use your editor to add inside db:
+#for mac users, use your editor to add inside db:
     ports:
       - "5432:5432"
       
-#or using ubuntu:
+#or if using ubuntu:
 sed '/db.env/a \ \ \ \ ports:\n      - "5432:5432"' docker-compose.yml
 ```
 
