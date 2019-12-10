@@ -1,5 +1,5 @@
 # conabio-geonode
-GeoNode with Vitamins
+GeoNode with docker-compose
 
 Steps to deploy geonode with `docker-compose`
 
