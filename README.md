@@ -82,8 +82,8 @@ psql -d geonode
 select * from people_profile;
 ```
 
-6.- Insert some data:
+6.- Insert some layers:
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_data/vector/
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/vector/
 ```
