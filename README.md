@@ -1,7 +1,7 @@
 # conabio-geonode
 GeoNode with docker-compose
 
-Steps to deploy geonode with `docker-compose`
+Steps to deploy geonode with `docker-compose`. 
 
 1.- Clone repository 
 
@@ -55,6 +55,18 @@ static data refreshed
 Executing UWSGI server uwsgi --ini /usr/src/app/uwsgi.ini for Production
 command to be executed is uwsgi --ini /usr/src/app/uwsgi.ini
 ```
+
+You will have `volumes`, `network` and `docker-containers` created after executing `up`:
+
+```
+#images: geonode/geonode:latest, geonode/geoserver_data:2.15.3, geonode/geoserver:2.15.3, geonode/geonode:<none>
+#containers: nginx4geonode, django4geonode, geoserver4geonode, db4geonode
+#volumes: geonode-dbbackups, geonode-dbdata, geonode-gsdatadir, geonode-rabbitmq, geonode-statics
+#network: geonode_default
+
+```
+
+
 
 5.- Create superuser:
 
@@ -112,3 +124,25 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/
 
 ```
+
+## Note:
+
+If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
+
+if stop:
+
+```
+docker-compose stop
+docker rm nginx4geonode geoserver4geonode django4geonode gsconf4geonode db4geonode
+docker volume rm geonode-dbbackups geonode-dbdata geonode-gsdatadir geonode-rabbitmq geonode-statics
+docker network rm geonode_default
+```
+
+if delete all:
+
+```
+docker-compose down
+docker volume rm geonode-dbbackups geonode-dbdata geonode-gsdatadir geonode-rabbitmq geonode-statics
+```
+
+
