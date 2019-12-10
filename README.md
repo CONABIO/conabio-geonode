@@ -76,7 +76,7 @@ Enter to docker container `django4geonode`:
 docker exec -it django4geonode /bin/bash
 ```
 
-Once inside of docker container configure local settings:
+Once inside of docker container copy local settings to configure and use them later:
 
 ```
 cp /usr/src/app/package/support/geonode.local_settings geonode/local_settings.py
