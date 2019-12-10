@@ -66,7 +66,12 @@ You will have `volumes`, `network` and `docker-containers` created after executi
 
 ```
 
+Check deployment of geonode and geoserver going to browser:
 
+```
+<miip>
+<miip>geoserver/web/
+```
 
 5.- Create superuser:
 
@@ -123,6 +128,14 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 #or if you have dirs:
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/
 
+```
+
+**Note:**
+
+you can find some example vector layers in:
+
+```
+/usr/local/lib/python2.7/site-packages/gisdata/data/good/vector/
 ```
 
 ## Note:
