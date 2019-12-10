@@ -6,40 +6,59 @@ Steps to deploy geonode with `docker-compose`
 1.- Clone repository 
 
 ```
-git clone https://github.com/GeoNode/geonode.git geonode_git
+git clone https://github.com/GeoNode/geonode.git
 ```
 
 2.- Override `.yml` with your IP:
 
 ```
+cd geonode
 myip=<here put your IP>
 cp docker-compose.override.localhost.yml docker-compose.override.myip.yml
-
-sed -n 's/localhost/$myip/g;p' docker-compose.override.myip.yml
+#ubuntu users:
+sed -i "s/localhost/$myip/g" docker-compose.override.myip.yml
+#mac users:
+sed "s/localhost/$myip/g" docker-compose.override.localhost.yml > docker-compose.override.myip.yml
 ```
 
 3.- Add `port` to `db` in `docker-compose.yml`
 
 ```
-nano docker-compose.yml
-#inside db:
+#with mac use your editor to add inside db:
     ports:
       - "5432:5432"
+      
+#or using ubuntu:
+sed '/db.env/a \ \ \ \ ports:\n      - "5432:5432"' docker-compose.yml
 ```
 
 4.- Docker compose up
 
 ```
 docker-compose -f docker-compose.yml -f docker-compose.override.myip.yml up --build -d
+
+#note: if in mac you have error related to "docker-credential-osxkeychain" then before docker-compose ... up ... execute:
+#$security unlock-keychain
 ```
 
-Check from time to time with:
+After build, check from time to time with:
 
 ```
 docker logs django4geonode |tail -n 10
 ```
 
+until you get:
+
+```
+900 static files copied to '/mnt/volumes/statics/static'.
+static data refreshed
+Executing UWSGI server uwsgi --ini /usr/src/app/uwsgi.ini for Production
+command to be executed is uwsgi --ini /usr/src/app/uwsgi.ini
+```
+
 5.- Create superuser:
+
+Enter to docker container `django4geonode`:
 
 ```
 docker exec -it django4geonode /bin/bash
@@ -54,8 +73,7 @@ cp /usr/src/app/package/support/geonode.local_settings geonode/local_settings.py
 Install some useful cmd lines
 
 ```
-apt-get update
-apt-get install -y vim less nano
+apt-get update && apt-get install -y vim less nano
 ```
 
 Change localhost to ip and set password of DB:
@@ -63,8 +81,9 @@ Change localhost to ip and set password of DB:
 
 ```
 myip=<here put your IP>
-sed -n 's/localhost/$myip/g;p' geonode/local_settings.py
-sed -n 's/THE_DATABASE_PASSWORD/geonode/g;p' geonode/local_settings.py
+sed -i "s/localhost/$myip/g" geonode/local_settings.py
+sed -i 's/THE_DATABASE_PASSWORD/geonode/g' geonode/local_settings.py
+
 ```
 
 
@@ -74,6 +93,8 @@ Create superuser:
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser --username <name of superuser> -v 3 --email <email>
 ```
 
+You will be prompted for a password, type it twice.
+
 You can check that superuser was created entering to `db4geonode` docker container and using next query:
 
 ```
@@ -82,8 +103,12 @@ psql -d geonode
 select * from people_profile;
 ```
 
-6.- Insert some layers:
+6.- Insert some layers: (now just shapefiles and rasters have been imported in projection "EPSG:4326")
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/vector/
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/myfile
+
+#or if you have dirs:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/
+
 ```
