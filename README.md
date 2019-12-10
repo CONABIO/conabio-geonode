@@ -133,6 +133,8 @@ if stop:
 
 ```
 docker-compose stop
+
+#if after stop you want to delete resources use:
 docker rm nginx4geonode geoserver4geonode django4geonode gsconf4geonode db4geonode
 docker volume rm geonode-dbbackups geonode-dbdata geonode-gsdatadir geonode-rabbitmq geonode-statics
 docker network rm geonode_default
