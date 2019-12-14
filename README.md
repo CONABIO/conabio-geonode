@@ -144,6 +144,8 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 http://<miip>/geoserver/rest
 
 http://<miip>/api
+
+http://<miip>/api/layers/
 ```
 
 3) User and passwords created by default:
