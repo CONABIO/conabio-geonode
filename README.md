@@ -132,12 +132,32 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 **Note:**
 
-you can find some example vector layers in:
+1) You can find some example vector layers in:
 
 ```
 /usr/local/lib/python2.7/site-packages/gisdata/data/good/vector/
 ```
 
+2) Urls that worth your time checking:
+
+```
+http://<miip>/geoserver/rest
+
+http://<miip>/api
+```
+
+3) User and passwords created by default:
+
+```
+#for geonode:
+user: admin
+password: admin
+
+#for geoserver:
+user: admin
+password: geoserver
+
+```
 ## Note:
 
 If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
