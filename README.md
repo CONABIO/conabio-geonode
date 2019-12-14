@@ -6,7 +6,7 @@ Steps to deploy geonode with `docker-compose`.
 1.- Clone repository 
 
 ```
-git clone https://github.com/GeoNode/geonode.git
+git clone --single-branch -b master https://github.com/GeoNode/geonode.git
 ```
 
 2.- Override `.yml` with your IP:
