@@ -160,7 +160,7 @@ password: geoserver
 ```
 ## Note:
 
-If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
+1) If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
 
 if stop:
 
@@ -180,4 +180,9 @@ docker-compose down
 docker volume rm geonode-dbbackups geonode-dbdata geonode-gsdatadir geonode-rabbitmq geonode-statics
 ```
 
+2) If you want to start again container's stack but you don't want to build again, use:
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.override.myip.yml up -d
+```
 
