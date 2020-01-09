@@ -151,15 +151,34 @@ http://<miip>/api/layers/
 3) User and passwords created by default:
 
 ```
-#for geonode:
+#When using browser:
+
+#1)for geonode:
 user: admin
 password: admin
 
-#for geoserver:
+#2)for geoserver:
 user: admin
 password: geoserver
 
+#For DB: geonode
+
+user: geonode
+password: geonode
+
+#For DB: geonode_data
+
+user: geonode_data
+password: geonode_data
+
 ```
+
+4) env file worth seeing for db passwords when using docker:
+
+```
+geonode/scripts/docker/env/production/db.env #geonode is the repo cloned
+```
+
 ## Note:
 
 1) If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
