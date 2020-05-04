@@ -29,7 +29,7 @@ sed "s/localhost/$myip/g" docker-compose.override.localhost.yml > docker-compose
       - "5432:5432"
       
 #or if using ubuntu:
-sed '/db.env/a \ \ \ \ ports:\n      - "5432:5432"' docker-compose.yml
+sed -i '/db.env/a \ \ \ \ ports:\n      - "5432:5432"' docker-compose.yml
 ```
 
 4.- Docker compose up
@@ -59,7 +59,7 @@ command to be executed is uwsgi --ini /usr/src/app/uwsgi.ini
 You will have `volumes`, `network` and `docker-containers` created after executing `up`:
 
 ```
-#images: geonode/geonode:latest, geonode/geoserver_data:2.15.3, geonode/geoserver:2.15.3, geonode/geonode:<none>
+#images: geonode/geonode:latest, geonode/geoserver_data:2.16.2, geonode/geoserver:2.16.2, geonode/geonode:<none>, geonode/postgis:11, geonode/nginx:production
 #containers: nginx4geonode, django4geonode, geoserver4geonode, db4geonode
 #volumes: geonode-dbbackups, geonode-dbdata, geonode-gsdatadir, geonode-rabbitmq, geonode-statics
 #network: geonode_default
@@ -100,6 +100,19 @@ Change localhost to ip and set password of DB:
 myip=<here put your IP>
 sed -i "s/localhost/$myip/g" geonode/local_settings.py
 sed -i 's/THE_DATABASE_PASSWORD/geonode/g' geonode/local_settings.py
+sed -i "s/MIDDLEWARE_CLASSES/MIDDLEWARE/g" geonode/local_settings.py
+
+#Modify for geonode/local_settings.py:
+---
+#from urlparse import urlparse, urlunparse
+try:
+    from urlparse import urlparse, urlunparse
+except ImportError:
+    from urllib.parse import urlparse, urlunparse
+---
+
+#Modify for geonode/local_settings.py:
+#INSTALLED_APPS += ('geonode_mapstore_client', )
 
 ```
 
@@ -207,3 +220,4 @@ docker volume rm geonode-dbbackups geonode-dbdata geonode-gsdatadir geonode-rabb
 docker-compose -f docker-compose.yml -f docker-compose.override.myip.yml up -d
 ```
 
+3) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
