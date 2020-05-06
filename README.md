@@ -13,7 +13,7 @@ git clone --single-branch -b master https://github.com/GeoNode/geonode.git
 
 ```
 cd geonode
-myip=<here put your IP>
+myip=<here put your IP or DNS such as coreos.conabio.gob.mx>
 cp docker-compose.override.localhost.yml docker-compose.override.myip.yml
 #ubuntu users:
 sed -i "s/localhost/$myip/g" docker-compose.override.myip.yml
@@ -97,7 +97,7 @@ Change localhost to ip and set password of DB:
 
 
 ```
-myip=<here put your IP>
+myip=<here put your IP or DNS such as coreos.conabio.gob.mx>
 sed -i "s/localhost/$myip/g" geonode/local_settings.py
 sed -i 's/THE_DATABASE_PASSWORD/geonode/g' geonode/local_settings.py
 sed -i "s/MIDDLEWARE_CLASSES/MIDDLEWARE/g" geonode/local_settings.py
