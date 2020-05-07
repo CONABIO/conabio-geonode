@@ -85,12 +85,13 @@ Once inside of docker container copy local settings to configure and use them la
 
 ```
 cp /usr/src/app/package/support/geonode.local_settings geonode/local_settings.py
+#or cp /spcgeonode/package/support/geonode.local_settings geonode/local_settings.py
 ```
 
 Install some useful cmd lines
 
 ```
-apt-get update && apt-get install -y vim less nano
+apt-get update && apt-get install -y vim less nano unzip
 ```
 
 Change localhost to ip and set password of DB:
