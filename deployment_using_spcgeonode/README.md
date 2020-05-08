@@ -1,4 +1,8 @@
-# conabio-geonode
+# conabio-geonode spc
+
+See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
+
+
 GeoNode with docker-compose
 
 Steps to deploy geonode with `docker-compose`. 
