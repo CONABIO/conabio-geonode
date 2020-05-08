@@ -338,3 +338,208 @@ Finished processing 1 layers in 75.72 seconds.
 0 Skipped layers
 0 Failed layers
 75.716588 seconds per layer
+
+
+#other error with AGUASCALIENTES changes sentinel 2
+
+```
+...
+nginx_1           | 2020/05/08 15:52:29 [error] 16#16: *795 upstream timed out (110: Operation timed out) while reading response header from upstream, client: 172.26.0.5, server: nodo7.conabio.gob.mx, request: "PUT /geoserver/rest/workspaces/geonode/datastores/geonode_data/file.shp?update=overwrite&charset=UTF-8&filename=AGUASCALIENTES_merge_wgs84.zip&target=shp HTTP/1.1", upstream: "http://172.26.0.4:8080/geoserver/rest/workspaces/geonode/datastores/geonode_data/file.shp?update=overwrite&charset=UTF-8&filename=AGUASCALIENTES_merge_wgs84.zip&target=shp", host: "nginx"
+...
+```
+
+#error with landsat changes 
+
+```
+...
+nginx_1           | 2020/05/08 16:01:54 [error] 16#16: *878 upstream timed out (110: Operation timed out) while reading response header from upstream, client: 172.26.0.5, server: nodo7.conabio.gob.mx, request: "PUT /geoserver/rest/ruleCache/invalidate HTTP/1.1", upstream: "http://172.26.0.4:8080/geoserver/rest/ruleCache/invalidate", host: "nginx"
+nginx_1           | 172.26.0.5 - super [08/May/2020:16:01:54 +0000] "PUT /geoserver/rest/ruleCache/invalidate HTTP/1.1" 504 167 "-" "python-requests/2.23.0"
+..
+```
+
+
+#Possibly fix (08-05-2020)
+
+modify 
+
+geonode/scripts/spcgeonode/docker-compose.override.yml
+
+with different parameters in uwsgi cmd using https://github.com/GeoNode/geonode/blob/master/uwsgi.ini#L25-L31
+
+then 
+
+docker-compose stop
+
+docker-compose up -d django geoserver postgres nginx
+
+
+check
+
+apt-get update && apt-get install -y procps
+
+ps aux|grep uwsgi
+
+
+
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n AGUASCALIENTES_merge_wgs84 AGUASCALIENTES_merge_wgs84.shp
+
+
+#Modify:
+
+
+sudo docker exec -it spcgeonode_nginx_1 sh
+
+vi nginx.conf
+
+
+    server {
+        listen              80;
+        server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
+        proxy_read_timeout 180s; #<-with this line
+        
+
+nginx -s reload
+
+
+#error for large shapefiles:
+
+Exception while publishing message: Traceback (most recent call last):
+  File "/spcgeonode/geonode/geoserver/helpers.py", line 1426, in _create_db_featurestore
+    charset=charset)
+  File "/usr/local/lib/python3.7/site-packages/geoserver/catalog.py", line 433, in add_data_to_store
+    raise FailedRequestError('Failed to add data to store {} : {}, {}'.format(store, resp.status_code, resp.text))
+geoserver.catalog.FailedRequestError: Failed to add data to store geonode_data : 500, Error occured unzipping file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/spcgeonode/geonode/messaging/producer.py", line 73, in sync_if_local_memory
+    worker.run(timeout=broker_socket_timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/mixins.py", line 175, in run
+    for _ in self.consume(limit=None, **kwargs):
+  File "/usr/local/lib/python3.7/site-packages/kombu/mixins.py", line 197, in consume
+    conn.drain_events(timeout=safety_interval)
+  File "/usr/local/lib/python3.7/site-packages/kombu/connection.py", line 323, in drain_events
+    return self.transport.drain_events(self.connection, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 963, in drain_events
+    get(self._deliver, timeout=timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/utils/scheduling.py", line 56, in get
+    return self.fun(resource, callback, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 1001, in _drain_channel
+    return channel.drain_events(callback=callback, timeout=timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 745, in drain_events
+    return self._poll(self.cycle, callback, timeout=timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 402, in _poll
+    return cycle.get(callback)
+  File "/usr/local/lib/python3.7/site-packages/kombu/utils/scheduling.py", line 56, in get
+    return self.fun(resource, callback, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 406, in _get_and_deliver
+    callback(message, queue)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 983, in _deliver
+    callback(message)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 633, in _callback
+    return callback(message)
+  File "/usr/local/lib/python3.7/site-packages/kombu/messaging.py", line 624, in _receive_callback
+    return on_m(message) if on_m else self.receive(decoded, message)
+  File "/usr/local/lib/python3.7/site-packages/kombu/messaging.py", line 590, in receive
+    [callback(body, message) for callback in callbacks]
+  File "/usr/local/lib/python3.7/site-packages/kombu/messaging.py", line 590, in <listcomp>
+    [callback(body, message) for callback in callbacks]
+  File "/spcgeonode/geonode/messaging/consumer.py", line 110, in on_geoserver_messages
+    geoserver_post_save_local(layer)
+  File "/spcgeonode/geonode/decorators.py", line 57, in wrapper
+    return func(*args, **kwargs)
+  File "/spcgeonode/geonode/geoserver/signals.py", line 142, in geoserver_post_save_local
+    charset=instance.charset)
+  File "/spcgeonode/geonode/geoserver/upload.py", line 137, in geoserver_upload
+    workspace=workspace)
+  File "/spcgeonode/geonode/geoserver/helpers.py", line 1438, in _create_db_featurestore
+    raise GeoNodeException(msg)
+geonode.GeoNodeException: An exception occurred loading data to PostGIS- Failed to add data to store geonode_data : 500, Error occured unzipping file
+
+Exception while publishing message: Traceback (most recent call last):
+  File "/spcgeonode/geonode/geoserver/helpers.py", line 1426, in _create_db_featurestore
+    charset=charset)
+  File "/usr/local/lib/python3.7/site-packages/geoserver/catalog.py", line 433, in add_data_to_store
+    raise FailedRequestError('Failed to add data to store {} : {}, {}'.format(store, resp.status_code, resp.text))
+geoserver.catalog.FailedRequestError: Failed to add data to store geonode_data : 500, Error occured unzipping file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/spcgeonode/geonode/messaging/producer.py", line 73, in sync_if_local_memory
+    worker.run(timeout=broker_socket_timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/mixins.py", line 175, in run
+    for _ in self.consume(limit=None, **kwargs):
+  File "/usr/local/lib/python3.7/site-packages/kombu/mixins.py", line 197, in consume
+    conn.drain_events(timeout=safety_interval)
+  File "/usr/local/lib/python3.7/site-packages/kombu/connection.py", line 323, in drain_events
+    return self.transport.drain_events(self.connection, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 963, in drain_events
+    get(self._deliver, timeout=timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/utils/scheduling.py", line 56, in get
+    return self.fun(resource, callback, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 1001, in _drain_channel
+    return channel.drain_events(callback=callback, timeout=timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 745, in drain_events
+    return self._poll(self.cycle, callback, timeout=timeout)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 402, in _poll
+    return cycle.get(callback)
+  File "/usr/local/lib/python3.7/site-packages/kombu/utils/scheduling.py", line 56, in get
+    return self.fun(resource, callback, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 406, in _get_and_deliver
+    callback(message, queue)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 983, in _deliver
+    callback(message)
+  File "/usr/local/lib/python3.7/site-packages/kombu/transport/virtual/base.py", line 633, in _callback
+    return callback(message)
+  File "/usr/local/lib/python3.7/site-packages/kombu/messaging.py", line 624, in _receive_callback
+    return on_m(message) if on_m else self.receive(decoded, message)
+  File "/usr/local/lib/python3.7/site-packages/kombu/messaging.py", line 590, in receive
+    [callback(body, message) for callback in callbacks]
+  File "/usr/local/lib/python3.7/site-packages/kombu/messaging.py", line 590, in <listcomp>
+    [callback(body, message) for callback in callbacks]
+  File "/spcgeonode/geonode/messaging/consumer.py", line 110, in on_geoserver_messages
+    geoserver_post_save_local(layer)
+  File "/spcgeonode/geonode/decorators.py", line 57, in wrapper
+    return func(*args, **kwargs)
+  File "/spcgeonode/geonode/geoserver/signals.py", line 142, in geoserver_post_save_local
+    charset=instance.charset)
+  File "/spcgeonode/geonode/geoserver/upload.py", line 137, in geoserver_upload
+    workspace=workspace)
+  File "/spcgeonode/geonode/geoserver/helpers.py", line 1438, in _create_db_featurestore
+    raise GeoNodeException(msg)
+geonode.GeoNodeException: An exception occurred loading data to PostGIS- Failed to add data to store geonode_data : 500, Error occured unzipping file
+
+[updated] Layer for '/tmp/tmp59g850ci/madmex_landsat_changes_2017-2018_wgs84.shp' (1/1)
+
+
+Detailed report of failures:
+
+
+Finished processing 1 layers in 107.33 seconds.
+
+0 Created layers
+1 Updated layers
+0 Skipped layers
+0 Failed layers
+107.33122 seconds per layer
+
+
+Maybe related to: _create_db_featurestore
+
+https://github.com/GeoNode/geonode/blob/master/geonode/geoserver/helpers.py#L1347
+
+And so, change geonode_local_settings for db connection
+
+
+Possibly fix:
+
+nano /var/lib/postgresql/data/postgresql.conf
+
+work_mem to 1GB
+
+and in container of db as postgres user use:
+
+pg_ctl reload
