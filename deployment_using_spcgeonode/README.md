@@ -131,12 +131,12 @@ http://<miip>/api/layers/
 #When using browser:
 
 #1)for geonode:
-user: admin
-password: admin
+user: super
+password: duper
 
 #2)for geoserver:
-user: admin
-password: geoserver
+user: super
+password: duper
 
 #For DB: geonode
 
@@ -150,11 +150,6 @@ password: geonode_data
 
 ```
 
-4) env file worth seeing for db passwords when using docker:
-
-```
-geonode/scripts/docker/env/production/db.env #geonode is the repo cloned
-```
 
 ## Note:
 
