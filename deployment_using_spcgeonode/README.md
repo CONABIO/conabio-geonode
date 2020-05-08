@@ -385,7 +385,7 @@ ps aux|grep uwsgi
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n AGUASCALIENTES_merge_wgs84 AGUASCALIENTES_merge_wgs84.shp
 
 
-#Modify:
+#Modify:  using https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
 
 
 sudo docker exec -it spcgeonode_nginx_1 sh
