@@ -543,3 +543,58 @@ work_mem to 1GB
 and in container of db as postgres user use:
 
 pg_ctl reload
+
+
+
+#For CHIHUAHUA use:
+
+```
+sudo apt install postgis
+shp2pgsql CHIHUAHUA_merge_wgs84.shp chihuahua_merge_wgs84 public.chihuahua_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
+```
+
+#In postgresql db:
+
+```
+UPDATE layers_layer SET store='geonode_data' WHERE resourcebase_ptr_id=3;
+
+UPDATE layers_layer SET typename='geonode:chihuahua_merge_wgs84' WHERE resourcebase_ptr_id=3;
+
+```
+
+#In django container
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers --ignore-errors --filter="chihuahua_merge_wgs84" -s geonode_data -w geonode
+```
+
+#Then in geoserver:
+
+Layers-add resource
+
+
+#see:
+
+http://146.155.17.19:21080/mediawiki-1.22.7/index.php/Geonode_data_upload
+
+https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_into_geonode/geoserver.html
+
+https://training.geonode.geo-solutions.it/006_adv_workshop/002_geonode_settings/settings.html#settings
+
+https://stackoverflow.com/questions/54737851/how-to-increase-timeout-for-nginx
+
+
+#geonode:
+
+https://github.com/GeoNode/geonode/issues/5285
+
+
+https://github.com/GeoNode/nginx-docker/blob/master/nginx.conf#L27
+
+
+https://github.com/GeoNode/geonode-docker/blob/master/uwsgi.ini#L7
+
+https://github.com/GeoNode/nginx-docker/blob/master/nginx.conf#L75
+
+
+
