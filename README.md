@@ -222,3 +222,74 @@ docker-compose -f docker-compose.yml -f docker-compose.override.myip.yml up -d
 ```
 
 3) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
+#12 may
+
+Adding CHIHUAHUA shapefile sentinel2 2017-2018 changes
+
+- First add it to database with:
+
+```
+sudo apt install postgis
+shp2pgsql CHIHUAHUA_merge_wgs84.shp chihuahua_merge_wgs84 public.chihuahua_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
+```
+
+- Second add it to geoserver from geonode_data database:
+
+Need to follow:
+
+https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_into_geonode/geoserver.html
+
+- At the end of the last page use `updatelayers` like:
+
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
+```
+
+- Check:
+
+```
+psql -h localhost -U geonode -d geonode
+
+select * from layers_layer;
+```
+
+
+Change permissions:
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
+Initial permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style']}, 'groups': {<Group: anonymous>: ['download_resourcebase', 'view_resourcebase']}}
+Final permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
+Permissions successfully updated!
+```
+
+
+For HIDALGO
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n HIDALGO_merge_wgs84 HIDALGO_merge_wgs84.shp
+
+#Modify:  using https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-comple$
+
+
+sudo docker exec -it spcgeonode_nginx_1 sh
+
+vi nginx.conf
+
+
+    server {
+        listen              80;
+        server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
+        proxy_read_timeout 180s; #<-with this line
+
+
+nginx -s reload
+
+
+#Download problems... RAM, button is not appearing in geonode for CHIHUAHUA... maybe related with permissions? See:
+
+https://docs.geonode.org/en/master/basic/permissions/
+
+https://docs.geonode.org/en/master/basic/settings/index.html#default-anonymous-download-permission
