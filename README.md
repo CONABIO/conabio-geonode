@@ -293,3 +293,36 @@ nginx -s reload
 https://docs.geonode.org/en/master/basic/permissions/
 
 https://docs.geonode.org/en/master/basic/settings/index.html#default-anonymous-download-permission
+
+
+#Also when trying to download Aguascalientes zip shapefile this came out:
+
+```
+UnicodeDecodeError at /gs/ows
+
+'utf-8' codec can't decode byte 0xf7 in position 10: invalid start byte
+
+Request Method: 	GET
+Request URL: 	http://sipecamdata.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AAGUASCALIENTES_merge_wgs84&outputFormat=SHAPE-ZIP&srs=EPSG%3A4326&format_options=charset%3AUTF-8
+Django Version: 	2.2.12
+Exception Type: 	UnicodeDecodeError
+Exception Value: 	
+
+'utf-8' codec can't decode byte 0xf7 in position 10: invalid start byte
+
+Exception Location: 	./geonode/geoserver/views.py in _response_callback, line 544
+Python Executable: 	/usr/local/bin/uwsgi
+Python Version: 	3.7.7
+Python Path: 	
+
+['/spcgeonode',
+ '.',
+ '',
+ '/usr/local/lib/python37.zip',
+ '/usr/local/lib/python3.7',
+ '/usr/local/lib/python3.7/lib-dynload',
+ '/usr/local/lib/python3.7/site-packages',
+ '/spcgeonode']
+```
+
+Check character and remove it from shapefile. 
