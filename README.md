@@ -325,4 +325,4 @@ Python Path:
  '/spcgeonode']
 ```
 
-Check character and remove it from shapefile. 
+Check character and remove it from shapefile. Maybe are the accents
