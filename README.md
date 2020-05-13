@@ -246,6 +246,8 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
 ```
 
+(Need to figure out how to fill cells of link to metadata in [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
+
 - Check:
 
 ```
@@ -255,7 +257,7 @@ select * from layers_layer;
 ```
 
 
-Change permissions:
+Change permissions (don't know if this is needed... need to check):
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
@@ -266,6 +268,14 @@ Final permissions info for the resource chihuahua_merge_wgs84:
 Permissions successfully updated!
 ```
 
+To download Chihuahua I need to increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page
+
+http://sipecamdata.conabio.gob.mx/geoserver/web/wicket/bookmarkable/org.geoserver.wfs.web.WFSAdminPage?9
+
+
+And also:
+
+Fill `key words` cell mannualy in geonode with `features` string (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (also possibly execute the `set_layer_permissions` cmd)
 
 For HIDALGO
 
@@ -276,6 +286,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
+```
 vi nginx.conf
 
 
@@ -283,16 +294,28 @@ vi nginx.conf
         listen              80;
         server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
         proxy_read_timeout 180s; #<-with this line
+...
+```
 
+Then:
 
+```
 nginx -s reload
+```
+
+#Don't know if also I need to add lines like:
+
+```
+proxy_connect_timeout 10000s;
+proxy_send_timeout 10000s;
+proxy_read_timeout 10000s;
+fastcgi_send_timeout 10000s;
+fastcgi_read_timeout 10000s;
+uwsgi_read_timeout 1000s;
+send_timeout 1000s;
+```
 
 
-#Download problems... RAM, button is not appearing in geonode for CHIHUAHUA... maybe related with permissions? See:
-
-https://docs.geonode.org/en/master/basic/permissions/
-
-https://docs.geonode.org/en/master/basic/settings/index.html#default-anonymous-download-permission
 
 
 #Also when trying to download Aguascalientes zip shapefile this came out:
@@ -326,3 +349,15 @@ Python Path:
 ```
 
 Check character and remove it from shapefile. Maybe are the accents
+
+
+#13 may:
+
+Aguascalientes was downloaded correctly. But for HIdalgo this came out:
+
+```
+django_1          | requests.exceptions.ConnectionError: HTTPConnectionPool(host='nginx', port=80): Max retries exceeded with url: /geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode:HIDALGO_merge_wgs84&outputFormat=SHAPE-ZIP&srs=EPSG:4326&format_options=charset:UTF-8 (Caused by ReadTimeoutError("HTTPConnectionPool(host='nginx', port=80): Read timed out. (read timeout=10)"))
+
+```
+
+maybe rise in some place the times?
