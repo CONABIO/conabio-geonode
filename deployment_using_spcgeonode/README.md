@@ -185,7 +185,22 @@ docker-compose up -d django geoserver postgres nginx
 3) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
 
 
-# Insert large layers (more than 1gb):
+# Insert large layers (more than 1gb): 
+
+
+Mount /LUSTRE/MADMEX:
+
+Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeonode:django-3.0` is, then:
+
+```
+...volumes:
+    - static:/spcgeonode-static/
+    - media:/spcgeonode-media/
+    - /LUSTRE/MADMEX:/LUSTRE/MADMEX
+```
+
+
+Inside spcgeonode_django_1 use
 
 ## Chihuahua
 
@@ -243,7 +258,7 @@ http://sipecamdata.conabio.gob.mx/geoserver/web/wicket/bookmarkable/org.geoserve
 to 200,000,000 for example.
 
 
-# Insert medium size layers (less than 1 gb):
+# Insert medium or small size layers (less than 1 gb):
 
 ## Hidalgo
 
@@ -256,7 +271,7 @@ vi nginx.conf
     server {
         listen              80;
         server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
-        proxy_read_timeout 1000; #<-with this line
+        proxy_read_timeout 1000s; #<-with this line
 ...
 ```
 
@@ -269,13 +284,13 @@ nginx -s reload
 #Don't know if also I need to add lines like:
 
 ```
-proxy_connect_timeout 1000;
-proxy_send_timeout 1000;
-proxy_read_timeout 1000;
-fastcgi_send_timeout 1000;
-fastcgi_read_timeout 1000;
-uwsgi_read_timeout 1000;
-send_timeout 1000;
+proxy_connect_timeout 1000s;
+proxy_send_timeout 1000s;
+proxy_read_timeout 1000s;
+fastcgi_send_timeout 1000s;
+fastcgi_read_timeout 1000s;
+uwsgi_read_timeout 1000s;
+send_timeout 1000s;
 ```
 
 Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
