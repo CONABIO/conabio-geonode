@@ -288,7 +288,16 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 ```
 
 
+# Nodes at conabio have a intermediate security layer that makes no possibly to read `css` files for `nginx` container. This causes that web page can't see correctly. A patch is to make a deployment of stack of containers for `spc geonode` and make a copy of the `static` files created in `_volume_static` dir to a site. Then modify inside `nginx` container that runs inside the node at conabio and change file `spcgeonode.conf` in location `static`:
 
+```
+location /static {
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/; #<- with this line or the site where the static dir is 
+    #alias /spcgeonode-static; # your Django project's static files - amend as required
+    include  /etc/nginx/mime.types;
+    expires 365d;
+}
+```
 
 
 
