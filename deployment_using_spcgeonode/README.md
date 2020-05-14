@@ -300,6 +300,11 @@ location /static {
 ```
 
 
+Then:
+
+```
+nginx -s reload
+```
 
 
 
