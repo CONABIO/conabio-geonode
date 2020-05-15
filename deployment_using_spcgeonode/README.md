@@ -353,6 +353,13 @@ r.json()
 curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AAGUASCALIENTES_merge_wgs84_clean3&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'"
 ```
 
+# Next work:
+
+- Fix thumbnails (is related with permissions)
+
+- Use volumes for `docker-compose.yml` defined as paths in /LUSTRE/ so I can have persistent data of db in one place and static or media (thumbnails) in other place.
+
+
 
 # Useful notes
 
