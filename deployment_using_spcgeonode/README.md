@@ -334,7 +334,24 @@ nginx -s reload
 **IMPORTANT:**
 
 Fill `key words` or `abstract`  cell mannualy in geonode web page with `features` string or `No description provided` for `key words` or `abstract` respectively (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (check if I need to execute the `set_layer_permissions` cmd, also check [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata) 
+# Download via python request
 
+```
+import requests
+
+string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AAGUASCALIENTES_merge_wgs84_clean3&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'
+
+r = requests.get(string)
+
+r.json()
+
+```
+
+# Download via curl:
+
+```
+curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AAGUASCALIENTES_merge_wgs84_clean3&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'"
+```
 
 
 # Useful notes
