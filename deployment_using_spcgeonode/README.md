@@ -209,7 +209,7 @@ Inside spcgeonode_django_1 use
 - First add it to database with:
 
 ```
-sudo apt install postgis
+apt install postgis
 shp2pgsql /LUSTRE/MADMEX/.../CHIHUAHUA_merge_wgs84.shp CHIHUAHUA_merge_wgs84 public.CHIHUAHUA_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 ```
 
