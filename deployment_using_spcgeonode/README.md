@@ -22,6 +22,8 @@ cd geonode/scripts/spcgeonode
 
 3.- Docker compose up
 
+**Note: make sure to mount volumes in `docker-compose.yml` for django container, see section Insert large layers**
+
 ```
 #just the essential:
 docker-compose up --build -d django geoserver postgres nginx
@@ -208,7 +210,7 @@ Inside spcgeonode_django_1 use
 
 ```
 sudo apt install postgis
-shp2pgsql CHIHUAHUA_merge_wgs84.shp chihuahua_merge_wgs84 public.chihuahua_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
+shp2pgsql /LUSTRE/MADMEX/.../CHIHUAHUA_merge_wgs84.shp CHIHUAHUA_merge_wgs84 public.CHIHUAHUA_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 ```
 
 - Second add it to geoserver from geonode_data database. Need to follow:
@@ -238,7 +240,7 @@ psql -h localhost -U geonode -d geonode
 select * from layers_layer;
 ```
 
-Change permissions (don't know if this is needed... need to check):
+-> **this is not necessary**: Change permissions (don't know if this is needed... need to check):
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
@@ -299,7 +301,9 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n HIDALGO_merge_wgs84 HIDALGO_merge_wgs84.shp
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n AGUASCALIENTES_merge_wgs84 /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2017_2018/indi50k/estados/AGUASCALIENTES/AGUASCALIENTES_merge_wgs84.shp
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n HIDALGO_merge_wgs84 /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2017_2018/indi50k/estados/HIDALGO/HIDALGO_merge_wgs84.shp
 ```
 
 
