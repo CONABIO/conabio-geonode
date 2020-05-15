@@ -228,9 +228,9 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s g
 -> Need to figure out how to fill cells of link to metadata in [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png) maybe check: [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata)
 
 
--> Also also:
+**IMPORTANT:**
 
-Fill `key words` cell mannualy in geonode web page with `features` string (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (check if I need to execute the `set_layer_permissions` cmd, also check [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata) )
+Fill `key words` or `abstract`  cell mannualy in geonode web page with `features` string or `No description provided` for `key words` or `abstract` respectively (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (check if I need to execute the `set_layer_permissions` cmd, also check [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata) )
 
 - Check:
 
@@ -325,7 +325,11 @@ Then:
 nginx -s reload
 ```
 
+## Download either small, medium or large layers
 
+**IMPORTANT:**
+
+Fill `key words` or `abstract`  cell mannualy in geonode web page with `features` string or `No description provided` for `key words` or `abstract` respectively (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (check if I need to execute the `set_layer_permissions` cmd, also check [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata) 
 
 
 
