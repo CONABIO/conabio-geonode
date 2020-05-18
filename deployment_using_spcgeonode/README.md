@@ -208,7 +208,7 @@ select * from people_profile;
 
 # Insert large layers (more than 1gb): 
 
-**Change conf of nginx**
+**Change nginx conf**
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
@@ -249,7 +249,7 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 
 **Inside spcgeonode_django_1:**
 
-- First add it to database with:
+- **Add to database:**
 
 ```
 shp2pgsql CHIHUAHUA_merge_wgs84.shp madmex_sentinel2_chihuahua_2017_2018_lcc public.CHIHUAHUA_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
@@ -257,18 +257,20 @@ shp2pgsql CHIHUAHUA_merge_wgs84.shp madmex_sentinel2_chihuahua_2017_2018_lcc pub
 shp2pgsql madmex_landsat_changes_2017-2018_wgs84.shp madmex_landsat_2017-2018_lcc public.madmex_landsat_changes_2017-2018_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 ```
 
-- Second add it to geoserver from geonode_data database. Need to follow:
+- **Add to geoserver from geonode_data database:** 
+
+Need to follow:
 
 https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_into_geonode/geoserver.html
 
-- At the end of the last page use `updatelayers` like:
+- **Use `updatelayers` like:**
 
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
 ```
 
-**To update links of metadata:** (see [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
+- **Update links of metadata:** (see [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
 
 
 ```
@@ -276,7 +278,7 @@ DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata
 
 ```
 
-Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.**
 
 
 Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
@@ -284,7 +286,7 @@ Next wasnt working (was an idea for not having to click on button of refresh att
 I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
 
 
-- Check:
+- **Check:**
 
 ```
 psql -h localhost -U geonode -d geonode
@@ -304,7 +306,9 @@ to 200,000,000 for example.
 
 # Insert medium or small size layers (less than 1 gb):
 
-## Examples: Hidalgo/Aguascalientes
+
+- **Change nginx conf:**
+
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
@@ -318,8 +322,6 @@ vi nginx.conf
         proxy_read_timeout 1000s; #<-with this line
 ...
 ```
-
-Then:
 
 ```
 nginx -s reload
@@ -340,6 +342,11 @@ send_timeout 1000s;
 Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
 
 
+## Examples: Hidalgo/Aguascalientes
+
+
+- **Importlayers**
+
 **Inside spcgeonode_django_1:**
 
 ```
@@ -348,8 +355,9 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_hidalgo_2017_2018_lcc -c "base map" -t madmex_sentinel2_hidalgo_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Hidalgo" -r "Mexico, North America, Latin America" HIDALGO_merge_wgs84.shp
 
-
 ```
+
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.**
 
 
 **Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created in `_volume_static` dir to a site. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
