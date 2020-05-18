@@ -276,7 +276,7 @@ DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata
 
 ```
 
-- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.**
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
 
 
 Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
@@ -355,7 +355,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 ```
 
-- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.**
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
 
 
 Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
