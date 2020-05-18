@@ -228,27 +228,21 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
 ```
 
+**To update links of metadata:** (see [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
 
--> Need to figure out how to fill cells of link to metadata in [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png) maybe check: [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata)
-
-**To update links of metadata:**
-
-Make sure you are able to see thumbnail if not click to button refresh attributes and statistics for the layer in geonode. Then:
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -d
 
 ```
 
+Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.
+
+
+Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
+
 I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
 
-
-**IMPORTANT:**
-
-
-Fill `key words` or `abstract`  cell mannualy in geonode web page with `features` string or `No description provided` for `key words` or `abstract` respectively (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (check if I need to execute the `set_layer_permissions` cmd, also check [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata) )
-
-**Or easier: click to button refresh attributes and statistics for the layer in geonode**
 
 - Check:
 
@@ -258,16 +252,6 @@ psql -h localhost -U geonode -d geonode
 select * from layers_layer;
 ```
 
--> **this is not necessary**: Change permissions (don't know if this is needed... need to check):
-
-```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
-Initial permissions info for the resource chihuahua_merge_wgs84:
-{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style']}, 'groups': {<Group: anonymous>: ['download_resourcebase', 'view_resourcebase']}}
-Final permissions info for the resource chihuahua_merge_wgs84:
-{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
-Permissions successfully updated!
-```
 
 # Download large layers:
 
@@ -280,7 +264,7 @@ to 200,000,000 for example.
 
 # Insert medium or small size layers (less than 1 gb):
 
-## Hidalgo
+## Hidalgo/Aguascalientes
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
@@ -319,9 +303,12 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -c "base map" -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America", AGUASCALIENTES_merge_wgs84.shp
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -c "base map" -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America" AGUASCALIENTES_merge_wgs84.shp
 
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n HIDALGO_merge_wgs84 /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2017_2018/indi50k/estados/HIDALGO/HIDALGO_merge_wgs84.shp
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_hidalgo_2017_2018_lcc -c "base map" -t madmex_sentinel2_hidalgo_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Hidalgo" -r "Mexico, North America, Latin America" HIDALGO_merge_wgs84.shp
+
+
 ```
 
 
@@ -345,11 +332,7 @@ nginx -s reload
 
 ## Download either small, medium or large layers
 
-**IMPORTANT:**
-
-Fill `key words` or `abstract`  cell mannualy in geonode web page with `features` string or `No description provided` for `key words` or `abstract` respectively (inside metadata). For this use editing tools button in geonode and select metadata. Then the button will be available (check if I need to execute the `set_layer_permissions` cmd, also check [management-command-set-all-layers-metadata](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html#management-command-set-all-layers-metadata) 
-
-**Or easier: click to button refresh attributes and statistics for the layer in geonode**
+**Click to button refresh attributes and statistics for the layer in geonode**
 
 # Download via python request
 
