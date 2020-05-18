@@ -214,7 +214,7 @@ Inside spcgeonode_django_1 use
 ```
 shp2pgsql /LUSTRE/MADMEX/.../CHIHUAHUA_merge_wgs84.shp CHIHUAHUA_merge_wgs84 public.CHIHUAHUA_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 
-shp2pgsql madmex_landsat_changes_2017-2018_wgs84.shp madmex_landsat_changes_2017-2018 public.madmex_landsat_changes_2017-2018_wgs84.shp | psql -h geonodeservices.conabio.gob.mx -d geonode_data -U geonode
+shp2pgsql madmex_landsat_changes_2017-2018_wgs84.shp madmex_landsat_changes_2017-2018 public.madmex_landsat_changes_2017-2018_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 ```
 
 - Second add it to geoserver from geonode_data database. Need to follow:
