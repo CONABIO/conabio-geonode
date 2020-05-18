@@ -384,10 +384,6 @@ Then:
 nginx -s reload
 ```
 
-## Download either small, medium or large layers
-
-**Click to button refresh attributes and statistics for the layer in geonode**
-
 # Download via python request
 
 ```
@@ -409,9 +405,11 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 
 # Next work:
 
-- Fix thumbnails (is related with permissions)
+- Fix thumbnails in node7 (is related with permissions)
 
 - Use volumes for `docker-compose.yml` defined as paths in /LUSTRE/ so I can have persistent data of db in one place and static or media (thumbnails) in other place.
+
+- Use proj of lcc2 INEGI and geopackage
 
 
 
