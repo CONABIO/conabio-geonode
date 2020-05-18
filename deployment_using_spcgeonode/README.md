@@ -212,9 +212,9 @@ Inside spcgeonode_django_1 use
 - First add it to database with:
 
 ```
-shp2pgsql /LUSTRE/MADMEX/.../CHIHUAHUA_merge_wgs84.shp CHIHUAHUA_merge_wgs84 public.CHIHUAHUA_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
+shp2pgsql CHIHUAHUA_merge_wgs84.shp madmex_sentinel2_chihuahua_2017_2018_lcc public.CHIHUAHUA_merge_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 
-shp2pgsql madmex_landsat_changes_2017-2018_wgs84.shp madmex_landsat_changes_2017-2018 public.madmex_landsat_changes_2017-2018_wgs84.shp | psql -h <host> -d geonode_data -U geonode
+shp2pgsql madmex_landsat_changes_2017-2018_wgs84.shp madmex_landsat_2017-2018_lcc public.madmex_landsat_changes_2017-2018_wgs84.shp | psql -h <host> -d geonode_data -U geonode
 ```
 
 - Second add it to geoserver from geonode_data database. Need to follow:
@@ -240,6 +240,7 @@ DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata
 
 ```
 
+I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
 
 
 **IMPORTANT:**
