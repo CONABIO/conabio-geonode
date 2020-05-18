@@ -25,7 +25,20 @@ ADMIN_EMAIL=admin@geonodeservices.conabio.gob.mx
 
 3.- Docker compose up
 
-**Note: make sure to mount volumes in `docker-compose.yml` for django container, see section Insert large layers**
+**Note: make sure to mount volumes in `docker-compose.yml` for django container:**
+
+**Mount /LUSTRE/MADMEX:**
+
+Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeonode:django-3.0` is, then:
+
+```
+...volumes:
+    - static:/spcgeonode-static/
+    - media:/spcgeonode-media/
+    - /LUSTRE/MADMEX:/LUSTRE/MADMEX
+```
+
+**Docker compose up:**
 
 ```
 #just the essential:
@@ -192,19 +205,7 @@ docker-compose up -d django geoserver postgres nginx
 
 # Insert large layers (more than 1gb): 
 
-
-1) Mount /LUSTRE/MADMEX:
-
-Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeonode:django-3.0` is, then:
-
-```
-...volumes:
-    - static:/spcgeonode-static/
-    - media:/spcgeonode-media/
-    - /LUSTRE/MADMEX:/LUSTRE/MADMEX
-```
-
-2) Change conf of nginx
+**Change conf of nginx**
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
@@ -219,7 +220,7 @@ vi nginx.conf
 ...
 ```
 
-Then:
+**Then:**
 
 ```
 nginx -s reload
@@ -241,7 +242,7 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 
 
 
-## Chihuahua or National landsat changes
+## Examples: Chihuahua or National landsat changes
 
 **Inside spcgeonode_django_1:**
 
@@ -300,7 +301,7 @@ to 200,000,000 for example.
 
 # Insert medium or small size layers (less than 1 gb):
 
-## Hidalgo/Aguascalientes
+## Examples: Hidalgo/Aguascalientes
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
