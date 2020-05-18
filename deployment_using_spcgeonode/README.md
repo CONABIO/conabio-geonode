@@ -193,7 +193,7 @@ docker-compose up -d django geoserver postgres nginx
 # Insert large layers (more than 1gb): 
 
 
-Mount /LUSTRE/MADMEX:
+1) Mount /LUSTRE/MADMEX:
 
 Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeonode:django-3.0` is, then:
 
@@ -204,10 +204,46 @@ Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeo
     - /LUSTRE/MADMEX:/LUSTRE/MADMEX
 ```
 
+2) Change conf of nginx
 
-Inside spcgeonode_django_1 use
+sudo docker exec -it spcgeonode_nginx_1 sh
+
+```
+vi nginx.conf
+
+
+    server {
+        listen              80;
+        server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
+        proxy_read_timeout 1000s; #<-with this line
+...
+```
+
+Then:
+
+```
+nginx -s reload
+```
+
+#Don't know if also I need to add lines like:
+
+```
+proxy_connect_timeout 1000s;
+proxy_send_timeout 1000s;
+proxy_read_timeout 1000s;
+fastcgi_send_timeout 1000s;
+fastcgi_read_timeout 1000s;
+uwsgi_read_timeout 1000s;
+send_timeout 1000s;
+```
+
+Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
+
+
 
 ## Chihuahua or National landsat changes
+
+**Inside spcgeonode_django_1:**
 
 - First add it to database with:
 
@@ -299,8 +335,8 @@ send_timeout 1000s;
 
 Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
 
-`Importlayers`:
 
+**Inside spcgeonode_django_1:**
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -c "base map" -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America" AGUASCALIENTES_merge_wgs84.shp
