@@ -113,7 +113,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 ```
 
-**Note:**
+# Notes:
 
 1) You can find some example vector layers in:
 
@@ -157,9 +157,7 @@ password: geonode_data
 ```
 
 
-## Note:
-
-1) If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
+4) If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
 
 if stop:
 
@@ -178,13 +176,13 @@ if delete all:
 docker-compose down -v
 ```
 
-2) If you want to start again container's stack but you don't want to build again, use:
+5) If you want to start again container's stack but you don't want to build again, use:
 
 ```
 docker-compose up -d django geoserver postgres nginx
 ```
 
-3) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
+6) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
 
 
 
@@ -358,6 +356,14 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 ```
 
 - **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode.**
+
+
+Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
+
+I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
+
+
+# Note
 
 
 **Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created in `_volume_static` dir to a site. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
