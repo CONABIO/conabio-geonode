@@ -103,23 +103,7 @@ except ImportError:
 ```
 
 
-Create superuser:
-
-```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser --username <name of superuser> -v 3 --email <email>
-```
-
-You will be prompted for a password, type it twice.
-
-You can check that superuser was created entering to `db4geonode` docker container and using next query:
-
-```
-docker exec -u=postgres -it spcgeonode_postgres_1 bash
-psql -d geonode
-select * from people_profile;
-```
-
-6.- Insert some layers: (now just shapefiles and rasters have been imported in projection "EPSG:4326")
+4.- Insert some layers: (now just shapefiles and rasters have been imported in projection "EPSG:4326")
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/myfile
@@ -201,6 +185,25 @@ docker-compose up -d django geoserver postgres nginx
 ```
 
 3) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
+
+
+
+# Create superuser:
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser --username <name of superuser> -v 3 --email <email>
+```
+
+You will be prompted for a password, type it twice.
+
+You can check that superuser was created entering to `db4geonode` docker container and using next query:
+
+```
+docker exec -u=postgres -it spcgeonode_postgres_1 bash
+psql -d geonode
+select * from people_profile;
+```
+
 
 
 # Insert large layers (more than 1gb): 
