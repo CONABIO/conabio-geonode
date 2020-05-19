@@ -5,7 +5,7 @@
             <sld:FeatureTypeConstraint/>
         </sld:LayerFeatureConstraints>
         <sld:UserStyle>
-            <sld:Name>mex_RE_2015_31_clases</sld:Name>
+            <sld:Name>madmex_31_classes</sld:Name>
             <sld:Title/>
             <sld:FeatureTypeStyle>
                 <sld:Name/>
