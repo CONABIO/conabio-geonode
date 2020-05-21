@@ -96,6 +96,15 @@ try:
 except ImportError:
     from urllib.parse import urlparse, urlunparse
 ---
+#or:
+---
+try:  # python2
+    from urlparse import urlparse, urlunparse, urlsplit, urljoin
+except ImportError:
+    # Python 3 fallback
+    from urllib.parse import urlparse, urlunparse, urlsplit, urljoin
+---
+
 
 #Modify for geonode/local_settings.py:
 #INSTALLED_APPS += ('geonode_mapstore_client', )
@@ -263,17 +272,10 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 
 - **Use `updatelayers` like:**
 
+**Check cpus usage when executing next command (after execution of next cmd is done I needed to do a `docker-compose stop` because some cpus and processes stucked in some tasks)
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
-```
-
-- **Update links of metadata:** (see [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
-
-
-```
-DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -d
-
 ```
 
 - **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
@@ -282,6 +284,20 @@ DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata
 Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
 
 I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
+
+
+- **Update links of metadata:** (see [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
+
+
+```
+#for specific layer:
+DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
+
+#for all layers:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
+
+```
+
 
 
 - **Check:**
@@ -346,6 +362,8 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 - **Importlayers**
 
 **Inside spcgeonode_django_1:**
+
+**For accents use: -C "Latin 1" in importlayers cmd"
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America" AGUASCALIENTES_merge_wgs84.shp
