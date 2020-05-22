@@ -492,7 +492,7 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 - [ ] Make deployment of geonode using geonode.conabio.gob.mx as host and test connectivity without vpn
 
 
-#MIGRATEURL:
+# MIGRATEURL:
 
 migrateurl
 
@@ -501,7 +501,7 @@ migrateurl
 Also in geoserver inside "Almacenes de datos" go to geonode_data and change db to new url
 
 
-#DELETE:
+# DELETE:
 
 
 delete in geonode and geoserver:
