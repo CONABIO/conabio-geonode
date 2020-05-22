@@ -215,6 +215,29 @@ select * from people_profile;
 
 # Insert large layers (more than 1gb): 
 
+
+# Make sure projection is wgs84, layer is compressed and tiled:
+
+```
+#rasters:
+gdalwarp -t_srs EPSG:4326 -co compress=LZW madmex_landsat_2017_31.tif madmex_landsat_2017_31_wgs84.tif
+
+gdal_translate -co TILED=yes -co compress=LZW madmex_landsat_2017_31_wgs84.tif madmex_landsat_2017_31_wgs84_tiled.tif
+
+gdal_translate -co TILED=yes -co compress=LZW madmex_sentinel2_2017_31_wgs84.tif madmex_sentinel2_2017_31_wgs84_tiled.tif
+
+#vectors:
+ogr2ogr -progress -t_srs EPSG:4326 HIDALGO_merge_wgs84.shp HIDALGO_merge.shp
+
+```
+
+**References:**
+
+https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data
+
+https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example5.html
+
+
 **Change nginx conf**
 
 sudo docker exec -it spcgeonode_nginx_1 sh
@@ -252,7 +275,9 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 
 
 
-## Examples: Chihuahua or National landsat changes
+## Examples: 
+
+### Vectors: Chihuahua or National landsat changes
 
 **Inside spcgeonode_django_1:**
 
@@ -308,14 +333,41 @@ psql -h localhost -U geonode -d geonode
 select * from layers_layer;
 ```
 
+### Rasters
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_landsat_2017_31_tiled -t madmex_landsat_2017_31_tiled -a "LANDSAT MAD-Mex lc" -k "MAD-Mex, LANDSAT, GeoTIFF, WCS" -r "Mexico, North America, Latin America" madmex_landsat_2017_31_wgs84_tiled.tif
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n Chihuahua_landsat_2017_31_tiled -t Chihuahua_landsat_2017_31_tiled -a "LANDSAT MAD-Mex lc" -k "MAD-Mex, LANDSAT, GeoTIFF, WCS" -r "Chihuahua, Mexico, North America, Latin America" Chihuahua_landsat_2017_31_wgs84_tiled.tif
+
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n sentinel2_Hidalgo_2017_31_tiled -t sentinel2_Hidalgo_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Hidalgo, Mexico, North America, Latin America" sentinel2_Hidalgo_2017_31_wgs84_tiled.tif
+
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_2017_31_tiled -t madmex_sentinel2_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Mexico, North America, Latin America" madmex_sentinel2_2017_31_wgs84_tiled.tif
+
+```
+
+
+### Style for Rasters
+
+See [styles](../styles)
+
+
 
 # Download large layers:
+
+## Vectors
 
 Increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page:
 
 http://sipecamdata.conabio.gob.mx/geoserver/web/wicket/bookmarkable/org.geoserver.wfs.web.WFSAdminPage?9
 
 to 200,000,000 for example.
+
+## Rasters
+
+Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html) or [link2](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html#wcs-resource-limits) or [link3](https://docs.geoserver.org/stable/en/user/services/wms/configuration.html)) and increase proxy_read_timeout for nginx.conf
 
 
 # Insert medium or small size layers (less than 1 gb):
@@ -427,7 +479,9 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 
 - Use volumes for `docker-compose.yml` defined as paths in /LUSTRE/ so I can have persistent data of db in one place and static or media (thumbnails) in other place.
 
-- Use proj of lcc2 INEGI and geopackage
+- Use proj of lcc2 INEGI and geopackage. 
+
+    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
@@ -435,7 +489,42 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 
 - Make a python module to normalize shapefiles attributes and register them in geonode
 
-- Make deployment of geonode using geonode.conabio.gob.mx as host and test connectivity without vpn
+- [ ] Make deployment of geonode using geonode.conabio.gob.mx as host and test connectivity without vpn
+
+
+#MIGRATEURL:
+
+migrateurl
+
+ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py migrate_baseurl --source-address geonodeservices.conabio.gob.mx --target-address geonode.conabio.gob.mx
+
+Also in geoserver inside "Almacenes de datos" go to geonode_data and change db to new url
+
+
+#DELETE:
+
+
+delete in geonode and geoserver:
+
+delete_aguascalientes.json
+
+{
+  "filters": {
+  "layer": [
+            "Q(title__icontains='madmex_sentinel2_aguascalientes_2017_2018_lcc')"
+       ]
+        }
+}
+
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py delete_resources -c delete_aguascalientes.json
+
+
+-> For the shapefiles also delete the resource inside geonode_data db the table associated:
+
+drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
+
+
+
 
 
 
@@ -481,6 +570,18 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 https://training.geonode.geo-solutions.it/006_adv_workshop/002_geonode_settings/settings.html#settings
 
 https://stackoverflow.com/questions/54737851/how-to-increase-timeout-for-nginx
+
+http://osgeo-org.1560.x6.nabble.com/Poor-performance-GeoNode-td5332874.html
+
+https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/gsproduction.html
+
+https://geoserver.geo-solutions.it/edu/en/install_run/jai_io_install.html#geoserver-jai-io-install
+
+https://docs.geonode.org/en/2.8/tutorials/advanced/geonode_production/production.html#native-jai-and-jai-imageio
+
+https://github.com/terrestris/docker-geoserver
+
+https://github.com/geosolutions-it/imageio-ext/wiki
 
 
 #geonode:
