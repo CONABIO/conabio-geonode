@@ -485,7 +485,7 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
-- How to remove maps that are already registered in geonode and geoserver? 
+- [ ] How to remove maps that are already registered in geonode and geoserver? 
 
 - Make a python module to normalize shapefiles attributes and register them in geonode
 
@@ -525,7 +525,9 @@ drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
 
 
 
+# Geonode commands
 
+https://docs.geonode.org/en/master/admin/mgmt_commands/index.html
 
 
 # Useful notes
