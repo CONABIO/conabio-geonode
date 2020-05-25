@@ -1,8 +1,4 @@
-Github of geonode:
-
 * [geonode](https://github.com/GeoNode/geonode)
-
-* [geonode developers workshop](https://geonode.org/dev-workshop/#/)
 
 * [gitter](https://gitter.im/GeoNode/)
 
@@ -25,6 +21,14 @@ Github of geonode:
 * [raster-data-optimization-optimizing-and-serving-big-raster-data](https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data)
 
 * [advanced_gdal/example5](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example5.html)
+
+* [geonode developers workshop](https://geonode.org/dev-workshop/#/)
+
+* [geonode-workshop](https://geonode.org/geonode-workshop/foss4g2017/#/)
+
+* [admin workshop 007_loading_data_into_geonode](https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_into_geonode/geoserver.html)
+
+* [adv workshop 002_geonode_settings](https://training.geonode.geo-solutions.it/006_adv_workshop/002_geonode_settings/settings.html#settings)
 
 # Notes:
 
