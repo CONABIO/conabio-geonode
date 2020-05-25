@@ -27,9 +27,9 @@ ADMIN_EMAIL=admin@geonodeservices.conabio.gob.mx
 
 **Note: make sure to mount volumes in `docker-compose.yml` for django container:**
 
-**Mount /LUSTRE/MADMEX:**
+**Mount `/LUSTRE/MADMEX`:**
 
-Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeonode:django-3.0` is, then:
+Using `docker.compose.yml` inside `geonode/scripts/spcgeonode` dir modify where `image: geonode/spcgeonode:django-3.0` is:
 
 ```
 ...volumes:
@@ -42,8 +42,11 @@ Using `docker.compose.yml` inside spc dir modify it where `image: geonode/spcgeo
 
 ```
 #just the essential:
+docker-compose up -d django geoserver postgres nginx
+
+#building images: 
 docker-compose up --build -d django geoserver postgres nginx
-#or: docker-compose up -d django geoserver postgres nginx
+
 ```
 
 **Check with:**
