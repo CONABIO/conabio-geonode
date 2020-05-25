@@ -466,19 +466,37 @@ I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geono
 # Note
 
 
-**Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created in `_volume_static` dir to a site. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
+**Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created under `_volume_static` dir to `/var/www/html/web/geonode/geonode_static`. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
 
 
 
 ```
 location /static {
-    proxy_pass https://monitoreo.conabio.gob.mx/geonode/; #<- with this line or the site where the static dir is 
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_static/; #<- with this line or the site where the static dir is 
     #alias /spcgeonode-static; # your Django project's static files - amend as required
     include  /etc/nginx/mime.types;
     expires 365d;
 }
 ```
 
+
+Then:
+
+```
+nginx -s reload
+```
+
+Also to see thumbnails repeat same procedure described before but with dir `_volume_media/thumbs` that is, copy `thumbs` dir to `/var/www/html/web/geonode/geonode_media/` and change file `spcgeonode.conf` in location `media` with:
+
+```
+# Django media
+location /uploaded  {
+    #alias /spcgeonode-media;  # your Django project's media files - amend as required
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_media/;
+    include  /etc/nginx/mime.types;
+    expires 365d;
+}
+```
 
 Then:
 
