@@ -197,6 +197,12 @@ docker-compose up -d django geoserver postgres nginx
 
 # Create superuser:
 
+**Inside spcgeonode_django_1:**
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
+
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser --username <name of superuser> -v 3 --email <email>
 ```
@@ -239,7 +245,11 @@ ogr2ogr -progress -t_srs EPSG:4326 HIDALGO_merge_wgs84.shp HIDALGO_merge.shp
 
 2) **Change nginx conf**
 
+
+```
 sudo docker exec -it spcgeonode_nginx_1 sh
+```
+
 
 ```
 vi nginx.conf
@@ -380,13 +390,14 @@ Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solu
 
 # Insert medium or small size layers (less than 1 gb):
 
-**Inside spcgeonode_django_1:**
+
+- **Change nginx conf:**
+
 
 ```
 sudo docker exec -it spcgeonode_nginx_1 sh
 ```
 
-- **Change nginx conf:**
 
 
 ```
@@ -454,6 +465,8 @@ I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geono
 
 **Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created in `_volume_static` dir to a site. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
 
+
+
 ```
 location /static {
     proxy_pass https://monitoreo.conabio.gob.mx/geonode/; #<- with this line or the site where the static dir is 
@@ -494,7 +507,7 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 **Inside `spcgeonode_django_1` container:**
 
 ```
-sudo docker exec -it spcgeonode_nginx_1 sh
+sudo docker exec -it spcgeonode_django_1 bash
 ```
 
 ```
@@ -513,10 +526,10 @@ Also in geoserver inside "Almacenes de datos" go to geonode_data and change db t
 
 **Inside `spcgeonode_django_1` container:**
 
-```
-sudo docker exec -it spcgeonode_nginx_1 sh
-```
 
+```
+sudo docker exec -it spcgeonode_django_1 bash
+```
 
 
 Create `delete_aguascalientes.json`
