@@ -383,12 +383,12 @@ See [styles](../styles) and modify style used directly in geoserver.
 
 ## Vectors
 
-Increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page (to 1,000,000,000 for example). And increase proxy_read_timeout for nginx.conf
+Increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page (to 1,000,000,000 for example). And increase `proxy_read_timeout` for `nginx.conf`
 
 
 ## Rasters
 
-Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html) or [link2](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html#wcs-resource-limits) or [link3](https://docs.geoserver.org/stable/en/user/services/wms/configuration.html)) and increase proxy_read_timeout for nginx.conf
+Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html) or [link2](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html#wcs-resource-limits) or [link3](https://docs.geoserver.org/stable/en/user/services/wms/configuration.html)) and increase `proxy_read_timeout` for `nginx.conf`
 
 
 # Insert medium or small size layers (less than 1 gb):
