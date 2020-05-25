@@ -7,13 +7,13 @@ GeoNode with docker-compose
 
 Steps to deploy geonode with `docker-compose`. 
 
-1.- Clone repository 
+1) **Clone repository**
 
 ```
 git clone --single-branch -b master https://github.com/GeoNode/geonode.git
 ```
 
-2.- Override `.yml` with your IP:
+2) **Override `.yml` with your IP:**
 
 ```
 cd geonode/scripts/spcgeonode
@@ -23,7 +23,7 @@ HTTP_HOST=<nodo7.conabio.gob.mx>
 ADMIN_EMAIL=admin@geonodeservices.conabio.gob.mx
 ```
 
-3.- Docker compose up
+3) **Docker compose up**
 
 **Note: make sure to mount volumes in `docker-compose.yml` for django container:**
 
@@ -46,20 +46,20 @@ docker-compose up --build -d django geoserver postgres nginx
 #or: docker-compose up -d django geoserver postgres nginx
 ```
 
-Check with:
+**Check with:**
 
 ```
 docker-compose logs -f
 ```
 
-Check deployment of geonode and geoserver going to browser:
+**Check deployment of geonode and geoserver going to browser:**
 
 ```
 <miip>
 <miip>geoserver/web/
 ```
 
-5.- Create superuser:
+4) **Copy local settings and fix header of it:**
 
 Enter to docker container `spcgeonode_django_1`:
 
@@ -112,7 +112,7 @@ except ImportError:
 ```
 
 
-4.- Insert some layers: (now just shapefiles and rasters have been imported in projection "EPSG:4326")
+5) **Insert some layer examples:**
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/myfile
@@ -216,7 +216,7 @@ select * from people_profile;
 # Insert large layers (more than 1gb): 
 
 
-# Make sure projection is wgs84, layer is compressed and tiled:
+1) **Make sure projection is wgs84 and for rasters also are compressed and tiled:**
 
 ```
 #rasters:
@@ -228,17 +228,16 @@ gdal_translate -co TILED=yes -co compress=LZW madmex_sentinel2_2017_31_wgs84.tif
 
 #vectors:
 ogr2ogr -progress -t_srs EPSG:4326 HIDALGO_merge_wgs84.shp HIDALGO_merge.shp
-
 ```
 
 **References:**
 
-https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data
+[raster-data-optimization-optimizing-and-serving-big-raster-data](https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data)
 
-https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example5.html
+[advanced_gdal/example5](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example5.html)
 
 
-**Change nginx conf**
+2) **Change nginx conf**
 
 sudo docker exec -it spcgeonode_nginx_1 sh
 
@@ -280,6 +279,10 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 ### Vectors: Chihuahua or National landsat changes
 
 **Inside spcgeonode_django_1:**
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
 
 - **Add to database:**
 
@@ -333,7 +336,15 @@ psql -h localhost -U geonode -d geonode
 select * from layers_layer;
 ```
 
-### Rasters
+### Rasters: National, Chihuahua
+
+
+**Inside spcgeonode_django_1:**
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
+
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_landsat_2017_31_tiled -t madmex_landsat_2017_31_tiled -a "LANDSAT MAD-Mex lc" -k "MAD-Mex, LANDSAT, GeoTIFF, WCS" -r "Mexico, North America, Latin America" madmex_landsat_2017_31_wgs84_tiled.tif
@@ -351,7 +362,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 ### Style for Rasters
 
-See [styles](../styles)
+See [styles](../styles) and modify style used directly in geoserver.
 
 
 
@@ -359,11 +370,8 @@ See [styles](../styles)
 
 ## Vectors
 
-Increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page:
+Increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page (to 1,000,000,000 for example). And increase proxy_read_timeout for nginx.conf
 
-http://sipecamdata.conabio.gob.mx/geoserver/web/wicket/bookmarkable/org.geoserver.wfs.web.WFSAdminPage?9
-
-to 200,000,000 for example.
 
 ## Rasters
 
@@ -372,11 +380,14 @@ Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solu
 
 # Insert medium or small size layers (less than 1 gb):
 
+**Inside spcgeonode_django_1:**
+
+```
+sudo docker exec -it spcgeonode_nginx_1 sh
+```
 
 - **Change nginx conf:**
 
-
-sudo docker exec -it spcgeonode_nginx_1 sh
 
 ```
 vi nginx.conf
@@ -413,9 +424,14 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 
 - **Importlayers**
 
-**Inside spcgeonode_django_1:**
+**Inside `spcgeonode_django_1` container:**
 
-**For accents use: -C "Latin 1" in importlayers cmd"
+```
+sudo docker exec -it spcgeonode_nginx_1 sh
+```
+
+
+**For accents use: -C "Latin 1" in importlayers cmd"**
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America" AGUASCALIENTES_merge_wgs84.shp
@@ -473,6 +489,60 @@ r.json()
 curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AAGUASCALIENTES_merge_wgs84_clean3&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'"
 ```
 
+# MIGRATEURL:
+
+**Inside `spcgeonode_django_1` container:**
+
+```
+sudo docker exec -it spcgeonode_nginx_1 sh
+```
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py migrate_baseurl --source-address geonodeservices.conabio.gob.mx --target-address geonode.conabio.gob.mx
+```
+
+Also in geoserver inside "Almacenes de datos" go to geonode_data and change db to new url
+
+
+# DELETE:
+
+
+**Delete in geonode and geoserver. Example: Aguascalientes:**
+
+
+
+**Inside `spcgeonode_django_1` container:**
+
+```
+sudo docker exec -it spcgeonode_nginx_1 sh
+```
+
+
+
+Create `delete_aguascalientes.json`
+
+```
+{
+  "filters": {
+  "layer": [
+            "Q(title__icontains='madmex_sentinel2_aguascalientes_2017_2018_lcc')"
+       ]
+        }
+}
+```
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py delete_resources -c delete_aguascalientes.json
+```
+
+**For the shapefiles also delete the resource inside geonode_data db the table associated:**
+
+
+```
+drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
+```
+
+
 # Next work:
 
 - Fix thumbnails in node7 (is related with permissions)
@@ -485,49 +555,8 @@ curl -X "string = 'http://nodo7.conabio.gob.mx/gs/ows?service=WFS&version=1.0.0&
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
-- [ ] How to remove maps that are already registered in geonode and geoserver? 
-
 - Make a python module to normalize shapefiles attributes and register them in geonode
 
-- [ ] Make deployment of geonode using geonode.conabio.gob.mx as host and test connectivity without vpn
-
-
-# MIGRATEURL:
-
-migrateurl
-
- DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py migrate_baseurl --source-address geonodeservices.conabio.gob.mx --target-address geonode.conabio.gob.mx
-
-Also in geoserver inside "Almacenes de datos" go to geonode_data and change db to new url
-
-
-# DELETE:
-
-
-delete in geonode and geoserver:
-
-delete_aguascalientes.json
-
-{
-  "filters": {
-  "layer": [
-            "Q(title__icontains='madmex_sentinel2_aguascalientes_2017_2018_lcc')"
-       ]
-        }
-}
-
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py delete_resources -c delete_aguascalientes.json
-
-
--> For the shapefiles also delete the resource inside geonode_data db the table associated:
-
-drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
-
-
-
-# Geonode commands
-
-https://docs.geonode.org/en/master/admin/mgmt_commands/index.html
 
 
 # Useful notes
