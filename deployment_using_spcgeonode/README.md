@@ -310,7 +310,7 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 
 - **Use `updatelayers` like:**
 
-**Check cpus usage when executing next command (after execution of next cmd is done I needed to do a `docker-compose stop` because some cpus and processes stucked in some tasks)
+**Check cpus usage when executing next command (after execution of next cmd is done I needed to do a `docker-compose stop` because some cpus and processes stucked in some tasks)**
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
@@ -438,7 +438,7 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 **Inside `spcgeonode_django_1` container:**
 
 ```
-sudo docker exec -it spcgeonode_nginx_1 sh
+sudo docker exec -it spcgeonode_django_1 sh
 ```
 
 
