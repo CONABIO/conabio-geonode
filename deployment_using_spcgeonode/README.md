@@ -70,16 +70,16 @@ Enter to docker container `spcgeonode_django_1`:
 docker exec -it spcgeonode_django_1 /bin/bash
 ```
 
-Once inside of docker container copy local settings to configure and use them later:
-
-```
-cp /spcgeonode/package/support/geonode.local_settings geonode/local_settings.py
-```
-
 Install some useful cmd lines
 
 ```
 apt-get update && apt-get install -y vim less nano unzip postgis
+```
+
+Once inside of docker container copy local settings to configure and use them later:
+
+```
+cp /spcgeonode/package/support/geonode.local_settings geonode/local_settings.py
 ```
 
 Change localhost to ip and set password of DB:
