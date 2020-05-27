@@ -327,8 +327,9 @@ Next wasnt working (was an idea for not having to click on button of refresh att
 I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
 
 
-- **Update links of metadata:** (see [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
+- **Update links of metadata:**
 
+If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
 
 ```
 #for specific layer:
@@ -579,10 +580,6 @@ drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
 
 # Next work:
 
-- Fix thumbnails in node7 (is related with permissions)
-
-- Use volumes for `docker-compose.yml` defined as paths in /LUSTRE/ so I can have persistent data of db in one place and static or media (thumbnails) in other place.
-
 - Use proj of lcc2 INEGI and geopackage. 
 
     * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
@@ -591,7 +588,9 @@ drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
 
 - Make a python module to normalize shapefiles attributes and register them in geonode
 
+- Add screenshots to change `example.com` to `geonode.conabio.gob.mx`
 
+- Add to docu how to mount `/LUSTRE/MADMEX` in `geonode.conabio.gob.mx`
 
 # Useful notes
 
