@@ -597,7 +597,12 @@ Permissions successfully updated!
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
-- Make a python module to normalize shapefiles attributes and register them in geonode
+- Make a python module to normalize shapefiles attributes and register them in geonode. See 
+
+    * https://geopython.github.io/geopython-workshop/
+    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/Dockerfile
+    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/requirements.txt
+    * https://github.com/palmoreck/dockerfiles/tree/master/jupyterlab/geopython
 
 - Add screenshots to change `example.com` to `geonode.conabio.gob.mx`
 
