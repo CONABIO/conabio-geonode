@@ -577,6 +577,17 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py delete_resources 
 drop table "madmex_sentinel2_aguascalientes_2017_2018_lcc";
 ```
 
+# Change permissions 
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
+Initial permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style']}, 'groups': {<Group: anonymous>: ['download_resourcebase', 'view_resourcebase']}}
+Final permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
+Permissions successfully updated!
+```
+
 
 # Next work:
 
