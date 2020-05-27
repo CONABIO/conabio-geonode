@@ -316,7 +316,7 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 **Check cpus usage when executing next command (after execution of next cmd is done I needed to do a `docker-compose stop` because some cpus and processes stucked in some tasks)**
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode -f madmex_sentinel2_chihuahua_2017_2018_lcc
 ```
 
 - **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
