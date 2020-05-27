@@ -243,7 +243,7 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode -f madmex_sentinel2_chihuahua_2017_2018_lcc
 ```
 
 (Need to figure out how to fill cells of link to metadata in [link](https://github.com/CONABIO/geonode/blob/milestone-1/screenshots_deployment_using_spcgeonode/large_shapefile/large_shapefile_4.png))
