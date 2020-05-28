@@ -319,28 +319,6 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode -f madmex_sentinel2_chihuahua_2017_2018_lcc
 ```
 
-- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
-
-
-Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
-
-I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
-
-
-- **Update links of metadata:**
-
-If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
-
-```
-#for specific layer:
-DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
-
-#for all layers:
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
-
-```
-
-
 
 - **Check:**
 
@@ -369,6 +347,31 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_2017_31_tiled -t madmex_sentinel2_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Mexico, North America, Latin America" madmex_sentinel2_2017_31_wgs84_tiled.tif
 
 ```
+
+### For either Raster or Vector
+
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
+
+
+Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
+
+I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
+
+
+- **Update links of metadata:**
+
+If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
+
+```
+#for specific layer:
+DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
+
+#for all layers:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
+
+```
+
+
 
 
 ### Style for Rasters
@@ -455,14 +458,6 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 ```
 
-- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
-
-
-Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
-
-I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
-
-
 ### Rasters: Hidalgo
 
 **Inside `spcgeonode_django_1` container:**
@@ -475,6 +470,31 @@ sudo docker exec -it spcgeonode_django_1 /bin/bash
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n sentinel2_Hidalgo_2017_31_tiled -t sentinel2_Hidalgo_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Hidalgo, Mexico, North America, Latin America" sentinel2_Hidalgo_2017_31_wgs84_tiled.tif
 
 ```
+
+### For either Raster or Vector
+
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
+
+
+Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
+
+I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
+
+
+- **Update links of metadata:**
+
+If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
+
+```
+#for specific layer:
+DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
+
+#for all layers:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
+
+```
+
+
 
 ### Style for Rasters
 
