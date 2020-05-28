@@ -670,6 +670,8 @@ Permissions successfully updated!
 - Use proj of lcc2 INEGI and geopackage. 
 
     * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
+    
+    * Also for geopackage see [excel](https://conabio.sharepoint.com/:x:/s/madmex/Eb0q67LLjOZIsheL53ZOfq8BJkT6gCs2OtEMfL6oAq1-Kg?e=dMrAHH)
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
