@@ -366,9 +366,6 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n Chihuahua_landsat_2017_31_tiled -t Chihuahua_landsat_2017_31_tiled -a "LANDSAT MAD-Mex lc" -k "MAD-Mex, LANDSAT, GeoTIFF, WCS" -r "Chihuahua, Mexico, North America, Latin America" Chihuahua_landsat_2017_31_wgs84_tiled.tif
 
 
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n sentinel2_Hidalgo_2017_31_tiled -t sentinel2_Hidalgo_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Hidalgo, Mexico, North America, Latin America" sentinel2_Hidalgo_2017_31_wgs84_tiled.tif
-
-
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_2017_31_tiled -t madmex_sentinel2_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Mexico, North America, Latin America" madmex_sentinel2_2017_31_wgs84_tiled.tif
 
 ```
@@ -434,7 +431,9 @@ send_timeout 1000s;
 Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
 
 
-## Examples: Hidalgo/Aguascalientes
+## Examples: 
+
+### Vectors: Hidalgo/Aguascalientes
 
 
 - **Importlayers**
@@ -442,11 +441,11 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 **Inside `spcgeonode_django_1` container:**
 
 ```
-sudo docker exec -it spcgeonode_django_1 sh
+sudo docker exec -it spcgeonode_django_1 /bin/bash
 ```
 
 
-**For accents use: -C "Latin 1" in importlayers cmd"**
+**For accents use: -C "Latin 1" in importlayers cmd (THIS "Latin 1" IS NOT WORKING)**
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America" AGUASCALIENTES_merge_wgs84.shp
@@ -464,8 +463,28 @@ Next wasnt working (was an idea for not having to click on button of refresh att
 I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
 
 
-# Note
+### Rasters: Hidalgo
 
+**Inside `spcgeonode_django_1` container:**
+
+```
+sudo docker exec -it spcgeonode_django_1 /bin/bash
+```
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n sentinel2_Hidalgo_2017_31_tiled -t sentinel2_Hidalgo_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Hidalgo, Mexico, North America, Latin America" sentinel2_Hidalgo_2017_31_wgs84_tiled.tif
+
+```
+
+### Style for Rasters
+
+See [styles](../styles) and modify style used directly in geoserver.
+
+
+
+# Notes
+
+## 1
 
 **Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created under `_volume_static` dir to `/var/www/html/web/geonode/geonode_static`. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
 
@@ -504,6 +523,43 @@ Then:
 ```
 nginx -s reload
 ```
+
+## 2
+
+To mount `/LUSTRE/MADMEX` in a machine different of a node of the cluster:
+
+**First option: via sshfs**
+
+1. Interchange keys
+
+2. Use:
+
+```
+sudo sshfs -o allow_other,default_permissions,IdentityFile=/home/epalacios/.ssh/id_rsa madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX
+```
+
+
+
+**Second option: via samba**
+
+```
+sudo apt-get install cifs-utils
+```
+
+Change `/etc/fstab` with a line:
+
+```
+\\master.conabio.gob.mx\MADMEX   /LUSTRE/MADMEX    cifs   username=madmex_admin,password=madmex_admin...,uid=epalacios,gid=epalacios,file_mode=0664,dir_mode=0775,rw,noperm,iocharset=utf8  0	0
+```
+
+Then:
+
+```
+mount -a
+```
+
+
+
 
 # Download via python request
 
