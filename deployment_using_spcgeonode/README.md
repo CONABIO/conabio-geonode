@@ -1,5 +1,24 @@
 # conabio-geonode spc
 
+
+# Next work:
+
+- Use proj of lcc2 INEGI and geopackage. 
+
+    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
+    
+    * Also for geopackage see [excel](https://conabio.sharepoint.com/:x:/s/madmex/Eb0q67LLjOZIsheL53ZOfq8BJkT6gCs2OtEMfL6oAq1-Kg?e=dMrAHH)
+
+- How to include madmex land cover maps as "Base Maps" in geonode?
+
+- Make a python module to normalize shapefiles attributes and register them in geonode. See 
+
+    * https://geopython.github.io/geopython-workshop/
+    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/Dockerfile
+    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/requirements.txt
+    * https://github.com/palmoreck/dockerfiles/tree/master/jupyterlab/geopython
+
+
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
 
 
@@ -502,85 +521,6 @@ See [styles](../styles) and modify style used directly in geoserver.
 
 
 
-# Notes
-
-## 1
-
-**Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created under `_volume_static` dir to `/var/www/html/web/geonode/geonode_static`. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
-
-
-
-```
-location /static {
-    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_static/; #<- with this line or the site where the static dir is 
-    #alias /spcgeonode-static; # your Django project's static files - amend as required
-    include  /etc/nginx/mime.types;
-    expires 365d;
-}
-```
-
-
-Then:
-
-```
-nginx -s reload
-```
-
-Also to see thumbnails repeat same procedure described before but with dir `_volume_media/thumbs` that is, copy `thumbs` dir to `/var/www/html/web/geonode/geonode_media/` and change file `spcgeonode.conf` in location `media` with:
-
-```
-# Django media
-location /uploaded  {
-    #alias /spcgeonode-media;  # your Django project's media files - amend as required
-    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_media/;
-    include  /etc/nginx/mime.types;
-    expires 365d;
-}
-```
-
-Then:
-
-```
-nginx -s reload
-```
-
-## 2
-
-To mount `/LUSTRE/MADMEX` in a machine different of a node of the cluster:
-
-**First option: via sshfs**
-
-1. Interchange keys
-
-2. Use:
-
-```
-sudo sshfs -o allow_other,default_permissions,IdentityFile=/home/epalacios/.ssh/id_rsa madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX
-```
-
-
-
-**Second option: via samba**
-
-```
-sudo apt-get install cifs-utils
-```
-
-Change `/etc/fstab` with a line:
-
-```
-\\master.conabio.gob.mx\MADMEX   /LUSTRE/MADMEX    cifs   username=madmex_admin,password=madmex_admin...,uid=epalacios,gid=epalacios,file_mode=0664,dir_mode=0775,rw,noperm,iocharset=utf8  0	0
-```
-
-Then:
-
-```
-mount -a
-```
-
-
-
-
 # Download via python request
 
 ```
@@ -663,28 +603,82 @@ Final permissions info for the resource chihuahua_merge_wgs84:
 {'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
 Permissions successfully updated!
 ```
+# Notes
+
+## 1
+
+**Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created under `_volume_static` dir to `/var/www/html/web/geonode/geonode_static`. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
 
 
-# Next work:
 
-- Use proj of lcc2 INEGI and geopackage. 
+```
+location /static {
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_static/; #<- with this line or the site where the static dir is 
+    #alias /spcgeonode-static; # your Django project's static files - amend as required
+    include  /etc/nginx/mime.types;
+    expires 365d;
+}
+```
 
-    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
-    
-    * Also for geopackage see [excel](https://conabio.sharepoint.com/:x:/s/madmex/Eb0q67LLjOZIsheL53ZOfq8BJkT6gCs2OtEMfL6oAq1-Kg?e=dMrAHH)
 
-- How to include madmex land cover maps as "Base Maps" in geonode?
+Then:
 
-- Make a python module to normalize shapefiles attributes and register them in geonode. See 
+```
+nginx -s reload
+```
 
-    * https://geopython.github.io/geopython-workshop/
-    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/Dockerfile
-    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/requirements.txt
-    * https://github.com/palmoreck/dockerfiles/tree/master/jupyterlab/geopython
+Also to see thumbnails repeat same procedure described before but with dir `_volume_media/thumbs` that is, copy `thumbs` dir to `/var/www/html/web/geonode/geonode_media/` and change file `spcgeonode.conf` in location `media` with:
 
-- Add screenshots to change `example.com` to `geonode.conabio.gob.mx`
+```
+# Django media
+location /uploaded  {
+    #alias /spcgeonode-media;  # your Django project's media files - amend as required
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_media/;
+    include  /etc/nginx/mime.types;
+    expires 365d;
+}
+```
 
-- Add to docu how to mount `/LUSTRE/MADMEX` in `geonode.conabio.gob.mx`
+Then:
+
+```
+nginx -s reload
+```
+
+## 2
+
+To mount `/LUSTRE/MADMEX` in a machine different of a node of the cluster:
+
+**First option: via sshfs**
+
+1. Interchange keys
+
+2. Use:
+
+```
+sudo sshfs -o allow_other,default_permissions,IdentityFile=/home/epalacios/.ssh/id_rsa madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX
+```
+
+
+
+**Second option: via samba**
+
+```
+sudo apt-get install cifs-utils
+```
+
+Change `/etc/fstab` with a line:
+
+```
+\\master.conabio.gob.mx\MADMEX   /LUSTRE/MADMEX    cifs   username=madmex_admin,password=madmex_admin...,uid=epalacios,gid=epalacios,file_mode=0664,dir_mode=0775,rw,noperm,iocharset=utf8  0	0
+```
+
+Then:
+
+```
+mount -a
+```
+
 
 # Useful notes
 
