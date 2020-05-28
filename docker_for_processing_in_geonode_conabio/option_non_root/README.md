@@ -3,7 +3,7 @@ Set:
 ```
 JUPYTERLAB_VERSION=1.1.0
 REPO_URL=palmoreck/jupyterlab_geopython_for_conabio_cluster
-BUILD_DIR=/LUSTRE/MADMEX/tasks/2020/6_geonode/docker_for_processing_in_geonode
+BUILD_DIR=<path where Dockerfile is>
 ```
 
 Build:
