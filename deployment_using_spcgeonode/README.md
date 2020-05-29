@@ -651,14 +651,29 @@ To mount `/LUSTRE/MADMEX` in a machine different of a node of the cluster:
 
 **First option: via sshfs**
 
+0. Install `sshfs`
+
+```
+sudo apt-get install sshfs
+```
+
 1. Interchange keys
 
 2. Use:
 
 ```
 sudo sshfs -o allow_other,default_permissions,IdentityFile=/home/epalacios/.ssh/id_rsa madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX
+
+#not sure if next was executed...
+
+sshfs madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX -o rw,nosuid,nodev,identityfile=/home/epalacios/.ssh/id_rsa,uid=1027,gid=1099,default_permissions,allow_other
 ```
 
+Or in `/etc/fstab` add next line:
+
+```
+madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX  fuse.sshfs rw,nosuid,nodev,identityfile=/home/epalacios/.ssh/id_rsa,uid=1027,gid=1099,default_permissions,allow_other 0 0
+```
 
 
 **Second option: via samba**

@@ -1,5 +1,7 @@
 * [geonode](https://github.com/GeoNode/geonode)
 
+* [geonode basic installation](https://docs.geonode.org/en/master/install/basic/index.html)
+
 * [gitter](https://gitter.im/GeoNode/)
 
 * [issue that addresses kubernetes deployment](https://github.com/GeoNode/geonode/issues/3924)
