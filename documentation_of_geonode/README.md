@@ -2,6 +2,10 @@
 
 * [geonode basic installation](https://docs.geonode.org/en/master/install/basic/index.html)
 
+* [most important limits for deploying GeoNode to production: GeoNode Limits](https://docs.google.com/document/d/1L4wRTKq7uUkmrRTWPutaTcQU4VqLpYSOpe70fxaDp9A/edit)
+
+* [checklist for running GeoNode in production: GeoNode production checklist](https://docs.google.com/document/d/1b5CakOu6lzNdvAlArvimzIWxsKacXBKCL5ixV_29lko/edit)
+
 * [gitter](https://gitter.im/GeoNode/)
 
 * [issue that addresses kubernetes deployment](https://github.com/GeoNode/geonode/issues/3924)
