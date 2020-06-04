@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(name="geonode_conabio",
       version="0.1",
@@ -8,7 +8,7 @@ setup(name="geonode_conabio",
       author_email="",
       license="GPLv3",
       packages=['geonode_conabio'],
-      #packages=find_packages(),
+      install_requires = [],
       entry_points = {
           'console_scripts': [
                              'import_raster=geonode_conabio.import_raster:main',
