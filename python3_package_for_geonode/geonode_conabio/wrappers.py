@@ -11,14 +11,14 @@ from utils_text import normalize_name_classes
 def print_wrapper():
     print("Hello from wrapper!")
     
-def reproj_normalize_and_write_vector(feature_collection, feature_collection_schema,
-                                      list_name_attributes,
-                                      layer_name,
-                                      output_filename,
-                                      source_crs, 
-                                      driver = "ESRI Shapefile",
-                                      destiny_crs = "4326",
-                                      is_geographic = True):
+def reproj_normalize_and_write_large_vector(feature_collection, feature_collection_schema,
+                                            list_name_attributes,
+                                            layer_name,
+                                            output_filename,
+                                            source_crs,
+                                            driver = "ESRI Shapefile",
+                                            destiny_crs = "4326",
+                                            is_geographic = True):
     """
     Reprojection, normalizing of fields using name of attributes in list and
     write to file. Function used for large size vectors.
@@ -50,6 +50,34 @@ def reproj_normalize_and_write_vector(feature_collection, feature_collection_sch
             for att in list_name_attributes:
                 feature['properties'][att] = normalize_name_classes(feature['properties'][att])
             dst.write(feature)
+
+def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
+                                                        list_name_attributes,
+                                                        layer_name,
+                                                        output_filename,
+                                                        destiny_crs="EPSG:4326",
+                                                        driver = 'ESRI Shapefile',
+                                                        is_geographic = True):
+    """
+    Reprojection, normalizing of fields using name of attributes in list and
+    write to file. Function used for small-medium size vectors.
+    Args:
+        geodataframe (GeoDataFrame): tablular data structure that contains a column called geometry which contains a GeoSeries.
+        list_name_attributes (list): attributes of type text that will be searched for to be normalized.
+        layer_name (str): name of layer that will be in output_filename.
+        output_filename (str): path of filename that will be written in filesystem.
+    """
+    #reproject
+    if not is_geographic:
+        gdf_reproj = geodataframe.to_crs(destiny_crs)
+    else:
+        gdf_reproj = geodataframe
+    #normalize
+    gdf_reproj[gdf_reproj.columns & list_name_attributes] = gdf_reproj[gdf_reproj.columns & list_name_attributes].apply(lambda s: s.apply(normalize_name_classes))
+    #write
+    gdf_reproj.to_file(output_filename,
+                       layer=layer_name,
+                       driver=driver)
             
 def reproj_and_write_one_band_raster(source_dataset, output_filename,
                                      destiny_crs = "EPSG:4326",
