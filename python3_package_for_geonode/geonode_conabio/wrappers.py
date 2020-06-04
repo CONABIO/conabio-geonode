@@ -6,7 +6,7 @@ from rasterio.crs import CRS as CRS_rio
 from rasterio.warp import transform_geom, \
                           calculate_default_transform, reproject, Resampling
 
-from utils_text import normalize_name_classes
+from geonode_conabio.utils_text import normalize_name_classes
 
 def print_wrapper():
     print("Hello from wrapper!")
