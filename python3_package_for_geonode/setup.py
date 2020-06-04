@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name="geonode_conabio",
       version="0.1",
@@ -7,6 +7,7 @@ setup(name="geonode_conabio",
       author="CONABIO",
       author_email="",
       license="GPLv3",
+      #packages=find_packages(),
       packages=['geonode_conabio'],
       install_requires = [],
       entry_points = {
