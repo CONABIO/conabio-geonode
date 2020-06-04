@@ -8,9 +8,6 @@ from rasterio.warp import transform_geom, \
 
 from geonode_conabio.utils_text import normalize_name_classes
 
-def print_wrapper():
-    print("Hello from wrapper!")
-    
 def reproj_normalize_and_write_large_vector(feature_collection, feature_collection_schema,
                                             list_name_attributes,
                                             layer_name,
