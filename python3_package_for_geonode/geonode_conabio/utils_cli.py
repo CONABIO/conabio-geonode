@@ -10,7 +10,7 @@ def create_table_via_shp2pgsql(filename,
         filename (str): path of filename that will be used to create table in geonode_data DB.
         name_table (str): name of table that will be created in geonode_data DB.
     Returns:
-        list: (int): first position number, 0 means executed cmd ok.
+        list: (int): first position number 0 means executed cmd ok.
               (str): second position with name of table.
               (out, err): third and fourth position as described in https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
     """
