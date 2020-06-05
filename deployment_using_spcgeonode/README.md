@@ -17,7 +17,7 @@
     * https://docs.geoserver.org/stable/en/user/rest/index.html#rest
     * https://docs.geoserver.org/stable/en/user/rest/layers.html
     * https://docs.geoserver.org/stable/en/user/rest/imagemosaic.html
-    * Use: curl -u <user of geoserver>:<password of geoserver> -X GET http://geonode.conabio.gob.mx/geoserver/rest/layers.json
+    * Use: curl -u "user of geoserver":"password of geoserver" -X GET http://geonode.conabio.gob.mx/geoserver/rest/layers.json
 
 
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
