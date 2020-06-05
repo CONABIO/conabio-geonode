@@ -1,4 +1,4 @@
-
+import os
 import argparse
 from argparse import RawTextHelpFormatter
 
@@ -11,18 +11,18 @@ from geonode_conabio.utils_docker import import_layers_via_docker
 def arguments_parse():
     help = """
     
-Wrapper for importlayers command of geonode. Meant to use for rasters. Will reproject to wgs84, compress and tile it. 
+Wrapper for importlayers command of geonode. Meant to use for rasters. Will reproject to wgs84, compress, tile it 
+and execute importlayers command within django container via docker-py to register it in both geoserver and geonode.
 
 --------------
 Example usage:
 --------------
 
 import_raster --base_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/estados/Aguascalientes/31
-              --input_filename Aguascalientes_2017_31.tif \
-              --output_filename Aguascalientes_2017_31_wgs84_tiled_rasterio.tif
+              --input_filename Aguascalientes_2017_31.tif
               --region "Aguascalientes, Mexico, North America, Latin America"
-              --name "MAD-Mex_sentinel2_Aguascalientes_2017_31_tiled"
-              --title "MAD-Mex_sentinel2_Aguascalientes_2017_31_tiled"
+              --name "MAD-Mex_sentinel2_Aguascalientes_2017_31"
+              --title "MAD-Mex_sentinel2_Aguascalientes_2017_31"
               --abstract "Sentinel2 MAD-Mex land cover classification"
               --key_words "MAD-Mex, Sentinel2, GeoTIFF, WCS"
 
@@ -35,10 +35,6 @@ import_raster --base_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/
                         default=None,
                         help="Help of test argparse fun") 
     parser.add_argument("--input_filename",
-                        required=True,
-                        default=None,
-                        help="Help of test argparse fun")
-    parser.add_argument("--output_filename",
                         required=True,
                         default=None,
                         help="Help of test argparse fun")
@@ -69,13 +65,14 @@ def main():
     args = arguments_parse()
     direc = args.base_directory
     input_filename = args.input_filename
-    output_filename = args.output_filename
     region = ''.join(["\"", args.region, "\""])
     name = ''.join(["\"", args.name, "\""])
     title = ''.join(["\"", args.title, "\""])
     abstract = ''.join(["\"", args.abstract, "\""])
     kw = ''.join(["\"", args.key_words, "\""])
     
+    output_filename = input_filename.split('.')[0]
+    output_filename+= '_wgs84_tiled_rasterio.tif'
     input_filename = ''.join([direc, '/', input_filename])
     output_filename = ''.join([direc, '/', output_filename])
     
@@ -93,4 +90,7 @@ def main():
                                              output_filename
                                              )
     print(result_import)
+    
+    
+    os.remove(output_filename)
     
