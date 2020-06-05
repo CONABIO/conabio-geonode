@@ -13,6 +13,7 @@ setup(name="geonode_conabio",
       entry_points = {
           'console_scripts': [
                              'import_raster=geonode_conabio.import_raster:main',
+			     'import_small_medium_size_vector=geonode_conabio.import_small_medium_size_vector:main',
                              ]
                       }
       )
