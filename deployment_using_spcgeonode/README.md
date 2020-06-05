@@ -11,12 +11,13 @@
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
-- Make a python module to normalize shapefiles attributes and register them in geonode. See 
+- Make a python module to normalize shapefiles attributes and register them in geonode. What is missing is for large size vectors add from postgresql to geoserver. See [1_normalizing_and_reprojecting](https://github.com/CONABIO/geonode/blob/issue-3/notebooks/towards_module_python_to_ingest_programmatically_into_geonode/1_normalizing_and_reprojecting.ipynb). Maybe for this I will need to use API of geoserver:
 
-    * https://geopython.github.io/geopython-workshop/
-    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/Dockerfile
-    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/requirements.txt
-    * https://github.com/palmoreck/dockerfiles/tree/master/jupyterlab/geopython
+    * https://docs.geoserver.org/latest/en/api/#1.0.0/layers.yaml
+    * https://docs.geoserver.org/stable/en/user/rest/index.html#rest
+    * https://docs.geoserver.org/stable/en/user/rest/layers.html
+    * https://docs.geoserver.org/stable/en/user/rest/imagemosaic.html
+    * Use: curl -u <user of geoserver>:<password of geoserver> -X GET http://geonode.conabio.gob.mx/geoserver/rest/layers.json
 
 
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
