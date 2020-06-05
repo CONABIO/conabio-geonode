@@ -26,6 +26,10 @@
 
 * [raster-data-optimization-optimizing-and-serving-big-raster-data](https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data)
 
+* [raster_data/processing](https://geoserver.geo-solutions.it/edu/en/raster_data/processing.html)
+
+* [advanced_gdal/example1](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example1.html)
+
 * [advanced_gdal/example5](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example5.html)
 
 * [geonode developers workshop](https://geonode.org/dev-workshop/#/)
