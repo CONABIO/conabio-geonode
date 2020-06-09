@@ -1,5 +1,27 @@
 from docker import APIClient
 
+def publish_featuretype_via_docker(native_name, user, passwd, epsg_code="EPSG:4326"):
+    
+    c = APIClient(base_url='unix://var/run/docker.sock')
+    
+    string = "from geoserver.catalog import Catalog;"
+    string2 = "cat = Catalog('http://geonode.conabio.gob.mx' + '/geoserver/rest', \'"
+    string3 = "store = cat.get_stores(names=['geonode_data'], workspaces=['geonode']);"
+    string4 = "cat.publish_featuretype(native_name, store[0], epsg_code, native_name=native_name)"
+    string = "".join([string, string2, 
+                      user, "\', ", "\'", passwd, "\');",
+                      string3,
+                      "native_name = \'", native_name, "\';", 
+                      "epsg_code = \'", epsg_code, "\';", 
+                      string4])
+    cmd = "".join(["python -c ", "\"", string, "\""])
+    ex = c.exec_create(container = 'spcgeonode_django_1', 
+                       cmd = cmd)
+    ex_start = c.exec_start(exec_id=ex)
+    return ex_start
+    
+    
+
 def update_layers_via_docker(layer_name):
     """
     Wrapper for updatelayers command of geonode using docker-py functionality.
