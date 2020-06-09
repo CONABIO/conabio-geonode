@@ -10,7 +10,7 @@ from fiona.crs import to_string
 from geonode_conabio.wrappers import reproj_normalize_and_write_large_vector
 
 from geonode_conabio.utils_cli import create_table_via_shp2pgsql
-from geonode_conabio.utils_docker import update_layers_via_docker
+from geonode_conabio.utils_docker import update_layers_via_docker, publish_featuretype_via_docker
 
 def arguments_parse():
     help = """
@@ -82,7 +82,7 @@ def main():
     kw = ''.join(["\"", args.key_words, "\""])
 
     output_filename = input_filename.split('.')[0]
-    output_filename += '_wgs84_fiona.shp'
+    output_filename += '_wgs84_fiona2.shp'
     
     layer = output_filename.split('.')[0]
     input_filename = ''.join([direc, '/', input_filename])
@@ -116,9 +116,13 @@ def main():
     
     print((result_create_table, out, err))
     
-    #result_update = update_layers_via_docker(name_table)
+    result_publish = publish_featuretype_via_docker(name_table, "miuser", "mipassword")
     
-    #print(result_update)
+    print(result_publish)
+    
+    result_update = update_layers_via_docker(name_table)
+    
+    print(result_update)
     
     basename_output_filename = output_filename.split('.')[0]
     
