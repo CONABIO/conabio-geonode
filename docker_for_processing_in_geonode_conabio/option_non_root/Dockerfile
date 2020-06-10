@@ -1,13 +1,13 @@
 FROM ubuntu:bionic
 
 ENV TIMEZONE America/Mexico_City
-ENV JUPYTERLAB_VERSION 1.1.0
+ENV JUPYTERLAB_VERSION 2.1.4
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEB_BUILD_DEPS="sudo nano less git python3-dev python3-pip python3-setuptools nodejs curl wget"
 ENV DEB_PACKAGES="python3-gdal postgis postgresql-10-postgis-scripts"
-ENV PIP_PACKAGES="numpy pandas geopandas rasterio fiona docker"
+ENV PIP_PACKAGES="numpy pandas geopandas rasterio fiona docker python-dotenv"
 
 RUN apt-get update && export $DEBIAN_FRONTEND && \
     echo $TIMEZONE > /etc/timezone && apt-get install -y tzdata
