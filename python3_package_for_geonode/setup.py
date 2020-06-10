@@ -9,7 +9,15 @@ setup(name="geonode_conabio",
       license="GPLv3",
       #packages=find_packages(),
       packages=['geonode_conabio'],
-      install_requires = [],
+      install_requires = [
+			 'python-dotenv',
+			 'docker',
+			 'numpy',
+			 'pandas',
+			 'geopandas',
+			 'rasterio',
+			 'fiona'
+			 ],
       entry_points = {
           'console_scripts': [
                              'import_raster=geonode_conabio.import_raster:main',
