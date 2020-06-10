@@ -14,7 +14,7 @@ setup(name="geonode_conabio",
           'console_scripts': [
                              'import_raster=geonode_conabio.import_raster:main',
 			     'import_small_medium_size_vector=geonode_conabio.import_small_medium_size_vector:main',
-			     'import_large_size_vector=geonode_conabio.import_large_size_vector:main',
+			     'import_large_size_vector=geonode_conabio.import_large_size_vector:main'
                              ]
                       }
       )
