@@ -1,5 +1,7 @@
 import subprocess
 
+from geonode_conabio.settings import HOST_NAME, PASSWORD_DB_GEONODE_DATA
+
 def create_table_via_shp2pgsql(filename,
                                name_table):
     """
@@ -21,13 +23,15 @@ def create_table_via_shp2pgsql(filename,
     cmd2 = ["psql",
             "-q",
             "-h",
-            "geonode.conabio.gob.mx",
+ 	    HOST_NAME,
             "-d",
             "geonode_data",
             "-U", 
-            "geonode"]
+            "geonode",
+	    ]
     p1 = subprocess.Popen(cmd1, stdout=subprocess.PIPE)
-    p2 = subprocess.Popen(cmd2, stdin=p1.stdout, stderr=subprocess.PIPE)
+    p2 = subprocess.Popen(cmd2, stdin=p1.stdout, stderr=subprocess.PIPE,
+			  env={"PGPASSWORD": PASSWORD_DB_GEONODE_DATA})
     out, err = p2.communicate()
     result = p2.poll()
     p1.terminate()
