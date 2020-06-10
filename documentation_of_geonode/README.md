@@ -24,6 +24,10 @@
 
 * [CRS handling](https://docs.geonode.org/en/2.8/tutorials/advanced/geonode_production/adv_gsconfig/crs_handling.html). For Mexico, INEGI's lcc official proj: [mexico-inegi-lambert-conformal-conic](https://spatialreference.org/ref/sr-org/mexico-inegi-lambert-conformal-conic/html/)
 
+* [enterprise/raster](https://geoserver.geo-solutions.it/edu/en/enterprise/raster.html)
+
+* [advanced_gdal](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/index.html)
+
 * [raster-data-optimization-optimizing-and-serving-big-raster-data](https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data)
 
 * [raster_data/processing](https://geoserver.geo-solutions.it/edu/en/raster_data/processing.html)
