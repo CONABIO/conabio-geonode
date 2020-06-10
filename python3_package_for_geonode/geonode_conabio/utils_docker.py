@@ -1,15 +1,20 @@
 from docker import APIClient
 
-def publish_featuretype_via_docker(native_name, user, passwd, epsg_code="EPSG:4326"):
+from geonode_conabio.settings import HOST_NAME, USER_GEOSERVER, PASSWORD_GEOSERVER
+
+def publish_featuretype_via_docker(native_name, epsg_code="EPSG:4326"):
     
     c = APIClient(base_url='unix://var/run/docker.sock')
     
     string = "from geoserver.catalog import Catalog;"
-    string2 = "cat = Catalog('http://geonode.conabio.gob.mx' + '/geoserver/rest', \'"
+    string2 = "cat = Catalog("
+    HOST_GEOSERVER = 'http://' + HOST_NAME + '/geoserver/rest'
     string3 = "store = cat.get_stores(names=['geonode_data'], workspaces=['geonode']);"
     string4 = "cat.publish_featuretype(native_name, store[0], epsg_code, native_name=native_name)"
-    string = "".join([string, string2, 
-                      user, "\', ", "\'", passwd, "\');",
+
+    string = "".join([string, string2, "\'",
+                      HOST_GEOSERVER, "\',\'",
+                      USER_GEOSERVER, "\', ", "\'", PASSWORD_GEOSERVER, "\');",
                       string3,
                       "native_name = \'", native_name, "\';", 
                       "epsg_code = \'", epsg_code, "\';", 
