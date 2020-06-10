@@ -82,7 +82,7 @@ def main():
     kw = ''.join(["\"", args.key_words, "\""])
 
     output_filename = input_filename.split('.')[0]
-    output_filename += '_wgs84_fiona2.shp'
+    output_filename += '_wgs84_fiona6.shp'
     
     layer = output_filename.split('.')[0]
     input_filename = ''.join([direc, '/', input_filename])
@@ -116,7 +116,7 @@ def main():
     
     print((result_create_table, out, err))
     
-    result_publish = publish_featuretype_via_docker(name_table, "miuser", "mipassword")
+    result_publish = publish_featuretype_via_docker(name_table)
     
     print(result_publish)
     
