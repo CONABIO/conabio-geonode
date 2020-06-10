@@ -1,7 +1,7 @@
 Set: 
 
 ```
-JUPYTERLAB_VERSION=1.1.0
+JUPYTERLAB_VERSION=2.1.4
 REPO_URL=palmoreck/jupyterlab_geopython_for_conabio_cluster
 BUILD_DIR=<path where Dockerfile is>
 ```
