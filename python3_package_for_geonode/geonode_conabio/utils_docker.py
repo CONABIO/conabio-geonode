@@ -3,6 +3,15 @@ from docker import APIClient
 from geonode_conabio.settings import HOST_NAME, USER_GEOSERVER, PASSWORD_GEOSERVER
 
 def publish_featuretype_via_docker(native_name, epsg_code="EPSG:4326"):
+    """
+    Function that publishes already registered vector file in postgresql database called geonode_data
+    in geoserver. This will stablish SRS as EPSG 4326 and compute from data and native bounds (bounding box).
+    See: https://docs.geoserver.org/latest/en/user/gettingstarted/shapefile-quickstart/index.html
+    Args:
+        native_name (str): name of table in geonode_data database.
+    Return:
+        ex_start (str): output of geonode spcgeonode_django_1 docker container. If success string is empty.
+    """
     
     c = APIClient(base_url='unix://var/run/docker.sock')
     
