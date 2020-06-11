@@ -82,7 +82,7 @@ def main():
     kw = ''.join(["\"", args.key_words, "\""])
 
     output_filename = input_filename.split('.')[0]
-    output_filename += '_wgs84_fiona6.shp'
+    output_filename += '_wgs84_fiona.shp'
     
     layer = output_filename.split('.')[0]
     input_filename = ''.join([direc, '/', input_filename])
