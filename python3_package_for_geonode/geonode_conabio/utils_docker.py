@@ -6,6 +6,7 @@ def publish_featuretype_via_docker(native_name, epsg_code="EPSG:4326"):
     """
     Function that publishes already registered vector file in postgresql database called geonode_data
     in geoserver. This will stablish SRS as EPSG 4326 and compute from data and native bounds (bounding box).
+    Uses gsconfig package to programatically publish vector file.
     See: https://docs.geoserver.org/latest/en/user/gettingstarted/shapefile-quickstart/index.html
     Args:
         native_name (str): name of table in geonode_data database.
@@ -31,7 +32,7 @@ def publish_featuretype_via_docker(native_name, epsg_code="EPSG:4326"):
     cmd = "".join(["python -c ", "\"", string, "\""])
     ex = c.exec_create(container = 'spcgeonode_django_1', 
                        cmd = cmd)
-    ex_start = c.exec_start(exec_id=ex)
+    ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
     return ex_start
     
     
