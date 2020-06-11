@@ -43,7 +43,7 @@ ADMIN_EMAIL=admin@geonodeservices.conabio.gob.mx
 
 **Mount `/LUSTRE/MADMEX`:**
 
-Using `docker.compose.yml` inside `geonode/scripts/spcgeonode` dir modify where `image: geonode/spcgeonode:django-3.0` is:
+Using `docker-compose.yml` inside `geonode/scripts/spcgeonode` dir modify where `image: geonode/spcgeonode:django-3.0` is:
 
 ```
 ...volumes:
