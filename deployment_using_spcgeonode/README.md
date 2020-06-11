@@ -11,7 +11,12 @@
 
 - How to include madmex land cover maps as "Base Maps" in geonode?
 
-- Make a python module to register maps into geonode.
+- Insert layers of TNC, create users for Mariana, Pedro. Change permissions for those who wants to download large size vectors (will not be allowed for everyone)
+
+- Test python module to register maps into geonode.
+
+
+
 
 
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
