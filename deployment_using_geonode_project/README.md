@@ -5,3 +5,5 @@ Also see:
 https://github.com/GeoNode/geonode-project
 
 https://geonode.org/geonode-workshop/foss4g2017/#/7/4
+
+https://docs.geonode.org/en/master/install/basic/index.html

@@ -1,5 +1,11 @@
 * [geonode](https://github.com/GeoNode/geonode)
 
+* [geonode basic installation](https://docs.geonode.org/en/master/install/basic/index.html)
+
+* [most important limits for deploying GeoNode to production: GeoNode Limits](https://docs.google.com/document/d/1L4wRTKq7uUkmrRTWPutaTcQU4VqLpYSOpe70fxaDp9A/edit)
+
+* [checklist for running GeoNode in production: GeoNode production checklist](https://docs.google.com/document/d/1b5CakOu6lzNdvAlArvimzIWxsKacXBKCL5ixV_29lko/edit)
+
 * [gitter](https://gitter.im/GeoNode/)
 
 * [issue that addresses kubernetes deployment](https://github.com/GeoNode/geonode/issues/3924)
@@ -18,7 +24,15 @@
 
 * [CRS handling](https://docs.geonode.org/en/2.8/tutorials/advanced/geonode_production/adv_gsconfig/crs_handling.html). For Mexico, INEGI's lcc official proj: [mexico-inegi-lambert-conformal-conic](https://spatialreference.org/ref/sr-org/mexico-inegi-lambert-conformal-conic/html/)
 
+* [enterprise/raster](https://geoserver.geo-solutions.it/edu/en/enterprise/raster.html)
+
+* [advanced_gdal](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/index.html)
+
 * [raster-data-optimization-optimizing-and-serving-big-raster-data](https://docs.geonode.org/en/master/admin/mgmt_commands/#raster-data-optimization-optimizing-and-serving-big-raster-data)
+
+* [raster_data/processing](https://geoserver.geo-solutions.it/edu/en/raster_data/processing.html)
+
+* [advanced_gdal/example1](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example1.html)
 
 * [advanced_gdal/example5](https://geoserver.geo-solutions.it/edu/en/raster_data/advanced_gdal/example5.html)
 

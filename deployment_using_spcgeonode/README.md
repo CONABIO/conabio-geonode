@@ -1,5 +1,19 @@
 # conabio-geonode spc
 
+
+# Next work:
+
+- Use proj of lcc2 INEGI and geopackage. 
+
+    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
+    
+    * Also for geopackage see [excel](https://conabio.sharepoint.com/:x:/s/madmex/Eb0q67LLjOZIsheL53ZOfq8BJkT6gCs2OtEMfL6oAq1-Kg?e=dMrAHH)
+
+- How to include madmex land cover maps as "Base Maps" in geonode?
+
+- Make a python module to register maps into geonode.
+
+
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
 
 
@@ -319,28 +333,6 @@ https://training.geonode.geo-solutions.it/004_admin_workshop/007_loading_data_in
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py updatelayers -s geonode_data -w geonode -f madmex_sentinel2_chihuahua_2017_2018_lcc
 ```
 
-- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
-
-
-Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
-
-I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
-
-
-- **Update links of metadata:**
-
-If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
-
-```
-#for specific layer:
-DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
-
-#for all layers:
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
-
-```
-
-
 
 - **Check:**
 
@@ -366,12 +358,34 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n Chihuahua_landsat_2017_31_tiled -t Chihuahua_landsat_2017_31_tiled -a "LANDSAT MAD-Mex lc" -k "MAD-Mex, LANDSAT, GeoTIFF, WCS" -r "Chihuahua, Mexico, North America, Latin America" Chihuahua_landsat_2017_31_wgs84_tiled.tif
 
 
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n sentinel2_Hidalgo_2017_31_tiled -t sentinel2_Hidalgo_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Hidalgo, Mexico, North America, Latin America" sentinel2_Hidalgo_2017_31_wgs84_tiled.tif
-
-
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_2017_31_tiled -t madmex_sentinel2_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Mexico, North America, Latin America" madmex_sentinel2_2017_31_wgs84_tiled.tif
 
 ```
+
+### For either Raster or Vector
+
+- **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
+
+
+Next wasnt working (was an idea for not having to click on button of refresh attributes and statistics)
+
+I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
+
+
+- **Update links of metadata:**
+
+If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
+
+```
+#for specific layer:
+DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
+
+#for all layers:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
+
+```
+
+
 
 
 ### Style for Rasters
@@ -434,7 +448,9 @@ send_timeout 1000s;
 Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation-or-a-script-that-takes-more-than-60-seconds-to-complete-fails-on-a-website-hosted-in-Plesk-nginx-504-Gateway-Time-out
 
 
-## Examples: Hidalgo/Aguascalientes
+## Examples: 
+
+### Vectors: Hidalgo/Aguascalientes
 
 
 - **Importlayers**
@@ -442,11 +458,11 @@ Reference: https://support.plesk.com/hc/en-us/articles/115000170354-An-operation
 **Inside `spcgeonode_django_1` container:**
 
 ```
-sudo docker exec -it spcgeonode_django_1 sh
+sudo docker exec -it spcgeonode_django_1 /bin/bash
 ```
 
 
-**For accents use: -C "Latin 1" in importlayers cmd"**
+**For accents use: -C "Latin 1" in importlayers cmd (THIS "Latin 1" IS NOT WORKING)**
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n madmex_sentinel2_aguascalientes_2017_2018_lcc -t madmex_sentinel2_aguascalientes_2017_2018_lcc -a "Sentinel2 MAD-Mex lcc" -k "MAD-Mex, sentinel2, features, Aguascalientes" -r "Mexico, North America, Latin America" AGUASCALIENTES_merge_wgs84.shp
@@ -456,6 +472,21 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 ```
 
+### Rasters: Hidalgo
+
+**Inside `spcgeonode_django_1` container:**
+
+```
+sudo docker exec -it spcgeonode_django_1 /bin/bash
+```
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -n sentinel2_Hidalgo_2017_31_tiled -t sentinel2_Hidalgo_2017_31_tiled -a "Sentinel2 MAD-Mex lc" -k "MAD-Mex, Sentinel2, GeoTIFF, WCS" -r "Hidalgo, Mexico, North America, Latin America" sentinel2_Hidalgo_2017_31_wgs84_tiled.tif
+
+```
+
+### For either Raster or Vector
+
 - **Make sure you are able to download it and see thumbnail. If not click to button refresh attributes and statistics for the layer in geonode. For thumbnail increase nginx conf `proxy_read_timeout` parameter.**
 
 
@@ -464,46 +495,26 @@ Next wasnt working (was an idea for not having to click on button of refresh att
 I was using `DJANGO_SETTINGS_MODULE=geonode.settings python manage.py sync_geonode_layers` with `--updatethumbnails` and `--updateattributes` but it wasn't working ... instead use button to refresh attributes and statistics
 
 
-# Note
+- **Update links of metadata:**
 
-
-**Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created under `_volume_static` dir to `/var/www/html/web/geonode/geonode_static`. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
-
-
+If pressing button refresh attributes and statistics for the layer in geonode didn't update links inside geoserver regarding metadata use next command:
 
 ```
-location /static {
-    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_static/; #<- with this line or the site where the static dir is 
-    #alias /spcgeonode-static; # your Django project's static files - amend as required
-    include  /etc/nginx/mime.types;
-    expires 365d;
-}
+#for specific layer:
+DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
+
+#for all layers:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
+
 ```
 
 
-Then:
 
-```
-nginx -s reload
-```
+### Style for Rasters
 
-Also to see thumbnails repeat same procedure described before but with dir `_volume_media/thumbs` that is, copy `thumbs` dir to `/var/www/html/web/geonode/geonode_media/` and change file `spcgeonode.conf` in location `media` with:
+See [styles](../styles) and modify style used directly in geoserver.
 
-```
-# Django media
-location /uploaded  {
-    #alias /spcgeonode-media;  # your Django project's media files - amend as required
-    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_media/;
-    include  /etc/nginx/mime.types;
-    expires 365d;
-}
-```
 
-Then:
-
-```
-nginx -s reload
-```
 
 # Download via python request
 
@@ -587,26 +598,97 @@ Final permissions info for the resource chihuahua_merge_wgs84:
 {'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
 Permissions successfully updated!
 ```
+# Notes
+
+## 1
+
+**Nodes at conabio have an intermediate security layer that makes no possibly to read `css` files for `nginx` container when an user access it. This causes that web page can't see correctly. A patch is to make a deployment for `spc geonode` stack of containers (in other server that can visualize correctly geonode web page) and make a copy of the `static` files created under `_volume_static` dir to `/var/www/html/web/geonode/geonode_static`. Then modify inside `nginx` container `sudo docker exec -it spcgeonode_nginx_1 sh` that runs inside the node at conabio and change file `spcgeonode.conf` in location `static` with:**
 
 
-# Next work:
 
-- Use proj of lcc2 INEGI and geopackage. 
+```
+location /static {
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_static/; #<- with this line or the site where the static dir is 
+    #alias /spcgeonode-static; # your Django project's static files - amend as required
+    include  /etc/nginx/mime.types;
+    expires 365d;
+}
+```
 
-    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
 
-- How to include madmex land cover maps as "Base Maps" in geonode?
+Then:
 
-- Make a python module to normalize shapefiles attributes and register them in geonode. See 
+```
+nginx -s reload
+```
 
-    * https://geopython.github.io/geopython-workshop/
-    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/Dockerfile
-    * https://github.com/geopython/geopython-workshop/blob/master/workshop/jupyter/requirements.txt
-    * https://github.com/palmoreck/dockerfiles/tree/master/jupyterlab/geopython
+Also to see thumbnails repeat same procedure described before but with dir `_volume_media/thumbs` that is, copy `thumbs` dir to `/var/www/html/web/geonode/geonode_media/` and change file `spcgeonode.conf` in location `media` with:
 
-- Add screenshots to change `example.com` to `geonode.conabio.gob.mx`
+```
+# Django media
+location /uploaded  {
+    #alias /spcgeonode-media;  # your Django project's media files - amend as required
+    proxy_pass https://monitoreo.conabio.gob.mx/geonode/geonode_media/;
+    include  /etc/nginx/mime.types;
+    expires 365d;
+}
+```
 
-- Add to docu how to mount `/LUSTRE/MADMEX` in `geonode.conabio.gob.mx`
+Then:
+
+```
+nginx -s reload
+```
+
+## 2
+
+To mount `/LUSTRE/MADMEX` in a machine different of a node of the cluster:
+
+**First option: via sshfs**
+
+0. Install `sshfs`
+
+```
+sudo apt-get install sshfs
+```
+
+1. Interchange keys
+
+2. Use:
+
+```
+sudo sshfs -o allow_other,default_permissions,IdentityFile=/home/epalacios/.ssh/id_rsa madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX
+
+#not sure if next was executed...
+
+sshfs madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX -o rw,nosuid,nodev,identityfile=/home/epalacios/.ssh/id_rsa,uid=1027,gid=1099,default_permissions,allow_other
+```
+
+Or in `/etc/fstab` add next line:
+
+```
+madmex_admin@nodo7.conabio.gob.mx:/LUSTRE/MADMEX /LUSTRE/MADMEX  fuse.sshfs rw,nosuid,nodev,identityfile=/home/epalacios/.ssh/id_rsa,uid=1027,gid=1099,default_permissions,allow_other 0 0
+```
+
+
+**Second option: via samba**
+
+```
+sudo apt-get install cifs-utils
+```
+
+Change `/etc/fstab` with a line:
+
+```
+\\master.conabio.gob.mx\MADMEX   /LUSTRE/MADMEX    cifs   username=madmex_admin,password=madmex_admin...,uid=epalacios,gid=epalacios,file_mode=0664,dir_mode=0775,rw,noperm,iocharset=utf8  0	0
+```
+
+Then:
+
+```
+mount -a
+```
+
 
 # Useful notes
 
