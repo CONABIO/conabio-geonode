@@ -80,3 +80,14 @@ Permissions successfully updated!
 or:
 
 https://docs.geonode.org/en/master/basic/permissions/
+
+
+or modify `geonode/settings.py`
+
+```
+ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
+
+RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
+```
+
+When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See
