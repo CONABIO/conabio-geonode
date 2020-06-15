@@ -90,4 +90,4 @@ ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS
 RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
 ```
 
-When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See
+When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See [django_approve_and_publish_layer](https://github.com/CONABIO/geonode/blob/issues-6-8/deployment_in_geonode_conabio/django_approve_and_publish_layer.png)
