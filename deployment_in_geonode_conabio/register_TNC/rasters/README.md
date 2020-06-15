@@ -36,6 +36,7 @@ echo $2
 
 Command lines to register:
 
+```
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2015_20200220_auxlabel_madmexplus_CHP.tif
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2016_20200220_auxlabel_madmexplus_CAM.tif
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2016_20200220_auxlabel_madmexplus_QRO.tif
@@ -44,4 +45,4 @@ bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/lan
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_CHP.tif
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_QRO.tif
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_YUC.tif
-
+```
