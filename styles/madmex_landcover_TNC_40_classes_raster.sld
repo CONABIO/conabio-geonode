@@ -5,7 +5,7 @@
       <sld:FeatureTypeConstraint/>
     </sld:LayerFeatureConstraints>
     <sld:UserStyle>
-      <sld:Name>madmex_landcover_TNC_48_raster</sld:Name>
+      <sld:Name>madmex_landcover_TNC_40_classes_raster</sld:Name>
       <sld:FeatureTypeStyle>
         <sld:Rule>
           <sld:RasterSymbolizer>
