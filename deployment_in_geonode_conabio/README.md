@@ -11,7 +11,7 @@ Downloaded:
 
 `/LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/eoss_tnc_lclcc_chiapas_yucatan_report_20200320.pdf`
 
-Register:
+Example of gegister:
 
 `/LUSTRE/MADMEX/tnc_data_steffen_thilo/eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_CHP.tif`
 
@@ -22,8 +22,13 @@ with sld:
 ```
 .local/bin/import_raster --base_directory /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ --input_filename eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_CHP.tif --region "Chiapas, Mexico, North America, Latin America" --name "MAD-Mex_TNC_landsat8_Chiapas_lc_2019_48" --title "Land cover map for the state of Chiapas TNC 2019" --abstract "Land cover and land cover change mapping is sourced by Landsat 8 satellite images. All available images for the required calendar years were acquired through the ESPA processing system and were provided as atmospherically corrected surface reflectance and are accompanied by quality layers assigning, amongst others, pixels obscured by clouds and cloud shadows. For the 7 granules (path/rows) covering Chiapas, 155 Landsat-8 scenes of 2015 were acquired. Land cover and land cover change is generated using a novel semi automated workflow based on time series processing and optimized training data generation. The workflow consists of the following procedures, including data acquisition, time series generation and processing, spectral clustering, training data generation and optimization, supervised object-based classifications, and geometry harmonization. Temporal metrics are used to extract land cover change. Labels for the changes are extracted for t0 from the reference map. Labels for t1 are classified using the same land cover workflow." --key_words "MAD-Mex, Landsat8, GeoTIFF, WCS"
 
+```
 
 
+Example of register vectorfile (without sld):
+
+
+```
 .local/bin/import_small_medium_size_vector --base_directory /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ --input_filename eoss4tnc_landcoverchanges_landsat8_2015-2019_20200313_madmexplus_CHP.shp --list_attributes "class, class_t0, ipccdsc, ipccdsc_t0" --region "Chiapas, Mexico, North America, Latin America" --name "MAD-Mex_TNC_landsat8_Chiapas_lcc_2019_48" --title "Land cover change map for the state of Chiapas TNC 2019" --abstract "Land cover and land cover change mapping is sourced by Landsat 8 satellite images. All available images for the required calendar years were acquired through the ESPA processing system and were provided as atmospherically corrected surface reflectance and are accompanied by quality layers assigning, amongst others, pixels obscured by clouds and cloud shadows. For the 7 granules (path/rows) covering Chiapas, 155 Landsat-8 scenes of 2015 were acquired. Land cover and land cover change is generated using a novel semi automated workflow based on time series processing and optimized training data generation. The workflow consists of the following procedures, including data acquisition, time series generation and processing, spectral clustering, training data generation and optimization, supervised object-based classifications, and geometry harmonization. Temporal metrics are used to extract land cover change. Labels for the changes are extracted for t0 from the reference map. Labels for t1 are classified using the same land cover workflow." --key_words "MAD-Mex, Landsat8, GeoTIFF, WCS"
 
 ```
