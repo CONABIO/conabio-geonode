@@ -11,7 +11,7 @@ Downloaded:
 
 `/LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/eoss_tnc_lclcc_chiapas_yucatan_report_20200320.pdf`
 
-Example of gegister:
+Example of register:
 
 `/LUSTRE/MADMEX/tnc_data_steffen_thilo/eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_CHP.tif`
 
