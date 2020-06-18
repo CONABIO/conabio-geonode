@@ -17,5 +17,5 @@ echo $state
 echo $1
 echo $2
 
-.local/bin/import_small_medium_size_vector --base_directory $1 --input_filename $2 --list_attributes "class, class_t0, ipccdsc, ipccdsc_t0" --region "$region" --name "$name" --title "$title" --abstract "$abstract" --key_words "$kw"
+/home/geonode_user/.local/bin/import_small_medium_size_vector --base_directory $1 --input_filename $2 --list_attributes "class, class_t0, ipccdsc, ipccdsc_t0" --region "$region" --name "$name" --title "$title" --abstract "$abstract" --key_words "$kw"
 
