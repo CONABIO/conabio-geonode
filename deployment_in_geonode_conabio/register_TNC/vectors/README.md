@@ -29,7 +29,7 @@ echo $state
 echo $1
 echo $2
 
-.local/bin/import_small_medium_size_vector --base_directory $1 --input_filename $2 --list_attributes "class, class_t0, ipccdsc, ipccdsc_t0" --region "$region" --name "$name" --title "$title" --abstract "$abstract" --key_words "$kw"
+/home/geonode_user/.local/bin/import_small_medium_size_vector --base_directory $1 --input_filename $2 --list_attributes "class, class_t0, ipccdsc, ipccdsc_t0" --region "$region" --name "$name" --title "$title" --abstract "$abstract" --key_words "$kw"
 
 ```
 
@@ -37,4 +37,7 @@ Command lines to register:
 
 ```
 bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2015-2019_20200313_madmexplus_CHP.shp
+bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2016-2019_20200313_madmexplus_CAM.shp
+bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2016-2019_20200313_madmexplus_QRO.shp
+bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2016-2019_20200313_madmexplus_YUC.shp
 ```
