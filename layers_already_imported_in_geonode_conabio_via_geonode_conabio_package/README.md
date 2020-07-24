@@ -1,4 +1,4 @@
-**Next examples were registered via [geonode_conabio](../ptyhon3_package_for_geonode/) package**
+**Next examples were registered via [geonode_conabio](../python3_package_for_geonode/) package**
 
 # MAD-Mex layers for TNC project
 
