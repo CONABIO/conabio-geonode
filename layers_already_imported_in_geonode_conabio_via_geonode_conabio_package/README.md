@@ -9,11 +9,11 @@ Some documentation that helped:
 `/LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/eoss_tnc_lclcc_chiapas_yucatan_report_20200320.pdf`
 
 
+See [register_TNC](register_TNC) for instructions of registration of layers for TNC project.
 
 
 
-
-* MAD-Mex
+# MAD-Mex layers land cover and land cover change
 
 Maps of 2017, 2018 LANDSAT and Sentinel2
     
