@@ -16,6 +16,11 @@
 
 * [Official docu for ubuntu 18.04 installation](https://docs.geonode.org/en/master/install/core/index.html)
 
+* [geosolutions youtube](https://www.youtube.com/channel/UCULCirrWB6IZE28yulz0E2Q)
+
+* [mapstore2](https://github.com/geosolutions-it/MapStore2)
+
+
 * Version of geonode is 3.0 and supports Python3 and Django 2. See [geonode-vision](https://github.com/GeoNode/geonode-vision/blob/master/geonode-vision.md)
 
 * [Geonode management commands](https://docs.geonode.org/en/master/admin/mgmt_commands/index.html)
