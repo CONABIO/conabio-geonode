@@ -288,7 +288,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_me
 
 4) **Update styles of layers**
 
-See [styles](../styles) and modify style used directly in geoserver. Once modified or registered the style inside geoserver click **refresh attributes and statistics** for the layer in geonode.
+See [styles](../styles) and modify style directly in geoserver. Once modified or registered the style inside geoserver click **refresh attributes and statistics** for the layer in geonode. If persists not showing the right thumbnail for the changed style wait some minutes or increase `proxy_read_timeout` parameter in `nginx.conf`.
 
 
 
