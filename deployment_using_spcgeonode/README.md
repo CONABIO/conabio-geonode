@@ -145,7 +145,7 @@ Then:
 nginx -s reload
 ```
 
-7) **Restrict all registered users to upload/publish layers:**
+7) **Restrict all registered users to upload/publish layers immediately:**
 
 Enter to docker container `spcgeonode_django_1`:
 
@@ -153,7 +153,7 @@ Enter to docker container `spcgeonode_django_1`:
 docker exec -it spcgeonode_django_1 /bin/bash
 ```
 
-and modify `geonode/settings.py` so any already registered user can't publish layers:
+and modify `geonode/settings.py` so any already registered user can't publish layers immediately:
 
 ```
 ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
@@ -161,7 +161,7 @@ ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS
 RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
 ```
 
-When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
+When persons are registered as users of geonode, they can upload and edit metadata and layers but will not be published immediately. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
 
 
 
@@ -362,7 +362,7 @@ https://docs.geonode.org/en/master/basic/permissions/
 docker exec -it spcgeonode_django_1 /bin/bash
 ```
 
-modify `geonode/settings.py` so any already registered user can't publish layers:
+modify `geonode/settings.py` so any already registered user can't publish layers immediately:
 
 ```
 ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
@@ -370,7 +370,7 @@ ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS
 RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
 ```
 
-When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
+When persons are registered as users of geonode, they can upload and edit metadata and layers but will not be published immediately. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
 
 
 
