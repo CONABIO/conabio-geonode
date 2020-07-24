@@ -16,7 +16,7 @@ For the registration, import and upload of layers:
 
 * Via UI of geonode go to: [instructions_using_UI_of_geonode](instructions_using_UI_of_geonode/)
 
-* Via package `geonode_conabi` go to:
+* Via package `geonode_conabio` go to:
 
     * [geonode_conabio](python3_package_for_geonode/) directory.
     
