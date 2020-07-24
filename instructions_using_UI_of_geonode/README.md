@@ -8,7 +8,7 @@ To upload layers via UI of geonode, make sure they are **less than 100 MB and in
 
 **Notes:** 
 
-* Once you have uploaded a layer it needs to be approved and published by admin. See [django_approve_and_publish_layer](django_approve_and_publish_layer)
+* Once you have uploaded a layer it needs to be approved and published by admin. See [django_approve_and_publish_layer](django_approve_and_publish_layer.png)
 
 * If admin approves and publish your layer and you can't see active the **download button**, then log in, select the layer which you want to download and press the **update attributes and statistics button**. See for example [issues/4308](https://github.com/GeoNode/geonode/issues/4308).
 
