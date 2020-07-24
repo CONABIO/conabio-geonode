@@ -8,7 +8,7 @@ Documentation of geonode in:
 
 ## Deployment
 
-Deployment at CONABIO follows instructions described in [deployment_using_spcgeonode](geonode/deployment_using_spcgeonode/).
+Deployment at CONABIO follows instructions described in [deployment_using_spcgeonode](deployment_using_spcgeonode/).
 
 ## Registration of users, import and upload layers in geonode
 
@@ -18,7 +18,7 @@ For the registration, import and upload of layers:
 
 * Via package "geonode_conabio" go to:
 
-    * [geonode_conabio](geonode/python3_package_for_geonode/) directory.
+    * [geonode_conabio](python3_package_for_geonode/) directory.
     
 
 ## Notes:
