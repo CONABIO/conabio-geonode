@@ -222,8 +222,9 @@ select * from people_profile;
 ```
 
 
+# Next section was used in the development of package of python `geonode_conabio`. Its simpler to use that package to import layers. Go to [geonode_conabio](/python3_package_for_geonode/) directory.
 
-# Insert large layers (more than 1gb): 
+## Insert large layers (more than 1gb): 
 
 
 1) **Make sure projection is wgs84 and for rasters also are compressed and tiled:**
