@@ -198,6 +198,9 @@ docker-compose up -d django geoserver postgres nginx
 6) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
 
 
+# Change domain `example.com`
+
+If you want to change `example.com` to a user-defined dns name, check [change_domain_example.com](/change_domain_example.com) directory.
 
 # Create superuser:
 
