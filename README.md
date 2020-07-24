@@ -1,4 +1,28 @@
 # Geonode at CONABIO
 
+Documentation of geonode in:
 
-* For registration of users, creation and uploading of layers via UI of geonode go to: [instructions_using_UI_of_geonode](instructions_using_UI_of_geonode/)
+* [geonode.org](http://geonode.org/)
+
+* [geonode github](https://github.com/GeoNode/geonode)
+
+## Deployment
+
+Deployment at CONABIO follows instructions described in [deployment_using_spcgeonode](geonode/deployment_using_spcgeonode/).
+
+## Registration of users, import and upload layers in geonode
+
+For the registration, import and upload of layers:
+
+* Via UI of geonode go to: [instructions_using_UI_of_geonode](instructions_using_UI_of_geonode/)
+
+* Via package "geonode_conabio" go to:
+
+    * [geonode_conabio](geonode/python3_package_for_geonode/) directory.
+    
+
+## Notes:
+
+Download for large size vectors or rasters are not allowed for everyone. Contact admin of geonode for this actions.
+    
+    
