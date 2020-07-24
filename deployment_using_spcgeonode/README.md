@@ -296,7 +296,7 @@ See [styles](../styles) and modify style directly in geoserver. Once modified or
 
 This can be configured either:
 
-5a) **Decreasing parameters described in 2) **Download/thumbnail of layers:** of this notes or:**
+5a) **Decreasing parameters described in 2) **Download/thumbnail of layers** of this notes or:**
 
 5b) **(Not yet tested) Use next command:**
     
