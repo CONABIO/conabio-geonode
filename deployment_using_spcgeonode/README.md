@@ -258,7 +258,7 @@ docker-compose up -d django geoserver postgres nginx
 
 ## Notes regarding usage of geonode
 
-1) You can find some example vector layers in:
+1) **You can find some example vector layers in:**
 
 ```
 /usr/local/lib/python3/site-packages/gisdata/data/good/vector/
