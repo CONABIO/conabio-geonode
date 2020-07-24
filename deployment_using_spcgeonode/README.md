@@ -1,24 +1,6 @@
 # conabio-geonode spc
 
 
-# Next work:
-
-- Use proj of lcc2 INEGI and geopackage. 
-
-    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
-    
-    * Also for geopackage see [excel](https://conabio.sharepoint.com/:x:/s/madmex/Eb0q67LLjOZIsheL53ZOfq8BJkT6gCs2OtEMfL6oAq1-Kg?e=dMrAHH)
-
-- How to include madmex land cover maps as "Base Maps" in geonode?
-
-- Insert layers of TNC, create users for Mariana, Pedro. Change permissions for those who wants to download large size vectors (will not be allowed for everyone)
-
-- Test python module to register maps into geonode.
-
-
-
-
-
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
 
 
@@ -133,26 +115,84 @@ except ImportError:
 
 ```
 
+5) Change domain `example.com`
 
-5) **Insert some layer examples:**
+If you want to change `example.com` to a user-defined dns name, check [change_domain_example.com](/change_domain_example.com) directory.
+
+
+6) **Change nginx conf (useful for upload/download of large size layers)**
+
 
 ```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/myfile
+sudo docker exec -it spcgeonode_nginx_1 sh
+```
 
-#or if you have dirs:
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/
 
 ```
+vi nginx.conf
+
+
+    server {
+        listen              80;
+        server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
+        proxy_read_timeout 1000s; #<-add this line
+...
+```
+
+Then:
+
+```
+nginx -s reload
+```
+
+7) **Restrict all registered users to upload/publish layers immediately:**
+
+Enter to docker container `spcgeonode_django_1`:
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
+
+and modify `geonode/settings.py` so any already registered user can't publish layers immediately:
+
+```
+ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
+
+RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
+```
+
+When persons are registered as users of geonode, they can upload and edit metadata and layers but will not be published immediately. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
+
+
+
+8) **Create superuser** (this is not necessary):
+
+Inside spcgeonode_django_1:
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser --username <name of superuser> -v 3 --email <email>
+```
+
+You will be prompted for a password, type it twice.
+
+You can check that superuser was created entering to `spcgeonode_postgres_1` docker container and using next query:
+
+```
+docker exec -u=postgres -it spcgeonode_postgres_1 bash
+psql -d geonode
+select * from people_profile;
+```
+
 
 # Notes:
 
-1) You can find some example vector layers in:
+## Notes regarding deployment of geonode
 
-```
-/usr/local/lib/python3/site-packages/gisdata/data/good/vector/
-```
-
-2) Urls that worth your time checking:
+1) **Urls that worth your time checking:**
 
 ```
 http://<miip>/geoserver/rest
@@ -162,7 +202,7 @@ http://<miip>/api
 http://<miip>/api/layers/
 ```
 
-3) User and passwords created by default:
+2) **Users and passwords created by default:**
 
 ```
 #When using browser:
@@ -188,7 +228,7 @@ password: geonode_data
 ```
 
 
-4) If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
+3) **If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)**
 
 if stop:
 
@@ -207,41 +247,136 @@ if delete all:
 docker-compose down -v
 ```
 
-5) If you want to start again container's stack but you don't want to build again, use:
+4) **If you want to start again container's stack but you don't want to build again, use:**
 
 ```
 docker-compose up -d django geoserver postgres nginx
 ```
 
-6) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
+5) **If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.**
+
+
+## Notes regarding usage of geonode
+
+1) **You can find some example vector layers in:**
+
+```
+/usr/local/lib/python3/site-packages/gisdata/data/good/vector/
+```
+
+Insert some layer examples:
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/myfile
+
+#or if you have dirs:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/
+
+```
+
+2) **Download/thumbnail of layers:**
+
+### Donwload small size layers or thumbnails
+
+Make sure you are able to download the layer and see it's thumbnail. If either are not working then click button **refresh attributes and statistics** for the layer in geonode. If persists not showing the right thumbnail wait some minutes or increase `proxy_read_timeout` parameter in `nginx.conf`.
+
+### Download large size vectors
+
+Increase number of features `maximum number of features` inside WFS (Web Feature Service) of Geoserver page (to 1,000,000,000 for example). And increase `proxy_read_timeout` in `nginx.conf`
+
+
+### Download large size rasters
+
+Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html) or [link2](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html#wcs-resource-limits) or [link3](https://docs.geoserver.org/stable/en/user/services/wms/configuration.html)) and increase `proxy_read_timeout` in `nginx.conf`
 
 
 
-# Create superuser:
+3) **Update links of metadata:**
 
-**Inside spcgeonode_django_1:**
+If pressing button **refresh attributes and statistics** for the layer inside geonode didn't update links inside geoserver regarding metadata use next command:
+
+```
+#for specific layer:
+DJANGO_SETTINGS_MODULE=geonode.settings python manage.py set_all_layers_metadata -f madmex_landsat_2017-2018_lcc
+
+#for all layers:
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_all_layers_metadata -d
+
+```
+
+4) **Update styles of layers**
+
+See [styles](../styles) and modify style directly in geoserver. Once modified or registered the style inside geoserver click **refresh attributes and statistics** for the layer in geonode. If persists not showing the right thumbnail for the changed style wait some minutes or increase `proxy_read_timeout` parameter in `nginx.conf`.
+
+
+
+5) **For larger vector and raster maps (>1 gb) restrict permissions because downloading process takes too much time that crashes geonode.**
+
+This can be configured either:
+
+5a) **Decreasing parameters described in 2) **Download/thumbnail of layers** of this notes or:**
+
+5b) **(Not yet tested) Use next command:**
+    
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
+Initial permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style']}, 'groups': {<Group: anonymous>: ['download_resourcebase', 'view_resourcebase']}}
+Final permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
+Permissions successfully updated!
+```
+
+## Notes regarding creation, registration of users and upload of layers of already registered users
+
+1) **Create and register users in geonode via UI:**
+
+* Use https://docs.geonode.org/en/master/usage/accounts_user_profile/index.html
+
+* Use https://docs.geonode.org/en/master/usage/managing_layers/uploading_layers.html 
+
+    * **The layers must be in wgs84 projection! and not be large in size (< 100 mb) for UI usage.**
+    
+
+2) **When persons create and register users they can upload and edit metadata and layers unless configured in `geonode/settings.py`:**
+
+If admin wants to give permissions to an user in particular to edit metadata then needs to create group and modify layer permissions using this group. See for example: 
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
+Initial permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style']}, 'groups': {<Group: anonymous>: ['download_resourcebase', 'view_resourcebase']}}
+Final permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
+Permissions successfully updated!
+```
+
+or:
+
+https://docs.geonode.org/en/master/basic/permissions/
+
+
+(simpler) or inside `spcgeonode_django_1`:
 
 ```
 docker exec -it spcgeonode_django_1 /bin/bash
 ```
 
-```
-DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser --username <name of superuser> -v 3 --email <email>
-```
-
-You will be prompted for a password, type it twice.
-
-You can check that superuser was created entering to `db4geonode` docker container and using next query:
+modify `geonode/settings.py` so any already registered user can't publish layers immediately:
 
 ```
-docker exec -u=postgres -it spcgeonode_postgres_1 bash
-psql -d geonode
-select * from people_profile;
+ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
+
+RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
 ```
 
+When persons are registered as users of geonode, they can upload and edit metadata and layers but will not be published immediately. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
 
 
-# Insert large layers (more than 1gb): 
+
+# Next section was used in the development of package of python `geonode_conabio`. Its simpler to use that package to import layers. Go to [geonode_conabio](/python3_package_for_geonode/) directory.
+
+## Insert large layers (more than 1gb): 
 
 
 1) **Make sure projection is wgs84 and for rasters also are compressed and tiled:**
