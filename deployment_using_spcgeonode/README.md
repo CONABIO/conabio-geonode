@@ -145,9 +145,27 @@ Then:
 nginx -s reload
 ```
 
+7) **Restrict all registered users to upload/publish layers:**
+
+Enter to docker `spcgeonode_django_1` container:
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
+
+and modify `geonode/settings.py` so any already registered user can't publish layers:
+
+```
+ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
+
+RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
+```
+
+When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
 
 
-7) **Create superuser** (this is not necessary):
+
+8) **Create superuser** (this is not necessary):
 
 Inside spcgeonode_django_1:
 
@@ -309,6 +327,50 @@ Final permissions info for the resource chihuahua_merge_wgs84:
 Permissions successfully updated!
 ```
 
+## Notes regarding creation, registration of users and upload of layers of already registered users
+
+1) **Create and register users in geonode via UI:**
+
+* Use https://docs.geonode.org/en/master/usage/accounts_user_profile/index.html
+
+* Use https://docs.geonode.org/en/master/usage/managing_layers/uploading_layers.html 
+
+    * **The layers must be in wgs84 projection! and not be large in size (< 100 mb) for UI usage.**
+    
+
+2) **When persons create and register users they can upload and edit metadata and layers unless configured in `geonode/settings.py`:**
+
+If admin wants to give permissions to an user in particular to edit metadata then needs to create group and modify layer permissions using this group. See for example: 
+
+```
+DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
+Initial permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style']}, 'groups': {<Group: anonymous>: ['download_resourcebase', 'view_resourcebase']}}
+Final permissions info for the resource chihuahua_merge_wgs84:
+{'users': {<Profile: super>: ['view_resourcebase', 'download_resourcebase', 'change_resourcebase_metadata', 'change_resourcebase', 'delete_resourcebase', 'change_resourcebase_permissions', 'publish_resourcebase', 'change_layer_data', 'change_layer_style'], <Profile: AnonymousUser>: ['view_resourcebase', 'download_resourcebase']}, 'groups': {<Group: anonymous>: ['view_resourcebase', 'download_resourcebase']}}
+Permissions successfully updated!
+```
+
+or:
+
+https://docs.geonode.org/en/master/basic/permissions/
+
+
+(simpler) or inside `spcgeonode_django_1`:
+
+```
+docker exec -it spcgeonode_django_1 /bin/bash
+```
+
+modify `geonode/settings.py` so any already registered user can't publish layers:
+
+```
+ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'True'))
+
+RESOURCE_PUBLISHING = ast.literal_eval(os.getenv('RESOURCE_PUBLISHING', 'True'))
+```
+
+When they create users they can upload and edit metadata and layers but will not be published. Admin needs to approve and publish via django UI. See [instructions_using_UI_of_geonode](../instructions_using_UI_of_geonode/)
 
 
 
