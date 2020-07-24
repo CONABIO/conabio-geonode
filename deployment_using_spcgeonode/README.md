@@ -269,7 +269,7 @@ Increase number of features `maximum number of features` inside WFS (Web Feature
 
 ### Download large size rasters
 
-Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html) or [link2](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html#wcs-resource-limits) or [link3](https://docs.geoserver.org/stable/en/user/services/wms/configuration.html)) and increase `proxy_read_timeout` for `nginx.conf`
+Update Web Coverage Service in geoserver (see [link1](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html) or [link2](https://geoserver.geo-solutions.it/edu/en/adv_gsconfig/parameters.html#wcs-resource-limits) or [link3](https://docs.geoserver.org/stable/en/user/services/wms/configuration.html)) and increase `proxy_read_timeout` in `nginx.conf`
 
 
 
