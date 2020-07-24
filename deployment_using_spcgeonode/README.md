@@ -292,13 +292,13 @@ See [styles](../styles) and modify style directly in geoserver. Once modified or
 
 
 
-5) For larger vector and raster maps (>1 gb) restrict permissions because downloading process takes too much time that crashes geonode. 
+5) **For larger vector and raster maps (>1 gb) restrict permissions because downloading process takes too much time that crashes geonode.**
 
 This can be configured either:
 
-5a) Decreasing parameters described in 2) **Download/thumbnail of layers:** of this notes or:
+5a) **Decreasing parameters described in 2) **Download/thumbnail of layers:** of this notes or:**
 
-5b) (Not yet tested) Use next command:
+5b) **(Not yet tested) Use next command:**
     
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py set_layers_permissions -r chihuahua_merge_wgs84 -p d -u AnonymousUser -g anonymous
