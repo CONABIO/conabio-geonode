@@ -147,7 +147,7 @@ nginx -s reload
 
 7) **Restrict all registered users to upload/publish layers:**
 
-Enter to docker `spcgeonode_django_1` container:
+Enter to docker container `spcgeonode_django_1`:
 
 ```
 docker exec -it spcgeonode_django_1 /bin/bash
