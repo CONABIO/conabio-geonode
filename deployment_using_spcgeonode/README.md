@@ -115,12 +115,12 @@ except ImportError:
 
 ```
 
-6) Change domain `example.com`
+5) Change domain `example.com`
 
 If you want to change `example.com` to a user-defined dns name, check [change_domain_example.com](/change_domain_example.com) directory.
 
 
-7) **Change nginx conf (useful for upload/download of large size layers)**
+6) **Change nginx conf (useful for upload/download of large size layers)**
 
 
 ```
@@ -135,11 +135,11 @@ vi nginx.conf
     server {
         listen              80;
         server_name         nodo7.conabio.gob.mx 127.0.0.1 nginx;
-        proxy_read_timeout 1000s; #<-with this line
+        proxy_read_timeout 1000s; #<-add this line
 ...
 ```
 
-**Then:**
+Then:
 
 ```
 nginx -s reload
@@ -147,9 +147,9 @@ nginx -s reload
 
 
 
-8) Create superuser (this is not necessary):
+7) **Create superuser** (this is not necessary):
 
-**Inside spcgeonode_django_1:**
+Inside spcgeonode_django_1:
 
 ```
 docker exec -it spcgeonode_django_1 /bin/bash
@@ -161,7 +161,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py createsuperuser -
 
 You will be prompted for a password, type it twice.
 
-You can check that superuser was created entering to `db4geonode` docker container and using next query:
+You can check that superuser was created entering to `spcgeonode_postgres_1` docker container and using next query:
 
 ```
 docker exec -u=postgres -it spcgeonode_postgres_1 bash
@@ -174,7 +174,7 @@ select * from people_profile;
 
 ## Notes regarding deployment of geonode
 
-1) Urls that worth your time checking:
+1) **Urls that worth your time checking:**
 
 ```
 http://<miip>/geoserver/rest
@@ -184,7 +184,7 @@ http://<miip>/api
 http://<miip>/api/layers/
 ```
 
-2) User and passwords created by default:
+2) **Users and passwords created by default:**
 
 ```
 #When using browser:
@@ -210,7 +210,7 @@ password: geonode_data
 ```
 
 
-3) If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)
+3) **If you want to stop/delete all containers use next commands (being where `docker-compose.yml` is)**
 
 if stop:
 
@@ -229,13 +229,13 @@ if delete all:
 docker-compose down -v
 ```
 
-4) If you want to start again container's stack but you don't want to build again, use:
+4) **If you want to start again container's stack but you don't want to build again, use:**
 
 ```
 docker-compose up -d django geoserver postgres nginx
 ```
 
-5) If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.
+5) **If after some time that geonode was deployed you have to clone repo of geonode again, then delete docker images that had been built previously and build from a fresh start.**
 
 
 ## Notes regarding usage of geonode
@@ -246,7 +246,7 @@ docker-compose up -d django geoserver postgres nginx
 /usr/local/lib/python3/site-packages/gisdata/data/good/vector/
 ```
 
-**Insert some layer examples:**
+Insert some layer examples:
 
 ```
 DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3 -i -o -u <name of superuser or other user> example_layers/myformat/myfile
