@@ -23,6 +23,6 @@ PASSWORD_DB_GEONODE_DATA="midbpassword"
 
 # Usage
 
-This package can be used in the docker container described in: [docker_for_processing_in_geonode_conabio/option_non_root](geonode/docker_for_processing_in_geonode_conabio/option_non_root/)
+This package can be used in the docker container described in: [docker_for_processing_in_geonode_conabio/option_non_root](/docker_for_processing_in_geonode_conabio/option_non_root/)
 
 
