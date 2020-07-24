@@ -11,6 +11,23 @@ Some documentation that helped:
 
 See [register_TNC](register_TNC) for instructions of registration of layers for TNC project.
 
+
+## To Do
+
+What is missing to complete this registration for TNC project is to choose a good style for [tnc_marismas land cover change](register_TNC/vectors/tnc_marismas/). See question to Steffen:
+
+¿cuál qml debería usar para el producto cambio de cobertura de marismas nacionales?  Está en el directorio `tnc_marismas`:
+
+y encontré estos qml's:
+
+https://github.com/CONABIO/geonode/blob/issues-6-8/styles/madmex_landcoverchange_TNC_marismas_nacionales_13_classes_vector_level1_2.qml
+https://github.com/CONABIO/geonode/blob/issues-6-8/styles/madmex_landcoverchange_TNC_marismas_nacionales_13_classes_vector_level1_2full.qml
+https://github.com/CONABIO/geonode/blob/issues-6-8/styles/madmex_landcoverchange_TNC_marismas_nacionales_13_classes_vector_level2.qml
+
+O tienen también una recomendación para visualizar este producto como el de la península de Yucatán basado en atributos?
+
 # MAD-Mex layers land cover and land cover change
 
 Maps of 2017, 2018 LANDSAT and Sentinel2
+
+**(This hasn't been done.)**
