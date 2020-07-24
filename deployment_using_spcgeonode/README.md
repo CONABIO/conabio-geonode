@@ -260,7 +260,7 @@ DJANGO_SETTINGS_MODULE=geonode.local_settings python manage.py importlayers -v 3
 
 ### Donwload small size layers or thumbnails
 
-**Make sure you are able to download the layer and see it's thumbnail. If either are not working then click button **refresh attributes and statistics** for the layer in geonode. If persists not showing the right thumbnail wait some minutes or increase nginx conf `proxy_read_timeout` parameter.**
+Make sure you are able to download the layer and see it's thumbnail. If either are not working then click button **refresh attributes and statistics** for the layer in geonode. If persists not showing the right thumbnail wait some minutes or increase nginx conf `proxy_read_timeout` parameter.
 
 ### Download large size vectors
 
