@@ -1,24 +1,6 @@
 # conabio-geonode spc
 
 
-# Next work:
-
-- Use proj of lcc2 INEGI and geopackage. 
-
-    * Maybe for geopackage see: https://docs.geoserver.org/stable/en/user/data/raster/gdal.html and https://stackoverflow.com/questions/50803719/geotools-failed-to-load-the-gdal-native-libs-at-runtime-ok-in-eclipse
-    
-    * Also for geopackage see [excel](https://conabio.sharepoint.com/:x:/s/madmex/Eb0q67LLjOZIsheL53ZOfq8BJkT6gCs2OtEMfL6oAq1-Kg?e=dMrAHH)
-
-- How to include madmex land cover maps as "Base Maps" in geonode?
-
-- Insert layers of TNC, create users for Mariana, Pedro. Change permissions for those who wants to download large size vectors (will not be allowed for everyone)
-
-- Test python module to register maps into geonode.
-
-
-
-
-
 See [spcgeonode](https://github.com/GeoNode/geonode/blob/master/scripts/spcgeonode/)
 
 
