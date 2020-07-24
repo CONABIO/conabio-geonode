@@ -21,7 +21,9 @@ What is missing to complete this registration for TNC project is to choose a goo
 y encontré estos qml's:
 
 https://github.com/CONABIO/geonode/blob/issues-6-8/styles/madmex_landcoverchange_TNC_marismas_nacionales_13_classes_vector_level1_2.qml
+
 https://github.com/CONABIO/geonode/blob/issues-6-8/styles/madmex_landcoverchange_TNC_marismas_nacionales_13_classes_vector_level1_2full.qml
+
 https://github.com/CONABIO/geonode/blob/issues-6-8/styles/madmex_landcoverchange_TNC_marismas_nacionales_13_classes_vector_level2.qml
 
 O tienen también una recomendación para visualizar este producto como el de la península de Yucatán basado en atributos?
