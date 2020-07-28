@@ -1,3 +1,17 @@
+# In a nutshell geonode is:
+
+PostgreSQL/PostGIS: A SQL database with spatial extension. You will ingest your vector data in this database to store it and make it accessible in a CRUD way. The DB server will enable a PostgreSQL connection (TCP port 5432) to the outside, if you configure it to be open - which is usually not recommended due to security risks. Therefore most geodata services use middlewares as service providers.
+
+GeoServer: A middleware component which will provide Open-Geospatial-Consortium services (OGC WMS, WFS, WCS, ...) either by reading your database, or directly from the filesystem (eg. geoTiffs as raster data). You can provide metadata for the services and styling information - both is not possible by database connections.
+
+MapStore: Ok. It´s complicated. MapStore is a framework to create webgis applications. It has a reference implementation which puts all common framework components together to provide 'a' webgis also called MapStore. MapStore does not store GeoData and, architecture wise, is the frontend for GeoServer web-services. Your users will use this webgis to visualise and query dataservices.
+
+GeoNetwork: A portal component which is a cataloge of services. It does not provide storage (database) nor geodata services (WMS,WFS,WCS) but as cataloge provides a cataloge service (CSW). It extends GeoServers capabilities to store metainformation for your geodataservices and can leverage e.g. INSPIRE conformant metadata. GeoNetwork functions a) as frontend to let users search for your dataservices, b) as CSW service provider to let clients query your dataservices.
+
+pycsw: Similar to GeoNetwork it provides a CSW service to let clients query your datasets and uses several metadata standarts to describe those. But different to GeoNetwork it is slim and 'just' provides services without frontend. This is the reason it, instead of GeoNetwork, is used in GeoNode.
+
+GeoNode: GeoNode is not 'a' (1) application but a stack of applications put together to provide a full spatial-data-infrastructure. The stack is composed by PostGIS as backend, GeoServer as middleware, MapStore as webgis and GeoDjango as content-management-interface and portal. Instead of GeoNetwork which is used to describe data which is present, GeoNode provides simple user interfaces to upload datasets. Think of it like instagram for geodata. Your users will be able to upload their own datasets and decide who will be able to use them (public or private). GeoNode provides as portal frontend, a webgis, all common OGC services (WMS, WFS, WCS, CSW) and a spatially enabled backend.
+
 * [geonode](https://github.com/GeoNode/geonode)
 
 * [geonode basic installation](https://docs.geonode.org/en/master/install/basic/index.html)
