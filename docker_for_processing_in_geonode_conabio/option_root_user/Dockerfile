@@ -16,6 +16,6 @@ RUN apt-get update && apt-get install -y $DEB_BUILD_DEPS $DEB_PACKAGES && pip3 i
 
 RUN pip3 install jupyter jupyterlab==$JUPYTERLAB_VERSION --upgrade
 RUN jupyter notebook --generate-config && sed -i "s/#c.NotebookApp.password = .*/c.NotebookApp.password = u'sha1:115e429a919f:21911277af52f3e7a8b59380804140d9ef3e2380'/" /root/.jupyter/jupyter_notebook_config.py
-RUN pip3 install $PIP_PACKAGES
+RUN pip3 install $PIP_PACKAGES --upgrade
 
 ENTRYPOINT ["/usr/local/bin/jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
