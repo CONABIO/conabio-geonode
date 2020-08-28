@@ -8,6 +8,7 @@ def publish_featuretype_via_docker(native_name, epsg_code="EPSG:4326"):
     in geoserver. This will stablish SRS as EPSG 4326 and compute from data and native bounds (bounding box).
     Uses gsconfig package to programatically publish vector file.
     See: https://docs.geoserver.org/latest/en/user/gettingstarted/shapefile-quickstart/index.html
+    See: https://github.com/GeoNode/geoserver-restconfig
     Args:
         native_name (str): name of table in geonode_data database.
     Return:
