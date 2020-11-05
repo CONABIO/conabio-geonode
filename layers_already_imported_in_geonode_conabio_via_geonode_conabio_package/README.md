@@ -30,6 +30,9 @@ O tienen también una recomendación para visualizar este producto como el de la
 
 # MAD-Mex layers land cover and land cover change
 
-Maps of 2017, 2018 LANDSAT and Sentinel2
+Historical maps of LANDSAT and Sentinel2
 
-**(This hasn't been done.)**
+2017, 2018 LANDSAT
+
+2017, 2018 Sentinel2
+
