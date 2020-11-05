@@ -45,7 +45,7 @@
                             <sld:ColorMapEntry color="#e9e9af" label="Pastizales" opacity="1.0" quantity="27"/>
                             <sld:ColorMapEntry color="#faff98" label="Tierras Agricolas" opacity="1.0" quantity="28"/>
                             <sld:ColorMapEntry color="#4d1009" label="Urbano y Construido" opacity="1.0" quantity="29"/>
-                            <sld:ColorMapEntry color="#c7c8bc" label="Suelo Desnudo " opacity="1.0" quantity="30"/>
+                            <sld:ColorMapEntry color="#c7c8bc" label="Suelo Desnudo" opacity="1.0" quantity="30"/>
                             <sld:ColorMapEntry color="#00007f" label="Agua" opacity="1.0" quantity="31"/>
                         </sld:ColorMap>
                     </sld:RasterSymbolizer>
