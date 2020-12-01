@@ -85,3 +85,39 @@ def import_layers_via_docker(region, name, title,
     ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
     
     return ex_start
+def retrieve_layer_and_style_registered_in_geonode(title_layer):
+    """
+    Wrapper to retrieve layer and style names already registered in geonode.
+    Args:
+        title_layer (str): name of title of layer registered in geonode
+    Returns:
+        ex_start (str): result of exec_start method of docker-py
+    """
+    c = APIClient(base_url='tcp://172.17.0.1:1111')
+    #c = APIClient(base_url='unix://var/run/docker.sock')
+    string1 = """import os;\
+    import django;\
+    os.chdir('/spcgeonode');\
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'geonode.local_settings');\
+    django.setup();\
+    from geonode.base.models import Link;\
+    from geonode.layers.models import Layer;\
+    """
+    string2 = "layer = Layer.objects.filter(title="                                       
+    string3 = ").first();"
+    string4 = "style_name = layer.default_style.name;"
+    string5 = "layer_name = layer.name;"
+    string = "".join([string1, 
+                      "title_layer = \'", title_layer, "\';",
+                      string2, "\'",
+                      title_layer, "\'", 
+                      string3,
+                      string4,
+                      string5,
+                      "print(layer_name);",
+                      "print(style_name)"])
+    cmd = "".join(["python -c ", "\"", string, "\""])
+    ex = c.exec_create(container = 'spcgeonode_django_1', 
+                   cmd = cmd)
+    ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
+    return ex_start
