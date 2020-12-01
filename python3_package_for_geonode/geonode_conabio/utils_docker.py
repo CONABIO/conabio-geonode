@@ -81,7 +81,7 @@ def import_layers_via_docker(region, name, title,
     ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
     
     return ex_start
-def get_layer_and_style_registered_in_geonode(title_layer):
+def get_layer_and_style_registered_in_geonode_via_docker(title_layer):
     """
     Wrapper to retrieve layer and style names already registered in geonode.
     Args:
@@ -89,8 +89,8 @@ def get_layer_and_style_registered_in_geonode(title_layer):
     Returns:
         ex_start (str): result of exec_start method of docker-py
     """
-    #c = APIClient(base_url='tcp://172.17.0.1:1111')
-    c = APIClient(base_url='unix://var/run/docker.sock')
+    c = APIClient(base_url='tcp://172.17.0.1:1111')
+    #c = APIClient(base_url='unix://var/run/docker.sock')
     string1 = """import os;\
     import django;\
     os.chdir('/spcgeonode');\
@@ -116,4 +116,48 @@ def get_layer_and_style_registered_in_geonode(title_layer):
     ex = c.exec_create(container = 'spcgeonode_django_1', 
                    cmd = cmd)
     ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
+    return ex_start
+def create_link_in_geonode_for_zip_file_via_docker(download_url, title_layer):
+    """
+    Wrapper to create download link for zip file with layer and style names already registered in geonode.
+    Args:
+        download_url (str): path to dir (now is using ftp in server which geonode is running)
+        title_layer (str): name of title of layer registered in geonode
+    Returns:
+        ex_start (str): result of exec_start method of docker-py
+    """    
+    c = APIClient(base_url='tcp://172.17.0.1:1111')
+    #c = APIClient(base_url='unix://var/run/docker.sock')
+    string1 = """import os;\
+    import django;\
+    os.chdir('/spcgeonode');\
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'geonode.local_settings');\
+    django.setup();\
+    from geonode.base.models import Link;\
+    from geonode.layers.models import Layer;\
+    """
+    string2 = "layer = Layer.objects.filter(title="
+                                             
+    string3 = ").first();"
+    
+    string4 = """Link.objects.update_or_create(resource=layer, url=download_url, 
+    defaults=dict(extension=extension, name=name_link, mime=mime, link_type=link_type))
+    """
+    
+    string = "".join([string1, 
+                      "title_layer = \'", title_layer, "\';",
+                      string2, "\'",
+                      title_layer, "\'", 
+                      string3,
+                      "download_url = \'", download_url, "\';",
+                      "extension = \'zip\';",
+                      "name_link = \'ZIP\';", #could be "Raw Data or Original Dataset"
+                      "mime = \'application/octet-stream\';",
+                      "link_type = \'original\';", 
+                      string4])
+    cmd = "".join(["python -c ", "\"", string, "\""])
+    ex = c.exec_create(container = 'spcgeonode_django_1', 
+                       cmd = cmd)
+    ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
+    
     return ex_start

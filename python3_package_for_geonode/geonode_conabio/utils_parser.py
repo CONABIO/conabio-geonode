@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-def parse_style_sld_madmex(style_source_path):
+def parse_sld_madmex_style(style_source_path):
     """
     Function for parsing sld MAD-Mex style.
     Args:
