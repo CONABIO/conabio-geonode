@@ -89,8 +89,8 @@ def get_layer_and_style_registered_in_geonode_via_docker(title_layer):
     Returns:
         ex_start (str): result of exec_start method of docker-py
     """
-    c = APIClient(base_url='tcp://172.17.0.1:1111')
-    #c = APIClient(base_url='unix://var/run/docker.sock')
+    #c = APIClient(base_url='tcp://172.17.0.1:1111')
+    c = APIClient(base_url='unix://var/run/docker.sock')
     string1 = """import os;\
     import django;\
     os.chdir('/spcgeonode');\
@@ -126,8 +126,8 @@ def create_link_in_geonode_for_zip_file_via_docker(download_url, title_layer):
     Returns:
         ex_start (str): result of exec_start method of docker-py
     """    
-    c = APIClient(base_url='tcp://172.17.0.1:1111')
-    #c = APIClient(base_url='unix://var/run/docker.sock')
+    #c = APIClient(base_url='tcp://172.17.0.1:1111')
+    c = APIClient(base_url='unix://var/run/docker.sock')
     string1 = """import os;\
     import django;\
     os.chdir('/spcgeonode');\
