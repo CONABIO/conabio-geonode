@@ -23,6 +23,7 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
                                            --destiny_path /shared_volume/ftp_dir/
                                            --dir_path_styles_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles/
                                            --dir_path_layers_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/data/geonode/
+                                           --downdload_url ftp://geonode.conabio.gob.mx/pub/
 """
             
     parser = argparse.ArgumentParser(description=help,
@@ -43,6 +44,10 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
                     required=True,
                     default=None,
                     help="Help of test argparse fun")
+    parser.add_argument("--download_url",
+                    required=True,
+                    default=None,
+                    help="Help of test argparse fun")    
     args = parser.parse_args()
     return args
 def main():
@@ -51,7 +56,8 @@ def main():
     destiny_path = args.destiny_path
     dir_path_styles_geonode = args.dir_path_styles_geonode
     dir_path_layers_geonode = args.dir_path_layers_geonode
-
+    download_url = args.download_url
+    
     result_get = get_layer_and_style_registered_in_geonode_via_docker(title_layer)
     print(result_get)
     
@@ -87,5 +93,6 @@ def main():
     os.remove(layer_cmap_source_path)
     
     #if success creating download link in geonode
+    print(basename(zip_file))
     if os.path.exists(zip_file):
-        create_link_in_geonode_for_zip_file_via_docker(zip_file, title_layer)
+        create_link_in_geonode_for_zip_file_via_docker(download_url + basename(zip_file), title_layer)
