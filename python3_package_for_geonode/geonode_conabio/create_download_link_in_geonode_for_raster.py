@@ -12,7 +12,7 @@ from geonode_conabio.utils_parser import parse_style_sld_madmex
 def arguments_parse():
     help = """
     
-Wrapper to create link to download raster in geonode. Will write color map to raster and put it in directory
+Wrapper to create link to download raster in geonode. Will write color map to raster and put it in directory zipped with style.
 
 --------------
 Example usage:
