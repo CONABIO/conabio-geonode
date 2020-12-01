@@ -7,7 +7,7 @@ import rasterio
 
 from geonode_conabio.utils_docker import get_layer_and_style_registered_in_geonode_via_docker
 from geonode_conabio.utils_style import get_cmap_from_element_list_madmex_style
-from geonode_conabio.utils_parser import parse_style_sld_madmex
+from geonode_conabio.utils_parser import parse_sld_madmex_style
 from geonode_conabio.utils_docker import create_link_in_geonode_for_zip_file_via_docker
 
 def arguments_parse():
