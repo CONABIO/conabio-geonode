@@ -51,8 +51,8 @@ def main():
     destiny_path = args.destiny_path
     dir_path_styles_geonode = args.dir_path_styles_geonode
     dir_path_layers_geonode = args.dir_path_layers_geonode
-    
-    result_get = get_layer_and_style_registered_in_geonode(title_layer)
+
+    result_get = get_layer_and_style_registered_in_geonode_via_docker(title_layer)
     print(result_get)
     
     layer_name, style_name = result_get.decode().split("\n")[0:2]
