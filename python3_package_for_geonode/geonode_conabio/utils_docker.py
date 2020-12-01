@@ -35,9 +35,6 @@ def publish_featuretype_via_docker(native_name, epsg_code="EPSG:4326"):
                        cmd = cmd)
     ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
     return ex_start
-    
-    
-
 def update_layers_via_docker(layer_name):
     """
     Wrapper for updatelayers command of geonode using docker-py functionality.
@@ -55,7 +52,6 @@ def update_layers_via_docker(layer_name):
                        cmd = cmd)
     ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
     return ex_start
-
 def import_layers_via_docker(region, name, title,
                              abstract, keywords, 
                              filename):
