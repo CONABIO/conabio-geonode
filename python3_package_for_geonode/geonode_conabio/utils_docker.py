@@ -81,7 +81,7 @@ def import_layers_via_docker(region, name, title,
     ex_start = c.exec_start(exec_id=ex) #if arg stream=True in exec_start method, then returns generator
     
     return ex_start
-def retrieve_layer_and_style_registered_in_geonode(title_layer):
+def get_layer_and_style_registered_in_geonode(title_layer):
     """
     Wrapper to retrieve layer and style names already registered in geonode.
     Args:
