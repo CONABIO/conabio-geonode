@@ -73,8 +73,9 @@ def main():
     
     output_filename = input_filename.split('.')[0]
     output_filename+= '_wgs84_tiled_rasterio.tif'
-    input_filename = ''.join([direc, '/', input_filename])
-    output_filename = ''.join([direc, '/', output_filename])
+
+    input_filename = os.path.join(direc, input_filename)
+    output_filename = os.path.join(direc, output_filename)
     
     with rasterio.open(input_filename) as src:
         src_crs = src.crs.to_string()

@@ -81,8 +81,9 @@ def main():
     output_filename = input_filename.split('.')[0]
     output_filename += '_wgs84_using_geopandas.shp'
     layer = output_filename.split('.')[0]
-    input_filename = ''.join([direc, '/', input_filename])
-    output_filename = ''.join([direc, '/', output_filename])
+
+    input_filename = os.path.join(direc, input_filename)
+    output_filename = os.path.join(direc, output_filename)    
     
     gdf = gpd.read_file(input_filename)
     #dropNA's
@@ -107,9 +108,9 @@ def main():
                                              )
     print(result_import)
     
-    basename_output_filename = output_filename.split('.')[0]
+    output_filename_without_extension = output_filename.split('.')[0]
     
-    l_output_filenames = glob(basename_output_filename +'*',recursive=True)
+    l_output_filenames = glob(output_filename_without_extension +'*',recursive=True)
     
     for filenames in l_output_filenames:
         os.remove(filenames)
