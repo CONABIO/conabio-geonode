@@ -44,3 +44,13 @@ Command lines to register:
 ```
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_marismas/ marismasnacionales_coberturadesuelo_2019_nivel2_final_20190925.tif
 ```
+
+# Create downloadable links for rasters:
+
+Shell script:
+
+`create_downloadable_links_in_geonode.sh`
+
+```
+bash create_downloadable_links_in_geonode.sh "Cobertura de suelo TNC marismas nacionales 2018, 2019 13 clases"
+```
