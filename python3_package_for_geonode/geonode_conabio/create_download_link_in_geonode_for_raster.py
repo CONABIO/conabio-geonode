@@ -83,7 +83,7 @@ def main():
     
     write_raster_with_cmap_in_dir(layer_source_path, layer_cmap_source_path, rgba_dict)
     
-    #Zip file        
+    #Zip dir        
     zip_file = os.path.join(destiny_path, layer_name)
     zip_file = ''.join([zip_file, ".zip"])
     
