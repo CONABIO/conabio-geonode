@@ -50,7 +50,18 @@ bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/lan
 
 # Create downloadable links for rasters:
 
+Shell script:
+
+`create_downloadable_links_in_geonode.sh`
+
+
 ```
 bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Chiapas TNC 2015 40 classes"
-
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Campeche TNC 2016 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Quintana_Roo TNC 2016 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Yucatan TNC 2016 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Campeche TNC 2019 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Chiapas TNC 2019 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Quintana_Roo TNC 2019 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Yucatan TNC 2019 40 classes"
 ```
