@@ -52,5 +52,5 @@ Shell script:
 `create_downloadable_links_in_geonode.sh`
 
 ```
-bash create_downloadable_links_in_geonode.sh "Cobertura de suelo TNC marismas nacionales 2018, 2019 13 clases"
+bash create_downloadable_links_in_geonode.sh "Cobertura de suelo TNC marismas nacionales 2018, 2019 13 clases" --nocmap
 ```
