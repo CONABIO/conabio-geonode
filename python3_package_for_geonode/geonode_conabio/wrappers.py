@@ -80,7 +80,7 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
                                      destiny_crs = "EPSG:4326",
                                      is_geographic = True):
     """
-    Reprojection, tiling and writing of one band rater to file.
+    Reprojection, compression, tiling and writing of one band raster to file.
     Args:
         source_dataset (ndarray or Band): The source is a 2 ndarray, or Rasterio one band object. 
         output_filename (str): path of filename that will be written in filesystem.
@@ -120,3 +120,21 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
                   resampling=Resampling.nearest
                   )  
         dst.write(array, 1)
+def write_raster_with_cmap_in_dir(source_path_layer, destiny_path_layer, rgba_dict):
+    """
+    Tiling, compression and cmap writing of one band raster to file.
+    Args:
+        source_path_layer (str): path of source layer already registered in geonode
+        destiny_path_layer (str): destiny path that will have raster
+        rgba_dict (dict): rgb mapping of classes to colors in rgba values
+    """
+    with rasterio.open(source_path_layer) as src:
+        arr = src.read(1)
+        meta = src.meta
+    meta["compress"] = "lzw"
+    meta["tiled"] = True
+    
+    with rasterio.open(destiny_path_layer, 'w', **meta) as dst:
+        dst.write(arr, indexes=1)
+        dst.write_colormap(1,rgba_dict)
+        cmap_result = dst.colormap(1)
