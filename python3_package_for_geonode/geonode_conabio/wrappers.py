@@ -120,13 +120,15 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
                   resampling=Resampling.nearest
                   )  
         dst.write(array, 1)
-def write_raster_with_cmap_in_dir(source_path_layer, destiny_path_layer, rgba_dict):
+def write_raster_with_cmap_in_dir(source_path_layer, destiny_path_layer, rgba_dict,
+                                  nocmap):
     """
     Tiling, compression and cmap writing of one band raster to file.
     Args:
         source_path_layer (str): path of source layer already registered in geonode
         destiny_path_layer (str): destiny path that will have raster
         rgba_dict (dict): rgb mapping of classes to colors in rgba values
+        nocmap (boolean): if true dont write cmap
     """
     with rasterio.open(source_path_layer) as src:
         arr = src.read(1)
@@ -136,5 +138,6 @@ def write_raster_with_cmap_in_dir(source_path_layer, destiny_path_layer, rgba_di
     
     with rasterio.open(destiny_path_layer, 'w', **meta) as dst:
         dst.write(arr, indexes=1)
-        dst.write_colormap(1,rgba_dict)
-        cmap_result = dst.colormap(1)
+        if not nocmap: #write cmap
+            dst.write_colormap(1,rgba_dict)
+            cmap_result = dst.colormap(1)

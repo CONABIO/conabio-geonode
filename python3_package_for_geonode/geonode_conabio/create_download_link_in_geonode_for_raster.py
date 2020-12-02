@@ -47,7 +47,10 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
     parser.add_argument("--download_path",
                     required=True,
                     default=None,
-                    help="Url for downloading zip dir")    
+                    help="Url for downloading zip dir")
+    parser.add_argument('--nocmap',
+                        action='store_true',
+                        help="Dont write cmap to raster")
     args = parser.parse_args()
     return args
 def main():
@@ -57,6 +60,7 @@ def main():
     dir_path_styles_geonode = args.dir_path_styles_geonode
     dir_path_layers_geonode = args.dir_path_layers_geonode
     download_path = args.download_path
+    nocmap = args.nocmap
     
     #get layer and style paths
     result_get = get_layer_and_style_registered_in_geonode_via_docker(title_layer)
@@ -81,8 +85,12 @@ def main():
     layer_cmap_source_path = os.path.join(destiny_path, layer_name)
     layer_cmap_source_path = ''.join([layer_cmap_source_path, ".geotiff"])
     
-    write_raster_with_cmap_in_dir(layer_source_path, layer_cmap_source_path, rgba_dict)
-    
+    if nocmap: #dont write cmap
+        print("Will not write cmap to raster")
+        write_raster_with_cmap_in_dir(layer_source_path, layer_cmap_source_path, rgba_dict, nocmap)
+    else: #write cmap
+        write_raster_with_cmap_in_dir(layer_source_path, layer_cmap_source_path, rgba_dict, nocmap)
+
     #Zip dir        
     zip_file = os.path.join(destiny_path, layer_name)
     zip_file = ''.join([zip_file, ".zip"])
@@ -92,4 +100,5 @@ def main():
     print(os.path.basename(zip_file))
     download_url = os.path.join(download_path, os.path.basename(zip_file))
     if os.path.exists(zip_file):
-        create_link_in_geonode_for_zip_file_via_docker(download_url, title_layer)
+        create_link_in_geonode_for_zip_file_via_docker(download_url, title_layer)    
+
