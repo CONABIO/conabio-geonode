@@ -46,3 +46,11 @@ bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/lan
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_QRO.tif
 bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcover/ eoss4tnc_landcover_landsat8_2019_20200313_madmexplus_YUC.tif
 ```
+
+
+# Create downloadable links for rasters:
+
+```
+bash create_downloadable_links_in_geonode.sh "Land cover map for the state of Chiapas TNC 2015 40 classes"
+
+```
