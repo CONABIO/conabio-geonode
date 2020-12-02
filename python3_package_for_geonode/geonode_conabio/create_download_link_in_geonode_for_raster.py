@@ -1,7 +1,5 @@
 import os
 import argparse
-import zipfile
-from os.path import basename
 
 import rasterio
 
@@ -9,6 +7,8 @@ from geonode_conabio.utils_docker import get_layer_and_style_registered_in_geono
 from geonode_conabio.utils_style import get_cmap_from_element_list_madmex_style
 from geonode_conabio.utils_parser import parse_sld_madmex_style
 from geonode_conabio.utils_docker import create_link_in_geonode_for_zip_file_via_docker
+from geonode_conabio.utils_os import zip_dir_for_layer_and_style
+from geonode_conabio.wrappers import write_raster_with_cmap_in_dir
 
 def arguments_parse():
     help = """
@@ -23,7 +23,7 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
                                            --destiny_path /shared_volume/ftp_dir/
                                            --dir_path_styles_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles/
                                            --dir_path_layers_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/data/geonode/
-                                           --downdload_url ftp://geonode.conabio.gob.mx/pub/
+                                           --downdload_path ftp://geonode.conabio.gob.mx/pub/
 """
             
     parser = argparse.ArgumentParser(description=help,
@@ -31,23 +31,23 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
     parser.add_argument("--title_layer",
                     required=True,
                     default=None,
-                    help="Help of test argparse fun")
+                    help="Title of layer in geonode.conabio.gob.mx")
     parser.add_argument("--destiny_path",
                     required=True,
                     default=None,
-                    help="Help of test argparse fun")
+                    help="Directory path that will hold zip directory")
     parser.add_argument("--dir_path_styles_geonode",
                     required=True,
                     default=None,
-                    help="Help of test argparse fun")
+                    help="path of styles registered in geonode")
     parser.add_argument("--dir_path_layers_geonode",
                     required=True,
                     default=None,
-                    help="Help of test argparse fun")
-    parser.add_argument("--download_url",
+                    help="path of layers registered in geonode")
+    parser.add_argument("--download_path",
                     required=True,
                     default=None,
-                    help="Help of test argparse fun")    
+                    help="Url for downloading zip dir")    
     args = parser.parse_args()
     return args
 def main():
@@ -56,43 +56,40 @@ def main():
     destiny_path = args.destiny_path
     dir_path_styles_geonode = args.dir_path_styles_geonode
     dir_path_layers_geonode = args.dir_path_layers_geonode
-    download_url = args.download_url
+    download_path = args.download_path
     
+    #get layer and style paths
     result_get = get_layer_and_style_registered_in_geonode_via_docker(title_layer)
     print(result_get)
     
     layer_name, style_name = result_get.decode().split("\n")[0:2]
     
-    style_source_path =  dir_path_styles_geonode + style_name + ".sld"
-    layer_source_path =  dir_path_layers_geonode + layer_name + "/" + layer_name + ".geotiff"
+    style_source_path = os.path.join(dir_path_styles_geonode, style_name)
+    style_source_path = ''.join([style_source_path, ".sld"])
     
-    rf_children = parse_sld_madmex_style(style_source_path)
+    layer_source_path = os.path.join(dir_path_layers_geonode, layer_name, layer_name)
+    layer_source_path = ''.join([layer_source_path, ".geotiff"])
     
-    rgb_dict = get_cmap_from_element_list_madmex_style(rf_children)
-    
-    #Write cmap to raster
     if not os.path.exists(destiny_path):
         os.makedirs(destiny_path)
+
+    sld_madmex_style = parse_sld_madmex_style(style_source_path)
+    rgba_dict = get_cmap_from_element_list_madmex_style(sld_madmex_style)
     
-    layer_cmap_source_path = destiny_path + layer_name + ".geotiff"
+    #Write cmap to raster
     
-    with rasterio.open(layer_source_path) as src:
-        arr = src.read(1)
-        meta = src.meta
-    meta["compress"] = "lzw"
-    with rasterio.open(layer_cmap_source_path, 'w', **meta) as dst:
-        dst.write(arr, indexes=1)
-        dst.write_colormap(1,rgb_dict)
-        cmap_result = dst.colormap(1)
-    #Zip file    
-    zip_file = destiny_path + layer_name + ".zip"
-    zipf = zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED)
-    zipf.write(style_source_path, basename(style_source_path))
-    zipf.write(layer_cmap_source_path, basename(layer_cmap_source_path))
-    zipf.close()
-    os.remove(layer_cmap_source_path)
+    layer_cmap_source_path = os.path.join(destiny_path, layer_name)
+    layer_cmap_source_path = ''.join([layer_cmap_source_path, ".geotiff"])
     
+    write_raster_with_cmap_in_dir(layer_source_path, layer_cmap_source_path, rgba_dict)
+    
+    #Zip file        
+    zip_file = os.path.join(destiny_path, layer_name)
+    zip_file = ''.join([zip_file, ".zip"])
+    
+    zip_dir_for_layer_and_style(zip_file, layer_cmap_source_path, style_source_path) 
     #if success creating download link in geonode
-    print(basename(zip_file))
+    print(os.path.basename(zip_file))
+    download_url = os.path.join(download_path, os.path.basename(zip_file))
     if os.path.exists(zip_file):
-        create_link_in_geonode_for_zip_file_via_docker(download_url + basename(zip_file), title_layer)
+        create_link_in_geonode_for_zip_file_via_docker(download_url, title_layer)
