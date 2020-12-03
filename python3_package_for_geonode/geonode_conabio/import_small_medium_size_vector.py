@@ -20,8 +20,9 @@ via docker-py to register it in both geoserver and geonode.
 Example usage:
 --------------
 
-import_small_medium_size_vector --base_directory /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2017_2018/indi50k/estados/AGUASCALIENTES
+import_small_medium_size_vector --input_directory /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2017_2018/indi50k/estados/AGUASCALIENTES
                                 --input_filename AGUASCALIENTES_merge.shp
+                                --destiny_path /shared_volume/ftp_dir/
                                 --list_attributes "t1_dsc_31, t2_dsc_31, t1_dsc_17, t2_dsc_17, cmb_dsc_31, cmb_dsc_17"
                                 --region "Aguascalientes, Mexico, North America, Latin America"
                                 --name "MAD-Mex_sentinel2_Aguascalientes_2017_lcc_geopandas"
@@ -32,11 +33,15 @@ import_small_medium_size_vector --base_directory /LUSTRE/MADMEX/products/landcov
             
     parser = argparse.ArgumentParser(description=help,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--base_directory",
+    parser.add_argument("--input_directory",
                         required=True,
                         default=None,
                         help="Help of test argparse fun")
     parser.add_argument("--input_filename",
+                        required=True,
+                        default=None,
+                        help="Help of test argparse fun")
+    parser.add_argument("--destiny_path",
                         required=True,
                         default=None,
                         help="Help of test argparse fun")
@@ -69,48 +74,40 @@ import_small_medium_size_vector --base_directory /LUSTRE/MADMEX/products/landcov
 
 def main():
     args = arguments_parse()
-    direc = args.base_directory
+    input_directory = args.input_directory
     input_filename = args.input_filename
+    destiny_path = args.destiny_path
     list_name_attributes = args.list_attributes.replace(' ','').split(',')
     region = ''.join(["\"", args.region, "\""])
-    name = ''.join(["\"", args.name, "\""])
+    filename = args.name
+    name_geonode = ''.join(["\"", filename, "\""])
     title = ''.join(["\"", args.title, "\""])
     abstract = ''.join(["\"", args.abstract, "\""])
     kw = ''.join(["\"", args.key_words, "\""])
 
     output_filename = input_filename.split('.')[0]
-    output_filename += '_wgs84_using_geopandas.shp'
-    layer = output_filename.split('.')[0]
+    layername = filename
 
-    input_filename = os.path.join(direc, input_filename)
-    output_filename = os.path.join(direc, output_filename)    
+    input_filename = os.path.join(input_directory, input_filename)
+    output_filename = os.path.join(destiny_path, filename)
     
     gdf = gpd.read_file(input_filename)
     #dropNA's
     gdf.dropna(subset=list_name_attributes, inplace=True)
-    #check geographic proj
-    crs_src = gdf.crs
-    src_crs = crs_src.to_string()
-    proj_src_crs = Proj(src_crs)
-    if not proj_src_crs.crs.is_geographic:
-        reproj_normalize_and_write_small_medium_size_vector(gdf, 
-                                                            list_name_attributes,
-                                                            layer, output_filename,
-                                                            is_geographic=False)
-    else:
-        reproj_normalize_and_write_small_medium_size_vector(gdf, 
-                                                            list_name_attributes,
-                                                            layer, output_filename)
 
-    result_import = import_layers_via_docker(region, name, title,
+    output_filename_geonode = reproj_normalize_and_write_small_medium_size_vector(gdf,
+                                                                                  list_name_attributes,
+                                                                                  layername, output_filename)
+    result_import = import_layers_via_docker(region, name_geonode, title,
                                              abstract, kw,
-                                             output_filename
+                                             output_filename_geonode
                                              )
     print(result_import)
     
-    output_filename_without_extension = output_filename.split('.')[0]
+    output_filename_without_extension = output_filename_geonode.split('.')[0]
     
     l_output_filenames = glob(output_filename_without_extension +'*',recursive=True)
     
     for filenames in l_output_filenames:
         os.remove(filenames)
+    os.removedirs(output_filename)
