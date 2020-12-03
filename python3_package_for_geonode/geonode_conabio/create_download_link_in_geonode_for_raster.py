@@ -23,7 +23,7 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
                                            --destiny_path /shared_volume/ftp_dir/
                                            --dir_path_styles_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles/
                                            --dir_path_layers_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/data/geonode/
-                                           --downdload_path ftp://geonode.conabio.gob.mx/pub/
+                                           --download_path ftp://geonode.conabio.gob.mx/pub/
 """
             
     parser = argparse.ArgumentParser(description=help,
