@@ -1,5 +1,7 @@
 # Registration in geonode of TNC data (vectors)
 
+## Note: this README is using implementation of geonode_conabio package before (including) [commit](https://github.com/CONABIO/geonode/tree/30a00684011bcc80e68d4b98242920cafd1c7dc3)
+
 Base dir:
 
 ```

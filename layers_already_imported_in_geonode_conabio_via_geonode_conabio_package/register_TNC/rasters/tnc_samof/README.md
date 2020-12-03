@@ -1,6 +1,8 @@
 
 # Registration in geonode of TNC data (rasters)
 
+## Note: this README is using implementation of geonode_conabio package before (including) [commit](https://github.com/CONABIO/geonode/tree/efebe371342273111e1533c75ee4f32242b3bfc2)
+
 Base dir:
 
 ```
