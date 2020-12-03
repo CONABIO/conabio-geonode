@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 import fiona
@@ -5,6 +7,7 @@ import rasterio
 from rasterio.crs import CRS as CRS_rio
 from rasterio.warp import transform_geom, \
                           calculate_default_transform, reproject, Resampling
+from pyproj import Proj
 
 from geonode_conabio.utils_text import normalize_name_classes
 
@@ -52,9 +55,7 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
                                                         list_name_attributes,
                                                         layer_name,
                                                         output_filename,
-                                                        destiny_crs="EPSG:4326",
-                                                        driver = 'ESRI Shapefile',
-                                                        is_geographic = True):
+                                                        destiny_crs="EPSG:4326"):
     """
     Reprojection, normalizing of fields using name of attributes in list and
     write to file. Function used for small-medium size vectors.
@@ -62,20 +63,31 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
         geodataframe (GeoDataFrame): tablular data structure that contains a column called geometry which contains a GeoSeries.
         list_name_attributes (list): attributes of type text that will be searched for to be normalized.
         layer_name (str): name of layer that will be in output_filename.
-        output_filename (str): path of filename that will be written in filesystem.
+        output_filename (str): path of filename that will be written in filesystem without extension, example: /volume/myvector
     """
     #reproject
-    if not is_geographic:
+    crs_src = geodataframe.crs
+    src_crs = crs_src.to_string()
+    proj_src_crs = Proj(src_crs)    
+    if not proj_src_crs.crs.is_geographic:
         gdf_reproj = geodataframe.to_crs(destiny_crs)
     else:
         gdf_reproj = geodataframe
     #normalize
     gdf_reproj[gdf_reproj.columns & list_name_attributes] = gdf_reproj[gdf_reproj.columns & list_name_attributes].apply(lambda s: s.apply(normalize_name_classes))
-    #write
-    gdf_reproj.to_file(output_filename,
+    #write shapefile
+    os.makedirs(output_filename)
+    output_filename_geonode = os.path.join(output_filename, os.path.basename(output_filename))
+    output_filename_geonode = output_filename_geonode + ".shp"
+    gdf_reproj.to_file(output_filename_geonode,
                        layer=layer_name,
-                       driver=driver)
-            
+                       driver = "ESRI Shapefile")
+    #write geopackage
+    gdf_reproj.to_file(output_filename + ".gpkg",
+                       layer=layer_name,
+                       driver = "GPKG")    
+    return output_filename_geonode
+
 def reproj_and_write_one_band_raster(source_dataset, output_filename,
                                      destiny_crs = "EPSG:4326",
                                      is_geographic = True):
