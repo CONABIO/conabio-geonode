@@ -64,6 +64,8 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
         list_name_attributes (list): attributes of type text that will be searched for to be normalized.
         layer_name (str): name of layer that will be in output_filename.
         output_filename (str): path of filename that will be written in filesystem without extension, example: /volume/myvector
+    Rerturn:
+        output_filename_geonode (str): path of geopackage in file system
     """
     #reproject
     crs_src = geodataframe.crs
