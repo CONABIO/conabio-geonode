@@ -97,7 +97,9 @@ def main():
 
     output_filename_geonode = reproj_normalize_and_write_small_medium_size_vector(gdf,
                                                                                   list_name_attributes,
-                                                                                  layername, output_filename)
+                                                                                  layername,
+                                                                                  input_directory,
+                                                                                  output_filename)
     result_import = import_layers_via_docker(region, name_geonode, title,
                                              abstract, kw,
                                              output_filename_geonode
@@ -110,4 +112,5 @@ def main():
     
     for filenames in l_output_filenames:
         os.remove(filenames)
-    os.removedirs(output_filename)
+    dir_shapefile = os.path.join(input_directory, filename)
+    os.removedirs(dir_shapefile)

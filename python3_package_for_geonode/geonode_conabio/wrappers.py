@@ -54,6 +54,7 @@ def reproj_normalize_and_write_large_vector(feature_collection, feature_collecti
 def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
                                                         list_name_attributes,
                                                         layer_name,
+                                                        input_directory,
                                                         output_filename,
                                                         destiny_crs="EPSG:4326"):
     """
@@ -63,9 +64,10 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
         geodataframe (GeoDataFrame): tablular data structure that contains a column called geometry which contains a GeoSeries.
         list_name_attributes (list): attributes of type text that will be searched for to be normalized.
         layer_name (str): name of layer that will be in output_filename.
+        input_directory (str): path of input filename that will hold temporary shapefile that will be registered in geonode.
         output_filename (str): path of filename that will be written in filesystem without extension, example: /volume/myvector
     Rerturn:
-        output_filename_geonode (str): path of geopackage in file system
+        output_filename_geonode (str): path of shapefile in file system that will be registered in geonode.
     """
     #reproject
     crs_src = geodataframe.crs
@@ -78,8 +80,9 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
     #normalize
     gdf_reproj[gdf_reproj.columns & list_name_attributes] = gdf_reproj[gdf_reproj.columns & list_name_attributes].apply(lambda s: s.apply(normalize_name_classes))
     #write shapefile
-    os.makedirs(output_filename)
-    output_filename_geonode = os.path.join(output_filename, os.path.basename(output_filename))
+    output_filename_geonode = os.path.join(input_directory, os.path.basename(output_filename))
+    os.makedirs(output_filename_geonode)
+    output_filename_geonode = os.path.join(output_filename_geonode, os.path.basename(output_filename))
     output_filename_geonode = output_filename_geonode + ".shp"
     gdf_reproj.to_file(output_filename_geonode,
                        layer=layer_name,
