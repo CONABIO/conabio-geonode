@@ -48,7 +48,7 @@ import_small_medium_size_vector --input_directory /LUSTRE/MADMEX/products/landco
     parser.add_argument("--list_attributes",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Attributes of type string that will be normalized")
     parser.add_argument("--region",
                         required=True,
                         default=None,
