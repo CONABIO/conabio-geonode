@@ -32,6 +32,8 @@ Command lines to register:
 bash register_validation_rapideye.sh /LUSTRE/MADMEX/bits/validation_data/rapideye/2015/get_intersection_polygons_points/ validation_data_merge_31_classes.shp
 ```
 
+# Update attributes & statistics, style.
+
 # Create downloadable links for rasters:
 
 Shell script:
