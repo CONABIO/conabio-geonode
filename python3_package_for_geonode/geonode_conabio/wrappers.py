@@ -78,7 +78,8 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
     else:
         gdf_reproj = geodataframe
     #normalize
-    gdf_reproj[gdf_reproj.columns & list_name_attributes] = gdf_reproj[gdf_reproj.columns & list_name_attributes].apply(lambda s: s.apply(normalize_name_classes))
+    if list_name_attributes[0]:
+        gdf_reproj[gdf_reproj.columns & list_name_attributes] = gdf_reproj[gdf_reproj.columns & list_name_attributes].apply(lambda s: s.apply(normalize_name_classes))
     #write shapefile
     output_filename_geonode = os.path.join(input_directory, os.path.basename(output_filename))
     os.makedirs(output_filename_geonode)
