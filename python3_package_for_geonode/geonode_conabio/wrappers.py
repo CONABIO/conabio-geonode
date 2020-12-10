@@ -95,8 +95,7 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
     return output_filename_geonode
 
 def reproj_and_write_one_band_raster(source_dataset, output_filename,
-                                     destiny_crs = "EPSG:4326",
-                                     is_geographic = True):
+                                     destiny_crs = "EPSG:4326"):
     """
     Reprojection, compression, tiling and writing of one band raster to file.
     Args:
@@ -108,7 +107,12 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
     source_width = source_dataset.width
     source_height = source_dataset.height
     source_crs = source_dataset.crs
-    if not is_geographic:
+    
+    source_crs_string = source_crs.to_string()
+    proj_crs = Proj(source_crs_string)
+    
+            
+    if not proj_crs.crs.is_geographic:
         transform, width, height = calculate_default_transform(source_crs, destiny_crs, 
                                                                source_width, source_height, 
                                                                *source_dataset.bounds)
@@ -138,6 +142,7 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
                   resampling=Resampling.nearest
                   )  
         dst.write(array, 1)
+        
 def write_raster_with_cmap_in_dir(source_path_layer, destiny_path_layer, rgba_dict,
                                   nocmap):
     """

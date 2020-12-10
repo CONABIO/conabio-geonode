@@ -2,7 +2,6 @@ import os
 import argparse
 from argparse import RawTextHelpFormatter
 
-from pyproj import Proj
 import rasterio
 
 from geonode_conabio.wrappers import reproj_and_write_one_band_raster
@@ -77,15 +76,10 @@ def main():
     input_filename = os.path.join(direc, input_filename)
     output_filename = os.path.join(direc, output_filename)
     
-    with rasterio.open(input_filename) as src:
-        src_crs = src.crs.to_string()
-        proj_crs = Proj(src_crs)
-        if not proj_crs.crs.is_geographic:
-            reproj_and_write_one_band_raster(src, output_filename,
-                                             is_geographic=False)
-        else:
-            reproj_and_write_one_band_raster(src, output_filename)
-                
+    with rasterio.open(input_filename) as src:   
+        reproj_and_write_one_band_raster(src, output_filename)
+    
+    
     result_import = import_layers_via_docker(region, name, title,
                                              abstract, kw,
                                              output_filename
