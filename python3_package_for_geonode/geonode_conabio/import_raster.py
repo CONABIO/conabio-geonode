@@ -83,7 +83,7 @@ def main():
     output_filename_temporal += ".geotiff"
     
     with rasterio.open(input_filename) as src:   
-        reproj_and_write_one_band_raster(src, output_filename)
+        reproj_and_write_one_band_raster(src, output_filename_temporal)
     
     
     result_import = import_layers_via_docker(region, name_geonode, title,
