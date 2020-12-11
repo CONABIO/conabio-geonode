@@ -19,7 +19,6 @@ Example usage:
 
 import_raster --input_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/estados/Aguascalientes/31
               --input_filename Aguascalientes_2017_31.tif
-              --destiny_path /shared_volume/ftp_dir/
               --region "Aguascalientes, Mexico, North America, Latin America"
               --name "MAD-Mex_sentinel2_Aguascalientes_2017_31"
               --title "MAD-Mex_sentinel2_Aguascalientes_2017_31"
@@ -38,10 +37,6 @@ import_raster --input_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017
                         required=True,
                         default=None,
                         help="Help of test argparse fun")
-    parser.add_argument("--destiny_path",
-                        required=True,
-                        default=None,
-                        help="Path that will hold geotiff after reprojection, compression and tiling")    
     parser.add_argument("--region",
                         required=True,
                         default=None,
@@ -69,7 +64,6 @@ def main():
     args = arguments_parse()
     input_directory = args.input_directory
     input_filename = args.input_filename
-    destiny_path = args.destiny_path
     region = ''.join(["\"", args.region, "\""])
     filename = args.name
     name_geonode = ''.join(["\"", filename, "\""])
@@ -93,8 +87,5 @@ def main():
     
     print(result_import)
     
-    #move output_filename_temporal to destiny_path
-    output_filename = os.path.join(destiny_path, os.path.basename(output_filename_temporal))
-    
-    os.rename(output_filename_temporal, output_filename)
+    os.remove(output_filename_temporal)
         
