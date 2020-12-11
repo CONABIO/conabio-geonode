@@ -125,13 +125,13 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
     
     source_meta.update({'driver': 'GTiff',
                         'count': 1,
-                        'dtype': rasterio.uint16,#used to be uint8 but some rasters of MAD-Mex have label classes greater than 255
+                        'dtype': rasterio.uint8,
                         'compress': 'lzw',
                         'tiled': True
                         })
     with rasterio.open(output_filename, 'w', **source_meta,
                        ) as dst:
-        array = np.zeros((height, width), dtype=rasterio.uint16)#used to be uint8 but some rasters of MAD-Mex have label classes greater than 255
+        array = np.zeros((height, width), dtype=rasterio.uint8)
         reproject(source=rasterio.band(source_dataset, 1),
                   destination=array,
                   src_transform=source_transform,
