@@ -14,7 +14,7 @@ def arguments_parse():
     
 Wrapper for importlayers command of geonode. Meant to use for small and medium size vector. 
 
-Will reproject to wgs84, normalize string attributes and execute importlayers command within django container 
+Will reproject to wgs84, normalize string attributes, write geopackage in path and execute importlayers command within django container 
 via docker-py to register it in both geoserver and geonode.
 --------------
 Example usage:
@@ -36,15 +36,15 @@ import_small_medium_size_vector --input_directory /LUSTRE/MADMEX/products/landco
     parser.add_argument("--input_directory",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Directory that holds vector")
     parser.add_argument("--input_filename",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Filename of vector")
     parser.add_argument("--destiny_path",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Path that will hold geopackage after reprojection and normalization of string attributes")
     parser.add_argument("--list_attributes",
                         required=True,
                         default=None,
@@ -52,23 +52,23 @@ import_small_medium_size_vector --input_directory /LUSTRE/MADMEX/products/landco
     parser.add_argument("--region",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Region that will be registered in geonode")
     parser.add_argument("--name",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Name of file that will be registered in geonode")
     parser.add_argument("--title",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Title that will be registered in geonode")
     parser.add_argument("--abstract",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Abstract that will be registered in geonode")
     parser.add_argument("--key_words",
                         required=True,
                         default=None,
-                        help="Help of test argparse fun")
+                        help="Key words that will be registered in geonode")
     args = parser.parse_args()
     return args
 
@@ -79,17 +79,14 @@ def main():
     destiny_path = args.destiny_path
     list_name_attributes = args.list_attributes.replace(' ','').split(',')
     region = ''.join(["\"", args.region, "\""])
-    filename = args.name
-    name_geonode = ''.join(["\"", filename, "\""])
+    layername = args.name
+    name_geonode = ''.join(["\"", layername, "\""])
     title = ''.join(["\"", args.title, "\""])
     abstract = ''.join(["\"", args.abstract, "\""])
     kw = ''.join(["\"", args.key_words, "\""])
 
-    output_filename = input_filename.split('.')[0]
-    layername = filename
-
     input_filename = os.path.join(input_directory, input_filename)
-    output_filename = os.path.join(destiny_path, filename)
+    output_filename = os.path.join(destiny_path, layername)
     
     gdf = gpd.read_file(input_filename)
     #dropNA's
@@ -113,5 +110,5 @@ def main():
     
     for filenames in l_output_filenames:
         os.remove(filenames)
-    dir_shapefile = os.path.join(input_directory, filename)
+    dir_shapefile = os.path.join(input_directory, layername)
     os.removedirs(dir_shapefile)
