@@ -110,7 +110,6 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
     
     source_crs_string = source_crs.to_string()
     proj_crs = Proj(source_crs_string)
-    
             
     if not proj_crs.crs.is_geographic:
         transform, width, height = calculate_default_transform(source_crs, destiny_crs, 
