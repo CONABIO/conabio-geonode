@@ -65,7 +65,7 @@ def reproj_normalize_and_write_small_medium_size_vector(geodataframe,
         list_name_attributes (list): attributes of type text that will be searched for to be normalized.
         layer_name (str): name of layer that will be in output_filename.
         input_directory (str): path of input filename that will hold temporary shapefile that will be registered in geonode.
-        output_filename (str): path of filename that will be written in filesystem without extension, example: /volume/myvector
+        output_filename (str): filename without extension that will be written in filesystem. Will be used to create dir with same name. Includes path.
     Rerturn:
         output_filename_geonode (str): path of shapefile in file system that will be registered in geonode.
     """
