@@ -80,7 +80,7 @@ def main():
     input_filename = os.path.join(input_directory, input_filename)
     output_filename_temporal = os.path.join(input_directory, filename)
     
-    output_filename_temporal += ".geotiff"
+    output_filename_temporal += ".tif"
     
     with rasterio.open(input_filename) as src:   
         reproj_and_write_one_band_raster(src, output_filename_temporal)
