@@ -17,8 +17,9 @@ and execute importlayers command within django container via docker-py to regist
 Example usage:
 --------------
 
-import_raster --base_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/estados/Aguascalientes/31
+import_raster --input_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/estados/Aguascalientes/31
               --input_filename Aguascalientes_2017_31.tif
+              --destiny_path /shared_volume/ftp_dir/
               --region "Aguascalientes, Mexico, North America, Latin America"
               --name "MAD-Mex_sentinel2_Aguascalientes_2017_31"
               --title "MAD-Mex_sentinel2_Aguascalientes_2017_31"
@@ -29,7 +30,7 @@ import_raster --base_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/
             
     parser = argparse.ArgumentParser(description=help,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--base_directory",
+    parser.add_argument("--input_directory",
                         required=True,
                         default=None,
                         help="Help of test argparse fun") 
@@ -37,6 +38,10 @@ import_raster --base_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/
                         required=True,
                         default=None,
                         help="Help of test argparse fun")
+    parser.add_argument("--destiny_path",
+                        required=True,
+                        default=None,
+                        help="Path that will hold geotiff after reprojection, compression and tiling")    
     parser.add_argument("--region",
                         required=True,
                         default=None,
@@ -62,30 +67,34 @@ import_raster --base_directory /LUSTRE/MADMEX/products/landcover/sentinel2/2017/
 
 def main():
     args = arguments_parse()
-    direc = args.base_directory
+    input_directory = args.input_directory
     input_filename = args.input_filename
+    destiny_path = args.destiny_path
     region = ''.join(["\"", args.region, "\""])
-    name = ''.join(["\"", args.name, "\""])
+    filename = args.name
+    name_geonode = ''.join(["\"", filename, "\""])
     title = ''.join(["\"", args.title, "\""])
     abstract = ''.join(["\"", args.abstract, "\""])
     kw = ''.join(["\"", args.key_words, "\""])
+        
+    input_filename = os.path.join(input_directory, input_filename)
+    output_filename_temporal = os.path.join(input_directory, filename)
     
-    output_filename = input_filename.split('.')[0]
-    output_filename+= '_wgs84_tiled_rasterio.tif'
-
-    input_filename = os.path.join(direc, input_filename)
-    output_filename = os.path.join(direc, output_filename)
+    output_filename_temporal += ".geotiff"
     
     with rasterio.open(input_filename) as src:   
         reproj_and_write_one_band_raster(src, output_filename)
     
     
-    result_import = import_layers_via_docker(region, name, title,
+    result_import = import_layers_via_docker(region, name_geonode, title,
                                              abstract, kw,
-                                             output_filename
+                                             output_filename_temporal
                                              )
+    
     print(result_import)
     
+    #move output_filename_temporal to destiny_path
+    output_filename = os.path.join(destiny_path, os.path.basename(output_filename_temporal))
     
-    os.remove(output_filename)
-    
+    os.rename(output_filename_temporal, output_filename)
+        
