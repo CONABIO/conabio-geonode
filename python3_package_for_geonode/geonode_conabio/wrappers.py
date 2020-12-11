@@ -27,7 +27,7 @@ def reproj_normalize_and_write_large_vector(feature_collection, feature_collecti
         feature_collection_schema (dict): dictionary holding schema of feature_collection.
         list_name_attributes (list): attributes of type text that will be searched for to be normalized.
         layer_name (str): name of layer that will be in output_filename.
-        output_filename (str): path of filename that will be written in filesystem.
+        output_filename (str): filename that will be written in filesystem.
         source_crs (str): string of source coordinate reference system.
         
     """
@@ -100,7 +100,7 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
     Reprojection, compression, tiling and writing of one band raster to file.
     Args:
         source_dataset (ndarray or Band): The source is a 2 ndarray, or Rasterio one band object. 
-        output_filename (str): path of filename that will be written in filesystem.
+        output_filename (str): filename that will be written in filesystem.
     """
     source_meta = source_dataset.meta.copy()
     source_transform = source_dataset.transform
@@ -125,13 +125,13 @@ def reproj_and_write_one_band_raster(source_dataset, output_filename,
     
     source_meta.update({'driver': 'GTiff',
                         'count': 1,
-                        'dtype': rasterio.uint8,
+                        'dtype': rasterio.uint16,#used to be uint8 but some rasters of MAD-Mex have label classes greater than 255
                         'compress': 'lzw',
                         'tiled': True
                         })
     with rasterio.open(output_filename, 'w', **source_meta,
                        ) as dst:
-        array = np.zeros((height, width), dtype=rasterio.uint8)
+        array = np.zeros((height, width), dtype=rasterio.uint16)#used to be uint8 but some rasters of MAD-Mex have label classes greater than 255
         reproject(source=rasterio.band(source_dataset, 1),
                   destination=array,
                   src_transform=source_transform,
