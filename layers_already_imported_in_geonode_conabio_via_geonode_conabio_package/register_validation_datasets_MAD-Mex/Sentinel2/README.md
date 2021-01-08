@@ -34,7 +34,7 @@ bash register_validation_sentinel2.sh /LUSTRE/MADMEX/bits/validation_data/sentin
 
 # Update attributes & statistics, style.
 
-# Create downloadable links for rasters:
+# Create downloadable links for vectors:
 
 Shell script:
 
