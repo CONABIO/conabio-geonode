@@ -4,8 +4,6 @@
 Base dir:
 
 ```
-/LUSTRE/MADMEX/products/landcoverchange/rapideye/2017_2018/lacandona_quarterly_monitoring/
-
 /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/
 ```
 
@@ -35,7 +33,6 @@ Command lines to register:
 
 ```
 bash register_lacandona_quaterly_monitoring_sentinel2.sh /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/ changes_selva_lacandona_2018.2.shp
-
 ```
 
 # Update attributes & statistics, style.
