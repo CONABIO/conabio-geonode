@@ -33,7 +33,8 @@ Command lines to register:
 
 ```
 bash register_lacandona_quaterly_monitoring_rapideye.sh /LUSTRE/MADMEX/products/landcoverchange/rapideye/2017_2018/lacandona_quarterly_monitoring/ changes_selva_lacandona_2017.3.shp
-
+bash register_lacandona_quaterly_monitoring_rapideye.sh /LUSTRE/MADMEX/products/landcoverchange/rapideye/2017_2018/lacandona_quarterly_monitoring/ changes_selva_lacandona_2017.4.shp
+bash register_lacandona_quaterly_monitoring_rapideye.sh /LUSTRE/MADMEX/products/landcoverchange/rapideye/2017_2018/lacandona_quarterly_monitoring/ changes_selva_lacandona_2018.1.shp
 ```
 
 # Update attributes & statistics, style.
@@ -58,5 +59,7 @@ create_download_link_in_geonode_for_vector --title_layer "$1" --dir_path_layer $
 
 ```
 bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2017 3 quarter 21 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2017 4 quarter 21 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2018 1 quarter 21 classes"
 ```
 
