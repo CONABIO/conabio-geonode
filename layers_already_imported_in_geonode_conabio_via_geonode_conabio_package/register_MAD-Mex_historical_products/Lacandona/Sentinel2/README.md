@@ -33,6 +33,10 @@ Command lines to register:
 
 ```
 bash register_lacandona_quaterly_monitoring_sentinel2.sh /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/ changes_selva_lacandona_2018.2.shp
+bash register_lacandona_quaterly_monitoring_sentinel2.sh /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/ changes_selva_lacandona_2018.3.shp
+bash register_lacandona_quaterly_monitoring_sentinel2.sh /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/ changes_selva_lacandona_2018.4.shp
+bash register_lacandona_quaterly_monitoring_sentinel2.sh /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/ changes_selva_lacandona_2019.1.shp
+bash register_lacandona_quaterly_monitoring_sentinel2.sh /LUSTRE/MADMEX/products/landcoverchange/sentinel2/2018_2019/lacandona_quarterly_monitoring/ changes_selva_lacandona_2019.2.shp
 ```
 
 # Update attributes & statistics, style.
@@ -57,5 +61,9 @@ create_download_link_in_geonode_for_vector --title_layer "$1" --dir_path_layer $
 
 ```
 bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2018 2 quarter 21 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2018 3 quarter 21 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2018 4 quarter 21 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2019 1 quarter 21 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2019 2 quarter 21 classes"
 ```
 
