@@ -58,6 +58,7 @@ dir_path_layers="/data/var/ftp/pub/"
 create_download_link_in_geonode_for_vector --title_layer "$1" --dir_path_layer $dir_path_layers --dir_path_styles_geonode $dir_path_styles --download_path $download_path_ftp
 ```
 
-
+```
 bash create_downloadable_links_in_geonode.sh "Land cover change map for Lacandona jungle 2018 2 quarter 21 classes"
+```
 
