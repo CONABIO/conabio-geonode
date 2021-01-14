@@ -91,7 +91,7 @@ def main():
     gdf = gpd.read_file(input_filename)
     #dropNA's
     if list_name_attributes[0]:
-        gdf.dropna(subset=list_name_attributes, inplace=True)
+        gdf.dropna(subset=list_name_attributes, inplace=True, how="all")
 
     output_filename_geonode = reproj_normalize_and_write_small_medium_size_vector(gdf,
                                                                                   list_name_attributes,
