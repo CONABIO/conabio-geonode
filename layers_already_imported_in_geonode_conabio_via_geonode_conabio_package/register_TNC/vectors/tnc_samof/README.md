@@ -43,3 +43,5 @@ bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/lan
 bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2016-2019_20200313_madmexplus_QRO.shp
 bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2016-2019_20200313_madmexplus_YUC.shp
 ```
+
+# Falta crear liga de descarga pero primero resolver [issue](https://github.com/CONABIO/geonode/issues/15)
