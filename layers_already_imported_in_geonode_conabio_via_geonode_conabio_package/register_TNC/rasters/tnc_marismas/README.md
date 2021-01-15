@@ -49,6 +49,8 @@ bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_marismas/
 
 # Create downloadable links for rasters:
 
+## For this link need to solve first [issue 13](https://github.com/CONABIO/geonode/issues/13)
+
 Shell script:
 
 `create_downloadable_links_in_geonode.sh`
