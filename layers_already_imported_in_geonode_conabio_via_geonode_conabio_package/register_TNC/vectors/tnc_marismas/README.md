@@ -39,3 +39,6 @@ Command lines to register:
 bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_marismas/ marismasnacionales_cambiodecoberturadesuelo_2011-2019_final_20190925.gpkg
 
 ```
+
+
+# Missing create downloadable link, first solve [issue 18](https://github.com/CONABIO/geonode/issues/18)
