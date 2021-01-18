@@ -25,9 +25,9 @@
               <sld:ColorMapEntry label="Agua" quantity="31" color="#011eff"/>
               <sld:ColorMapEntry label="Manglar y Peten, arbustivo" quantity="80" color="#f97681"/>
               <sld:ColorMapEntry label="Selva Baja Caducifolia Subcaducifolia y Matorral Subtropical, arbustivo" quantity="110" color="#f891e4"/>
-              <sld:ColorMapEntry label="Pastizales, desprovisto" quantity="270" color="#dadcb4"/>
-              <sld:ColorMapEntry label="Tierras agricolas, desprovisto" quantity="280" color="#f4f899"/>
-              <sld:ColorMapEntry label="Agua, periodica" quantity="310" color="#4257f4"/>
+              <sld:ColorMapEntry label="Pastizales, desprovisto" quantity="111" color="#dadcb4"/>
+              <sld:ColorMapEntry label="Tierras agricolas, desprovisto" quantity="112" color="#f4f899"/>
+              <sld:ColorMapEntry label="Agua, periodica" quantity="113" color="#4257f4"/>
             </sld:ColorMap>
           </sld:RasterSymbolizer>
         </sld:Rule>
