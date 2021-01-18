@@ -49,12 +49,26 @@ bash register_TNC_rasters.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_marismas/
 
 # Create downloadable links for rasters:
 
-## For this link need to solve first [issue 13](https://github.com/CONABIO/geonode/issues/13)
+## Note: this next execution use recent implementation of geonode_conabio_package
 
 Shell script:
 
 `create_downloadable_links_in_geonode.sh`
 
 ```
-bash create_downloadable_links_in_geonode.sh "Cobertura de suelo TNC marismas nacionales 2018, 2019 13 clases" --nocmap
+#!/bin/bash
+
+#title of layer already registered in geonode in $1
+#nocmap in $2 if passed then dont write cmap in raster
+
+dir_path_styles="/LUSTRE/MADMEX/geonode_spc_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles"
+dir_path_layers="/LUSTRE/MADMEX/geonode_spc_volume/geonode/scripts/spcgeonode/_volume_geodatadir/data/geonode/"
+download_path_ftp="ftp://geonode.conabio.gob.mx/pub"
+destiny_path="/data/var/ftp/pub/"
+
+create_download_link_in_geonode_for_raster --title_layer "$1" --destiny_path $destiny_path --dir_path_styles_geonode $dir_path_styles --dir_path_layers_geonode $dir_path_layers --download_path $download_path_ftp $2
+```
+
+```
+bash create_downloadable_links_in_geonode.sh "Cobertura de suelo TNC marismas nacionales 2018, 2019 13 clases"
 ```
