@@ -24,6 +24,14 @@ create_download_link_in_geonode_for_raster --title_layer "Test3 National land co
                                            --dir_path_styles_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles/
                                            --dir_path_layers_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/data/geonode/
                                            --download_path ftp://geonode.conabio.gob.mx/pub/
+If cmap is not required:
+
+create_download_link_in_geonode_for_raster --title_layer "Test3 National land cover map 2015 32 classes 512 512"
+                                           --destiny_path /shared_volume/ftp_dir/
+                                           --dir_path_styles_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles/
+                                           --dir_path_layers_geonode /shared_volume/geonode/scripts/spcgeonode/_volume_geodatadir/data/geonode/
+                                           --download_path ftp://geonode.conabio.gob.mx/pub/
+                                           --nocmap
 """
             
     parser = argparse.ArgumentParser(description=help,
