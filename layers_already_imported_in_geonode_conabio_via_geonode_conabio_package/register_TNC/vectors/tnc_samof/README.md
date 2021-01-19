@@ -44,4 +44,35 @@ bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/lan
 bash register_TNC_vectors.sh /LUSTRE/MADMEX/tnc_data_steffen_thilo/tnc_samof/landcoverchanges/ eoss4tnc_landcoverchanges_landsat8_2016-2019_20200313_madmexplus_YUC.shp
 ```
 
-# Falta crear liga de descarga pero primero resolver [issue](https://github.com/CONABIO/geonode/issues/15)
+# Update attributes & statistics, style.
+
+# Create downloadable links for vectors:
+
+## Note: this next execution use recent implementation of geonode_conabio_package
+
+
+Shell script:
+
+`create_downloadable_links_in_geonode.sh`
+
+
+```
+#!/bin/bash
+
+#title of layer already registered in geonode in $1
+
+dir_path_styles="/LUSTRE/MADMEX/geonode_spc_volume/geonode/scripts/spcgeonode/_volume_geodatadir/workspaces/geonode/styles"
+download_path_ftp="ftp://geonode.conabio.gob.mx/pub"
+dir_path_layers="/data/var/ftp/pub/"
+
+create_download_link_in_geonode_for_vector --title_layer "$1" --dir_path_layer $dir_path_layers --dir_path_styles_geonode $dir_path_styles --download_path $download_path_ftp
+
+```
+
+```
+bash create_downloadable_links_in_geonode.sh "Land cover change map for the state of Chiapas TNC 2015-2019 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for the state of Campeche TNC 2016-2019 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for the state of Quintana_Roo TNC 2016-2019 40 classes"
+bash create_downloadable_links_in_geonode.sh "Land cover change map for the state of Yucatan TNC 2016-2019 40 classes"
+```
+
