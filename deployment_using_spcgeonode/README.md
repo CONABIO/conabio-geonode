@@ -187,6 +187,25 @@ psql -d geonode
 select * from people_profile;
 ```
 
+9) **Downloading vectors and rasters could be a bottleneck if they're not small (less than 100 MB), then delete some options for downloading**
+
+In `geonode/geonode/settings.py` change some parameters in the next lists to delete options for downloading rasters and vectors since geonode is deployed:
+
+```
+DOWNLOAD_FORMATS_VECTOR = [
+    'ZIP', 'JPEG', 'PDF', 'PNG', #'Zipped Shapefile', 'GML 2.0', 'GML 3.1.1', 'CSV', 'Excel', 'GeoJSON', 'KML', 'View in Google Earth', 'Tiles', 'QGIS layer file (.qlr)', 'QGIS project file (.qgs)',
+]
+
+DOWNLOAD_FORMATS_RASTER = [
+    'ZIP',
+    'JPEG',
+    'PDF',
+    'PNG', #'ArcGrid', 'GeoTIFF', 'Gtopo30', 'ImageMosaic', 'KML', 'View in Google Earth', 'Tiles', 'GML', 'GZIP', 'QGIS layer file (.qlr)', 'QGIS project file (.qgs)', 'Zipped All Files'
+]
+```
+
+After products are registered they can be downloaded using scripts like [create_downloadable_links_in_geonode](https://github.com/CONABIO/geonode/blob/master/layers_already_imported_in_geonode_conabio_via_geonode_conabio_package/register_MAD-Mex_historical_products/LANDSAT/rasters/create_downloadable_links_in_geonode.sh)
+
 
 # Notes:
 
