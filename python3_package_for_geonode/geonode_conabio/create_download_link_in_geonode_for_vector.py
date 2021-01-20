@@ -4,11 +4,8 @@ import argparse
 import rasterio
 
 from geonode_conabio.utils_docker import get_layer_and_style_registered_in_geonode_via_docker
-from geonode_conabio.utils_style import get_cmap_from_element_list_madmex_style
-from geonode_conabio.utils_parser import parse_sld_madmex_style
 from geonode_conabio.utils_docker import create_link_in_geonode_for_zip_file_via_docker
 from geonode_conabio.utils_os import zip_dir_for_layer_and_style
-from geonode_conabio.wrappers import write_raster_with_cmap_in_dir
 
 def arguments_parse():
     help = """
