@@ -9,8 +9,8 @@ from geonode_conabio.utils_docker import import_layers_via_docker
 
 def arguments_parse():
     help = """
-    
-Wrapper for importlayers command of geonode. Meant to use for rasters. Will reproject to wgs84, compress, tile it 
+
+Wrapper for importlayers command of geonode. Meant to use for rasters. Will reproject to wgs84, compress, tile it
 and execute importlayers command within django container via docker-py to register it in both geoserver and geonode.
 
 --------------
@@ -70,27 +70,15 @@ def main():
     title = ''.join(["\"", args.title, "\""])
     abstract = ''.join(["\"", args.abstract, "\""])
     kw = ''.join(["\"", args.key_words, "\""])
-        
     input_filename = os.path.join(input_directory, input_filename)
     output_filename_temporal = os.path.join(input_directory, filename)
-    
     output_filename_temporal += ".tif"
-    message = """Raster has pixel values that are greater than 255 value, 
-                 then either relabel it to have values under 255 and it can be written 
-                 with a dtype of uint8 -uses less memory- or use different command line
-              """    
     with rasterio.open(input_filename) as src:
-        array = src.read()
-        unique_values = np.unique(array)
-        del array
-        if np.any(unique_values > 255):
-            print(message)
-        else:
-            reproj_and_write_one_band_raster(src, output_filename_temporal)
-            result_import = import_layers_via_docker(region, name_geonode, title,
-                                                     abstract, kw,
-                                                     output_filename_temporal
-                                                     )
-            print(result_import)
-            os.remove(output_filename_temporal)
-        
+        reproj_and_write_one_band_raster(src, output_filename_temporal)
+    result_import = import_layers_via_docker(region, name_geonode, title,
+                                             abstract, kw,
+                                             output_filename_temporal
+                                             )
+    print(result_import)
+    os.remove(output_filename_temporal)
+
