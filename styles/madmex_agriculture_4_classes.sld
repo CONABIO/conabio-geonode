@@ -11,16 +11,12 @@
                 <sld:Name/>
                 <sld:Rule>
                     <sld:RasterSymbolizer>
-                        <sld:Geometry>
-                            <ogc:PropertyName>grid</ogc:PropertyName>
-                        </sld:Geometry>
-                        <sld:Opacity>1</sld:Opacity>
                         <sld:ColorMap>
-                            <sld:ColorMapEntry color="#ffffff" label="Sin datos" opacity="1.0" quantity="0"/>
-                            <sld:ColorMapEntry color="#ffe893" label="Herbácea" opacity="1.0" quantity="1"/>
-                            <sld:ColorMapEntry color="#8bc34a" label="Leñosa" opacity="1.0" quantity="2"/>
-                            <sld:ColorMapEntry color="#8d5a1e" label="Arbustiva" opacity="1.0" quantity="3"/>
-                            <sld:ColorMapEntry color="#e2ebeb" label="Pastizal" opacity="1.0" quantity="4"/>
+                            <sld:ColorMapEntry color="#ffffff" label="Sin datos" quantity="0"/>
+                            <sld:ColorMapEntry color="#ffe893" label="Herbácea" quantity="1"/>
+                            <sld:ColorMapEntry color="#8bc34a" label="Leñosa" quantity="2"/>
+                            <sld:ColorMapEntry color="#8d5a1e" label="Arbustiva" quantity="3"/>
+                            <sld:ColorMapEntry color="#e2ebeb" label="Pastizal" quantity="4"/>
                         </sld:ColorMap>
                     </sld:RasterSymbolizer>
                 </sld:Rule>
@@ -28,4 +24,3 @@
         </sld:UserStyle>
     </sld:UserLayer>
 </sld:StyledLayerDescriptor>
-
