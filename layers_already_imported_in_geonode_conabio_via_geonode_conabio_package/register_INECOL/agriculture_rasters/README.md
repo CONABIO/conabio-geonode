@@ -59,4 +59,6 @@ Shell script:
 
 ```
 bash create_downloadable_links_in_geonode.sh "Agriculture land cover map for the state of Michoacan iGamma 2019 4 classes"
+bash create_downloadable_links_in_geonode.sh "Agriculture land cover map for the state of Veracruz iGamma 2019 4 classes"
+
 ```
