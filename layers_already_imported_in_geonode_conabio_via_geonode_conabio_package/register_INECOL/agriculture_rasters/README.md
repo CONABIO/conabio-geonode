@@ -45,7 +45,7 @@ Command lines to register:
 ```
 bash register_agriculture_MAD-Mex_INECOL_rasters.sh /LUSTRE/MADMEX/inecol_data_steffen_thilo/eoss4inecol_landcover_landsat8_2019_MIC_agricultura_20200831_raster eoss4inecol_landcover_landsat8_2019_MIC_agricultura_tag1_20200831.tif Michoacan
 
-
+bash register_agriculture_MAD-Mex_INECOL_rasters.sh /LUSTRE/MADMEX/inecol_data_steffen_thilo/eoss4inecol_landcover_landsat8_2019_VER_agricultura_cultivos_20200916/ eoss4inecol_landcover_landsat8_2019_VER_agricultura_20200916.tif Veracruz
 ```
 
 # Update style, attributes & statistics, thumbnail.
