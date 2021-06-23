@@ -24,13 +24,57 @@ HTTP_HOST=<nodo7.conabio.gob.mx>
 ADMIN_EMAIL=admin@geonodeservices.conabio.gob.mx
 ```
 
-3) **Docker compose up**
+3) Modification of path `/var/lib/docker` for `dockerd` and **Docker compose up**
 
 **Note: make sure to mount volumes in `docker-compose.yml` for django container:**
 
 **Mount `/LUSTRE/MADMEX`:**
 
-Using `docker-compose.yml` inside `geonode/scripts/spcgeonode` dir modify where `image: geonode/spcgeonode:django-3.0` is:
+```
+sudo mount -a #edit /etc/fstab with entry for mounting /LUSTRE/MADMEX
+```
+
+Next steps following [how-to-change-var-lib-docker-directory-with-overlay2](https://forums.docker.com/t/how-to-change-var-lib-docker-directory-with-overlay2/43620/2)
+
+**Create in geonode machine being root:**
+
+```
+mkdir /data/var/lib/docker
+```
+
+**Copy:**
+
+```
+cp -rpa /var/lib/docker /data/var_lib_docker/
+```
+
+**Stop:**
+
+```
+service docker stop
+```
+
+**Edit:**
+
+```
+/etc/docker/daemon.json
+```
+
+**with contents**
+
+```
+{
+"data-root": "/data/var/lib/docker"
+}
+```
+
+**Start:**
+
+```
+service start docker
+```
+
+**Modify `docker-compose.yml` inside `geonode/scripts/spcgeonode` dir modify where `image: geonode/spcgeonode:django-3.0` is:**
 
 ```
 ...volumes:
